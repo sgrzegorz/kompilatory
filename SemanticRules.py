@@ -34,8 +34,8 @@ class SemanticRules():
         self.types['/']['float']['float'] = 'float'
         self.types['/']['int']['float'] = 'float'
         self.types['/']['float']['int'] = 'float'
-        self.types['/']['vector']['int'] = 'vector'
-        self.types['/']['vector']['float'] = 'vector'
+        self.types['/']['matrix']['int'] = 'matrix'
+        self.types['/']['matrix']['float'] = 'matrix'
 
         self.types['+=']['int']['int'] = 'int'
         self.types['+=']['float']['float'] = 'float'

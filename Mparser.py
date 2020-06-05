@@ -284,7 +284,7 @@ def p_print_expression(p):
 def p_error(p):
     if p:
         print("Syntax error at line {0}: LexToken({1}, '{2}')".format(p.lineno, p.type, p.value))
-        # sys.exit()
+        sys.exit()
     else:
         print("Unexpected end of input")
 

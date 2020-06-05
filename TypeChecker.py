@@ -126,10 +126,9 @@ class TypeChecker(NodeVisitor):
 
         right_type = self.visit(node.expression)
 
-        self.shouldThrowUndeclaredIdError = False
-        self.visit(node.id)
-        self.shouldThrowUndeclaredIdError = True
-
+        # self.shouldThrowUndeclaredIdError = False
+        # self.visit(node.id)
+        # self.shouldThrowUndeclaredIdError = True
         if right_type == 'matrix':
             matrix = node.expression
             if isinstance(matrix, AST.MatrixFunctions):
@@ -142,7 +141,7 @@ class TypeChecker(NodeVisitor):
                 dim1, dim2 = self.get_matrix_dimensions(matrix)
             symbol = VariableSymbol(name=node.id.value, type=right_type, dim1=dim1, dim2=dim2)
         else:
-            symbol = VariableSymbol(name=node.id.value, type=right_type)
+            symbol = Symbol(name=node.id.value, type=right_type)
         self.symbol_table.put(node.id.value, symbol)
         return right_type
 
@@ -151,6 +150,9 @@ class TypeChecker(NodeVisitor):
 
         right_type = self.visit(node.expression)
         # a += [1,2,3] + [1,2,3];
+
+        if right_type == 'unknown':
+            return 'unknown'
         try:
             symbol = self.symbol_table.get(node.id.value)
         except KeyError:
@@ -158,14 +160,10 @@ class TypeChecker(NodeVisitor):
             return 'unknown'
         left_type = symbol.type
 
-        if right_type == 'unknown':
-            return 'unknown'
-
         return_type = self.semantic_rules.types[node.oper][left_type][right_type]
 
         if return_type == 'unknown':
-            self.handle_error(
-                'Line {}: Unsupported operation between {} {}'.format(node.line, left_type, right_type))
+            self.handle_error('Line {}: Unsupported operation between {} {}'.format(node.line, left_type, right_type))
             return 'unknown'
 
         if left_type == 'matrix' and right_type == 'matrix':
@@ -233,9 +231,10 @@ class TypeChecker(NodeVisitor):
             right_dim1 = self.symbol_table.get(node.right.value).dim1
             right_dim2 = self.symbol_table.get(node.right.value).dim2
 
+            if node.oper=='*' and left_dim2 == right_dim1:
+                return 'matrix'
             if left_dim1 != right_dim1 or left_dim2 != right_dim2:
-                self.handle_error(
-                    'Line {}: Unsupported operation between matrices of different dimensions'.format(node.line))
+                self.handle_error('Line {}: Unsupported operation between matrices of different dimensions'.format(node.line))
                 return 'unknown'
 
         return_type = self.semantic_rules.types[node.oper][left_type][right_type]
@@ -264,7 +263,6 @@ class TypeChecker(NodeVisitor):
 
         expr_type = self.visit(node.exprs[0])
 
-        print(expr_type)
         return expr_type
 
     def visit_BooleanExpression(self, node):
@@ -350,8 +348,7 @@ class TypeChecker(NodeVisitor):
         pass
 
     def get_error_message_for_matrix_fun(self, node):
-        error_msg = 'Line {}: Illegal matrix initialization: {}({}'.format(node.line, node.func,
-                                                                           node.expressions.exprs[0].value)
+        error_msg = 'Line {}: Illegal matrix initialization: {}({}'.format(node.line, node.func,node.expressions.exprs[0].value)
 
         if len(node.expressions.exprs) > 1:
             for i in range(1, len(node.expressions.exprs)):
