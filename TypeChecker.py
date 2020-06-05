@@ -198,8 +198,18 @@ class TypeChecker(NodeVisitor):
 
     def visit_Ref(self, node):  # x[1,2] FIXME: x = [1,2,3]; x[1,2] = 3;
         if (verbose): self.printFunctionName()
-        node_name = self.visit(node.id)
-        symbol = self.symbol_table.get(node_name)
+        # node_name = self.visit(node.id)
+        try:
+            symbol = self.symbol_table.get(node.id.value)
+        except KeyError:
+            self.handle_error('Line {}: {} is used but not declared'.format(node.line, node.id.value))
+            return 'unknown'
+        if symbol.type == 'unknown':
+            return 'unknown'
+        elif symbol.type != 'matrix':
+            self.handle_error('Line {}: Reference to: {}'.format(node.line, symbol.type))
+            return 'unknown'
+
         ind1_type = self.visit(node.ind1)
         ind2_type = self.visit(node.ind2)
 
@@ -208,14 +218,10 @@ class TypeChecker(NodeVisitor):
                 self.handle_error('Line {}: index is not integer'.format(node.line))
                 return 'unknown'
 
-        if not symbol:
-            self.handle_error('Line {}: {} is used but not declared'.format(node.line, node.variable.name))
+        if node.ind1.value <=0 or node.ind2.value <=0 or node.ind1.value > symbol.dim1 or node.ind2.value > symbol.dim2:
+            self.handle_error('Line {}: [{},{}] incorrect dimension reference'.format(node.line,node.ind1.value,node.ind2.value))
             return 'unknown'
-        if symbol.type == 'unknown':
-            return 'unknown'
-        elif symbol.type != 'matrix':
-            self.handle_error('Line {}: Reference to: {}'.format(node.line, symbol.type))
-            return 'unknown'
+
 
     def visit_Expression(self, node):
         if (verbose): self.printFunctionName()

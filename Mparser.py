@@ -141,6 +141,7 @@ def p_expression_assignment_ref(p):
 
     ref = Ref(Id(p[1]), Constant(p[3]), Constant(p[5]))
     p[0] = AssignRef(ref, p[8])
+    ref.line = scanner.lexer.lineno
     p[0].line = scanner.lexer.lineno
 
 
