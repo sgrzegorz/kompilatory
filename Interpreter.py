@@ -6,12 +6,29 @@ from Exceptions import  *
 from visit import *
 import sys
 import numpy as np
+import operator
 
 sys.setrecursionlimit(10000)
 
 class Interpreter(object):
     def __init__(self):  # memory name
         self.memory_stack = MemoryStack()
+        self.operators = dict()
+        self.operators['*'] = operator.mul
+        self.operators['/'] = operator.truediv
+        self.operators['+'] = operator.add
+        self.operators['-'] = operator.sub
+        self.operators['.*'] = operator.mul
+        self.operators['./'] = operator.truediv
+        self.operators['.+'] = operator.add
+        self.operators['.-'] = operator.sub
+        self.operators['>'] = operator.gt
+        self.operators['<'] = operator.lt
+        self.operators['>='] = operator.ge
+        self.operators['<='] = operator.le
+        self.operators['=='] = operator.eq
+        self.operators['!='] = operator.ne
+
 
     @on('node')
     def visit(self, node):
@@ -42,8 +59,6 @@ class Interpreter(object):
 
     @when(AST.InstructionsOpt)
     def visit(self, node):
-        r1 = node.left.accept(self)
-        r2 = node.right.accept(self)
         node.instructions.accept(self)
 
 
@@ -69,23 +84,31 @@ class Interpreter(object):
     @when(AST.For)
     def visit(self, node):
         self.memory_stack.push(Memory("For"))
-        node.id.accept(self)
-        node.range.accept(self)
-        node.instruction.accept(self)
+        self.memory_stack.insert(node.id.accept(self))
+        (start, end) = node.range.accept(self)
+        try:
+            for i in range(start,end): #TODO check range
+                node.instruction.accept(self)
+        except (ReturnValueException, ContinueException, BreakException):
+            print('for --')
         self.memory_stack.pop()
 
 
     @when(AST.Range)
     def visit(self, node):
-        node.start.accept(self)
-        node.end.accept(self)
+        start =node.start.accept(self)
+        end =node.end.accept(self)
+        return (start,end)
         pass
 
     @when(AST.While)
     def visit(self, node):
         self.memory_stack.push(Memory("While"))
-        node.booleanInParentheses.accept(self)
-        node.instruction.accept(self)
+        try:
+            node.booleanInParentheses.accept(self)
+            node.instruction.accept(self)
+        except (ReturnValueException, ContinueException, BreakException):
+            print('while --')
         self.memory_stack.pop()
 
     @when(AST.Break)
@@ -105,9 +128,12 @@ class Interpreter(object):
 
     @when(AST.Print)
     def visit(self, node):
-        pass
+        string =''
+        for expression in node.print_expressions:
+            string+=expression.accept(self)
+        print(string)
 
-    @when(AST.AssignOperators)
+    @when(AST.AssignOperators) # x += , -=, *=, /=
     def visit(self, node):
         node.id.accept(self)
         node.expression.accept(self)
@@ -121,41 +147,50 @@ class Interpreter(object):
 
     @when(AST.AssignRef)
     def visit(self, node):
-        node.expression.accept(self)
+        (ind1,ind2) = node.ref.accept(self)
+        expression =node.expression.accept(self)
+        matrix = self.memory_stack.get(node.ref.name)
+
+        if matrix!=None:
+            matrix[ind1,ind2] = expression
         pass
 
     @when(AST.Ref)
     def visit(self, node):
-        node.ind1.accept(self)
-        node.ind2.accept(self)
-        pass
+        ind1 = node.ind1.accept(self)
+        ind2 = node.ind2.accept(self)
+        return (ind1,ind2)
 
     @when(AST.Expression)
     def visit(self, node):
-        node.left.accept(self)
-        node.right.accept(self)
-        pass
+        left = node.left.accept(self)
+        right = node.right.accept(self)
+
+        operator[node.oper](left,right) #TODO matrix multiplication bedzie inaczej
 
     @when(AST.MultipleExpression)
     def visit(self, node):
+        t = []
         for e in node.exprs:
-            e.accept(self)
-        pass
+            t.append(e.accept(self))
+        return t
 
     @when(AST.BooleanExpression)
     def visit(self, node):
-        node.left.accept(self)
-        node.right.accept(self)
+        left =node.left.accept(self)
+        right =node.right.accept(self)
+        return self.operators[node.oper](left,right)
         pass
 
     @when(AST.UMinusExpression)
     def visit(self, node):
-        pass
+        return (-1)*node.expression.accept(self)
 
     @when(AST.Transposition)
     def visit(self, node):
-        return (-1)*node.expression.accept(self)
-
+        matrix = node.expression.accept(self)
+        return np.transpose(matrix)
+        pass
 
     @when(AST.Rows)
     def visit(self, node):
@@ -163,19 +198,21 @@ class Interpreter(object):
         rows =[]
         for row in node.rows:
             rows.append(row.accept(self))
-        pass
+        matrix = np.vstack(rows)
+        return matrix
 
     @when(AST.Row)
     def visit(self, node):
+        row =[]
         for number in node.numbers:
-            number.accept(self)
+            row.append(number.accept(self))
+        return np.array(row)
         pass
 
     @when(AST.MatrixFunctions)
     def visit(self, node):
         node.expressions.accept(self)
         return np.array()
-
 
     @when(AST.Constant)
     def visit(self, node):

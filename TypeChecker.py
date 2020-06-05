@@ -126,9 +126,12 @@ class TypeChecker(NodeVisitor):
 
         right_type = self.visit(node.expression)
 
-        # self.shouldThrowUndeclaredIdError = False
-        # self.visit(node.id)
-        # self.shouldThrowUndeclaredIdError = True
+        # used only in for i=1:5
+        self.shouldThrowUndeclaredIdError = False
+        self.visit(node.id)
+        self.shouldThrowUndeclaredIdError = True
+
+
         if right_type == 'matrix':
             matrix = node.expression
             if isinstance(matrix, AST.MatrixFunctions):
