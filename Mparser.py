@@ -1,5 +1,7 @@
 from AST import *
 import scanner
+import sys
+
 import ply.yacc as yacc
 
 tokens = scanner.tokens
@@ -120,10 +122,13 @@ def p_print(p):
     """print : PRINT PRINT_EXPR """
     p[0] = p[2]
 
-
 def p_expression_assignment(p):
-    """assign : ID ASSIGN EXPRESSION
-              | ID ADDASSIGN EXPRESSION
+    """assign : ID ASSIGN EXPRESSION"""
+    p[0] = Assign(Id(p[1]), p[3])
+    p[0].line = scanner.lexer.lineno
+
+def p_expression_assignment1(p):
+    """assign : ID ADDASSIGN EXPRESSION
               | ID MINASSIGN EXPRESSION
               | ID MULASSIGN EXPRESSION
               | ID DIVASSIGN EXPRESSION """
@@ -189,7 +194,7 @@ def p_expression(p):
 
 def p_constant_expression_1(p):
     """CONSTANT_EXPRESSION : MATRIX
-                | MATRIX_EXPRESSION
+                | MATRIX_FUNCTIONS
                 | NUMBER"""
     p[0] = p[1]
 
@@ -242,7 +247,7 @@ def p_matrix_row(p):
 
 
 def p_expression_matrix_functions(p):
-    """MATRIX_EXPRESSION : EYE '(' MULTIPLE_EXPR ')'
+    """MATRIX_FUNCTIONS : EYE '(' MULTIPLE_EXPR ')'
                          | ZEROS '(' MULTIPLE_EXPR ')'
                          | ONES '(' MULTIPLE_EXPR ')'"""
 
@@ -279,6 +284,7 @@ def p_print_expression(p):
 def p_error(p):
     if p:
         print("Syntax error at line {0}: LexToken({1}, '{2}')".format(p.lineno, p.type, p.value))
+        # sys.exit()
     else:
         print("Unexpected end of input")
 

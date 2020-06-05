@@ -81,6 +81,11 @@ class AssignOperators(Node):
         self.id = id
         self.expression = expression
 
+class Assign(Node):
+    def __init__(self, id, expression):
+        self.id = id
+        self.expression = expression
+
 class AssignRef(Node):
     def __init__(self, ref, expression):
         self.ref = ref

@@ -75,6 +75,14 @@ class TreePrinter:
         self.id.printTree(indent + 1)
         self.expression.printTree(indent + 1)
 
+    @addToClass(AST.Assign)
+    def printTree(self, indent=0):
+        for i in range(indent):
+            print("|  ", end='')
+        print('=')
+        self.id.printTree(indent + 1)
+        self.expression.printTree(indent + 1)
+
     @addToClass(AST.AssignRef)
     def printTree(self, indent=0):
         for i in range(indent):
@@ -188,13 +196,6 @@ class TreePrinter:
 
     @addToClass(AST.MultipleExpression)
     def printTree(self, indent=0):
-        # print('ME',indent)
-        # print('ME',indent)
-
-        # print("IND: " + str(indent))
-        # for i in range(indent):
-        #     print("|  ", end= '')
-        # print("MEEEEEEEEEEE")
         for e in self.exprs:
             e.printTree(indent)
 
@@ -217,9 +218,6 @@ class TreePrinter:
 
     @addToClass(AST.Constant)
     def printTree(self, indent=0):
-        # print('CON',indent)
-        # print()
-
         for i in range(indent):
             print("|  ", end='')
         print(self.value)

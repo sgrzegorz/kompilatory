@@ -3,7 +3,7 @@ import sys
 import Mparser
 import scanner
 from TypeChecker import TypeChecker
-from Interpreter import Interpreter
+# from Interpreter import Interpreter
 
 
 if __name__ == '__main__':
@@ -24,11 +24,11 @@ if __name__ == '__main__':
     ast = parser.parse(text, lexer=scanner.lexer)
     if ast:
         ast.printTree()
-        print('start treewalk')
+        print('start TypeChecker')
         typeChecker = TypeChecker()
         typeChecker.visit(ast)   # or alternatively ast.accept(typeChecker)
 
-        ast.accept(Interpreter())
+        # ast.accept(Interpreter())
         # in future
         # ast.accept(OptimizationPass1())
         # ast.accept(OptimizationPass2())
