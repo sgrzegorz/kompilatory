@@ -174,10 +174,16 @@ class TypeChecker(NodeVisitor):
                 right_matrix = node.expression
                 right_dim1, right_dim2 = self.get_matrix_dimensions(right_matrix)
             else:
-                print("-------------------")
+                print('it should be impossible')
                 return 'unknown'  # it should be impossible
             left_dim_1 = symbol.dim1
             left_dim_2 = symbol.dim2
+
+            if node.oper=='*=':
+                if left_dim_2 != right_dim1:
+                    self.handle_error('Line {}: Matrices dimensions do not match on matrix multiplication'.format(node.line))
+                    return 'unknown'
+                return return_type
 
             if left_dim_1 != right_dim1 or left_dim_2 != right_dim2:
                 self.handle_error('Line {}: Matrices dimensions do not match'.format(node.line))
