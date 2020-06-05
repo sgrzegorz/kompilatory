@@ -10,6 +10,9 @@ class Node(object):
         else:
             self.children = [ children ]
 
+    def accept(self, visitor): #function for lab5
+        return visitor.visit(self)
+
 class InstructionsOpt(Node):
     def __init__(self, instructions=None):
         # super().__init__(instructions)

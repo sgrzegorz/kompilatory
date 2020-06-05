@@ -321,7 +321,7 @@ class TypeChecker(NodeVisitor):
         if (verbose): self.printFunctionName()
         row_types = [self.visit(number) for number in node.numbers]
 
-        if row_types.__contains__('unknown'):  # FIXME x = [a,2,3] should throw Id is unknown exc.
+        if row_types.__contains__('unknown'):
             return 'unknown'
         if not len(set(row_types)) == 1:
             self.handle_error('Line {}: Matrix row initialization with different types'.format(node.line))
