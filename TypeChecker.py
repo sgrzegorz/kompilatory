@@ -149,7 +149,6 @@ class TypeChecker(NodeVisitor):
         if (verbose): self.printFunctionName()
 
         right_type = self.visit(node.expression)
-        # a += [1,2,3] + [1,2,3];
 
         if right_type == 'unknown':
             return 'unknown'
@@ -196,7 +195,7 @@ class TypeChecker(NodeVisitor):
         self.visit(node.ref)
         self.visit(node.expression)
 
-    def visit_Ref(self, node):  # x[1,2] FIXME: x = [1,2,3]; x[1,2] = 3;
+    def visit_Ref(self, node):  # x[1,2]
         if (verbose): self.printFunctionName()
         # node_name = self.visit(node.id)
         try:

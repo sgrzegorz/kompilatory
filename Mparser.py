@@ -237,8 +237,10 @@ def p_matrix_rows(p):
 
 
 def p_matrix_row(p):
-    """ ROW : ROW ',' NUMBER
-            | NUMBER"""
+    """ ROW : ROW ',' EXPRESSION
+            | EXPRESSION"""
+    # """ ROW : ROW ',' NUMBER
+    #         | NUMBER"""
     if len(p) == 4:
         p[0] = p[1]
         p[0].append(p[3])

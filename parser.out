@@ -68,8 +68,8 @@ Rule 56    NUMBER -> FLOAT
 Rule 57    MATRIX -> [ ROWS ]
 Rule 58    ROWS -> ROWS ; ROW
 Rule 59    ROWS -> ROW
-Rule 60    ROW -> ROW , NUMBER
-Rule 61    ROW -> NUMBER
+Rule 60    ROW -> ROW , EXPRESSION
+Rule 61    ROW -> EXPRESSION
 Rule 62    MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR )
 Rule 63    MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR )
 Rule 64    MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR )
@@ -134,11 +134,11 @@ Nonterminals, with rules where they appear
 BOOLEAN_EXPRESSION   : 25 65
 BOOLEAN_IN_PARENTHESES : 16 17 20
 CONSTANT_EXPRESSION  : 49 66 67
-EXPRESSION           : 19 19 24 27 28 29 30 31 32 33 33 34 34 35 35 36 36 37 37 38 38 39 39 40 40 41 41 42 42 43 43 44 44 45 45 46 46 47 48
+EXPRESSION           : 19 19 24 27 28 29 30 31 32 33 33 34 34 35 35 36 36 37 37 38 38 39 39 40 40 41 41 42 42 43 43 44 44 45 45 46 46 47 48 60 61
 MATRIX               : 50
 MATRIX_FUNCTIONS     : 51
 MULTIPLE_EXPR        : 62 63 64 66 68
-NUMBER               : 52 60 61
+NUMBER               : 52
 PRINT_EXPR           : 26
 RANGE                : 18
 ROW                  : 58 59 60
@@ -1248,6 +1248,8 @@ state 43
     NE              reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
     RELASSIGN       reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
     ;               reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    ,               reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    ]               reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
     :               reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
     )               reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
     {               reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
@@ -1282,6 +1284,7 @@ state 44
     RELASSIGN       reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
     ;               reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
     ,               reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    ]               reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
     :               reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
     )               reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
     {               reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
@@ -1316,6 +1319,7 @@ state 45
     RELASSIGN       reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_FUNCTIONS .)
     ;               reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_FUNCTIONS .)
     ,               reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_FUNCTIONS .)
+    ]               reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_FUNCTIONS .)
     :               reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_FUNCTIONS .)
     )               reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_FUNCTIONS .)
     {               reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_FUNCTIONS .)
@@ -1350,6 +1354,7 @@ state 46
     RELASSIGN       reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
     ;               reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
     ,               reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    ]               reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
     :               reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
     )               reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
     {               reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
@@ -1384,6 +1389,7 @@ state 47
     RELASSIGN       reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
     ;               reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
     ,               reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    ]               reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
     :               reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
     )               reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
     {               reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
@@ -1418,6 +1424,7 @@ state 48
     RELASSIGN       reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
     ;               reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
     ,               reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    ]               reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
     :               reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
     )               reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
     {               reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
@@ -1436,17 +1443,48 @@ state 49
     (57) MATRIX -> [ . ROWS ]
     (58) ROWS -> . ROWS ; ROW
     (59) ROWS -> . ROW
-    (60) ROW -> . ROW , NUMBER
-    (61) ROW -> . NUMBER
+    (60) ROW -> . ROW , EXPRESSION
+    (61) ROW -> . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_FUNCTIONS
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
     (55) NUMBER -> . INT
     (56) NUMBER -> . FLOAT
 
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
     INT             shift and go to state 53
     FLOAT           shift and go to state 54
 
     ROWS                           shift and go to state 86
     ROW                            shift and go to state 87
-    NUMBER                         shift and go to state 88
+    EXPRESSION                     shift and go to state 88
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_FUNCTIONS               shift and go to state 45
+    NUMBER                         shift and go to state 46
 
 state 50
 
@@ -1490,6 +1528,7 @@ state 53
     RELASSIGN       reduce using rule 55 (NUMBER -> INT .)
     ;               reduce using rule 55 (NUMBER -> INT .)
     ,               reduce using rule 55 (NUMBER -> INT .)
+    ]               reduce using rule 55 (NUMBER -> INT .)
     :               reduce using rule 55 (NUMBER -> INT .)
     )               reduce using rule 55 (NUMBER -> INT .)
     {               reduce using rule 55 (NUMBER -> INT .)
@@ -1501,7 +1540,6 @@ state 53
     RETURN          reduce using rule 55 (NUMBER -> INT .)
     PRINT           reduce using rule 55 (NUMBER -> INT .)
     ID              reduce using rule 55 (NUMBER -> INT .)
-    ]               reduce using rule 55 (NUMBER -> INT .)
 
 
 state 54
@@ -1525,6 +1563,7 @@ state 54
     RELASSIGN       reduce using rule 56 (NUMBER -> FLOAT .)
     ;               reduce using rule 56 (NUMBER -> FLOAT .)
     ,               reduce using rule 56 (NUMBER -> FLOAT .)
+    ]               reduce using rule 56 (NUMBER -> FLOAT .)
     :               reduce using rule 56 (NUMBER -> FLOAT .)
     )               reduce using rule 56 (NUMBER -> FLOAT .)
     {               reduce using rule 56 (NUMBER -> FLOAT .)
@@ -1536,7 +1575,6 @@ state 54
     RETURN          reduce using rule 56 (NUMBER -> FLOAT .)
     PRINT           reduce using rule 56 (NUMBER -> FLOAT .)
     ID              reduce using rule 56 (NUMBER -> FLOAT .)
-    ]               reduce using rule 56 (NUMBER -> FLOAT .)
 
 
 state 55
@@ -2195,6 +2233,8 @@ state 78
     NE              reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
     RELASSIGN       reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
     ;               reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    ,               reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    ]               reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
     :               reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
     )               reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
     {               reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
@@ -2489,6 +2529,8 @@ state 85
     NE              reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
     RELASSIGN       reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
     ;               reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    ,               reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    ]               reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
     :               reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
     )               reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
     {               reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
@@ -2524,7 +2566,7 @@ state 86
 state 87
 
     (59) ROWS -> ROW .
-    (60) ROW -> ROW . , NUMBER
+    (60) ROW -> ROW . , EXPRESSION
 
     ]               reduce using rule 59 (ROWS -> ROW .)
     ;               reduce using rule 59 (ROWS -> ROW .)
@@ -2533,11 +2575,29 @@ state 87
 
 state 88
 
-    (61) ROW -> NUMBER .
+    (61) ROW -> EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
 
-    ,               reduce using rule 61 (ROW -> NUMBER .)
-    ]               reduce using rule 61 (ROW -> NUMBER .)
-    ;               reduce using rule 61 (ROW -> NUMBER .)
+    ,               reduce using rule 61 (ROW -> EXPRESSION .)
+    ]               reduce using rule 61 (ROW -> EXPRESSION .)
+    ;               reduce using rule 61 (ROW -> EXPRESSION .)
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
 
 
 state 89
@@ -2838,6 +2898,8 @@ state 98
     NE              reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
     RELASSIGN       reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
     ;               reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    ,               reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    ]               reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
     :               reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
     )               reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
     {               reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
@@ -2890,6 +2952,8 @@ state 99
     NE              reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
     RELASSIGN       reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
     ;               reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    ,               reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    ]               reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
     :               reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
     )               reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
     {               reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
@@ -2946,6 +3010,8 @@ state 100
     NE              reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
     RELASSIGN       reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
     ;               reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    ,               reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    ]               reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
     :               reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
     )               reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
     {               reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
@@ -2998,6 +3064,8 @@ state 101
     NE              reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
     RELASSIGN       reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
     ;               reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    ,               reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    ]               reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
     :               reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
     )               reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
     {               reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
@@ -3046,6 +3114,8 @@ state 102
     NE              reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
     RELASSIGN       reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
     ;               reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    ,               reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    ]               reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
     :               reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
     )               reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
     {               reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
@@ -3098,6 +3168,8 @@ state 103
     NE              reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
     RELASSIGN       reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
     ;               reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    ,               reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    ]               reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
     :               reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
     )               reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
     {               reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
@@ -3154,6 +3226,8 @@ state 104
     NE              reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
     RELASSIGN       reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
     ;               reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    ,               reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    ]               reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
     :               reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
     )               reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
     {               reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
@@ -3206,6 +3280,8 @@ state 105
     NE              reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
     RELASSIGN       reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
     ;               reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    ,               reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    ]               reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
     :               reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
     )               reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
     {               reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
@@ -3407,6 +3483,7 @@ state 112
     RELASSIGN       reduce using rule 57 (MATRIX -> [ ROWS ] .)
     ;               reduce using rule 57 (MATRIX -> [ ROWS ] .)
     ,               reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    ]               reduce using rule 57 (MATRIX -> [ ROWS ] .)
     :               reduce using rule 57 (MATRIX -> [ ROWS ] .)
     )               reduce using rule 57 (MATRIX -> [ ROWS ] .)
     {               reduce using rule 57 (MATRIX -> [ ROWS ] .)
@@ -3423,27 +3500,89 @@ state 112
 state 113
 
     (58) ROWS -> ROWS ; . ROW
-    (60) ROW -> . ROW , NUMBER
-    (61) ROW -> . NUMBER
+    (60) ROW -> . ROW , EXPRESSION
+    (61) ROW -> . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_FUNCTIONS
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
     (55) NUMBER -> . INT
     (56) NUMBER -> . FLOAT
 
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
     INT             shift and go to state 53
     FLOAT           shift and go to state 54
 
     ROW                            shift and go to state 123
-    NUMBER                         shift and go to state 88
+    EXPRESSION                     shift and go to state 88
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_FUNCTIONS               shift and go to state 45
+    NUMBER                         shift and go to state 46
 
 state 114
 
-    (60) ROW -> ROW , . NUMBER
+    (60) ROW -> ROW , . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_FUNCTIONS
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
     (55) NUMBER -> . INT
     (56) NUMBER -> . FLOAT
 
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
     INT             shift and go to state 53
     FLOAT           shift and go to state 54
 
-    NUMBER                         shift and go to state 124
+    EXPRESSION                     shift and go to state 124
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_FUNCTIONS               shift and go to state 45
+    NUMBER                         shift and go to state 46
 
 state 115
 
@@ -3569,7 +3708,7 @@ state 122
 state 123
 
     (58) ROWS -> ROWS ; ROW .
-    (60) ROW -> ROW . , NUMBER
+    (60) ROW -> ROW . , EXPRESSION
 
     ]               reduce using rule 58 (ROWS -> ROWS ; ROW .)
     ;               reduce using rule 58 (ROWS -> ROWS ; ROW .)
@@ -3578,11 +3717,29 @@ state 123
 
 state 124
 
-    (60) ROW -> ROW , NUMBER .
+    (60) ROW -> ROW , EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
 
-    ,               reduce using rule 60 (ROW -> ROW , NUMBER .)
-    ]               reduce using rule 60 (ROW -> ROW , NUMBER .)
-    ;               reduce using rule 60 (ROW -> ROW , NUMBER .)
+    ,               reduce using rule 60 (ROW -> ROW , EXPRESSION .)
+    ]               reduce using rule 60 (ROW -> ROW , EXPRESSION .)
+    ;               reduce using rule 60 (ROW -> ROW , EXPRESSION .)
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
 
 
 state 125
@@ -3606,6 +3763,7 @@ state 125
     RELASSIGN       reduce using rule 62 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
     ;               reduce using rule 62 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
     ,               reduce using rule 62 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
+    ]               reduce using rule 62 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
     :               reduce using rule 62 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
     )               reduce using rule 62 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
     {               reduce using rule 62 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
@@ -3640,6 +3798,7 @@ state 126
     RELASSIGN       reduce using rule 63 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
     ;               reduce using rule 63 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
     ,               reduce using rule 63 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
+    ]               reduce using rule 63 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
     :               reduce using rule 63 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
     )               reduce using rule 63 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
     {               reduce using rule 63 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
@@ -3674,6 +3833,7 @@ state 127
     RELASSIGN       reduce using rule 64 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
     ;               reduce using rule 64 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
     ,               reduce using rule 64 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
+    ]               reduce using rule 64 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
     :               reduce using rule 64 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
     )               reduce using rule 64 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
     {               reduce using rule 64 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)

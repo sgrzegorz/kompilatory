@@ -58,15 +58,8 @@ class TreePrinter:
             print("|  ", end='')
         print("PRINT")
         for i in self.print_expressions:
-            # print("iiiiiiiiiiiii " + str(i))
             i.printTree(indent + 1)
 
-    # =
-    #     REF
-    #     ID
-    #         int
-    #         int
-    #     constant
     @addToClass(AST.AssignOperators)
     def printTree(self, indent=0):
         for i in range(indent):
@@ -181,10 +174,6 @@ class TreePrinter:
         print("TRANSPOSE")
         self.variable.printTree(indent + 1)
 
-    # @addToClass(AST.PrintExpression)
-    # def printTree(self, indent=0):
-    #     for i in self.constans:
-    #         i.printTree(indent + 1)
 
     @addToClass(AST.Expression)
     def printTree(self, indent=0):
