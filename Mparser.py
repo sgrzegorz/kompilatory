@@ -78,7 +78,9 @@ def p_if(p):
 
 def p_for(p):
     """for :  FOR ID ASSIGN RANGE instruction """
-    p[0] = For(Id(p[2]), p[4], p[5])
+    id = Id(p[2])
+    p[0] = For(id, p[4], p[5])
+    id.line = scanner.lexer.lineno
     p[0].line = scanner.lexer.lineno
 
 

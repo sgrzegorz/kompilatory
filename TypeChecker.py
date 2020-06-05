@@ -77,6 +77,7 @@ class TypeChecker(NodeVisitor):
         self.symbol_table.pushNesting()
         self.symbol_table.pushScope('for')
 
+        self.symbol_table.put(node.id.value,Symbol(name=node.id.value, type='int'))
         self.visit(node.id)
         self.visit(node.range)
         self.visit(node.instruction)
@@ -126,10 +127,10 @@ class TypeChecker(NodeVisitor):
 
         right_type = self.visit(node.expression)
 
-        # used only in for i=1:5
-        self.shouldThrowUndeclaredIdError = False
-        self.visit(node.id)
-        self.shouldThrowUndeclaredIdError = True
+        # three lines below important only in for i=1:5
+        # self.shouldThrowUndeclaredIdError = False
+        # self.visit(node.id)
+        # self.shouldThrowUndeclaredIdError = True
 
 
         if right_type == 'matrix':
