@@ -1,0 +1,3795 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    COM
+    IGN
+    NL
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> instructions_opt
+Rule 2     instructions_opt -> instructions
+Rule 3     instructions_opt -> <empty>
+Rule 4     instructions -> instructions instruction
+Rule 5     instructions -> instruction
+Rule 6     block -> { instructions }
+Rule 7     instruction -> block
+Rule 8     instruction -> if
+Rule 9     instruction -> for
+Rule 10    instruction -> while
+Rule 11    instruction -> break ;
+Rule 12    instruction -> continue ;
+Rule 13    instruction -> return ;
+Rule 14    instruction -> print ;
+Rule 15    instruction -> assign ;
+Rule 16    if -> IF BOOLEAN_IN_PARENTHESES instruction
+Rule 17    if -> IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction
+Rule 18    for -> FOR ID ASSIGN RANGE instruction
+Rule 19    RANGE -> EXPRESSION : EXPRESSION
+Rule 20    while -> WHILE BOOLEAN_IN_PARENTHESES instruction
+Rule 21    break -> BREAK
+Rule 22    continue -> CONTINUE
+Rule 23    return -> RETURN
+Rule 24    return -> RETURN EXPRESSION
+Rule 25    return -> RETURN BOOLEAN_EXPRESSION
+Rule 26    print -> PRINT PRINT_EXPR
+Rule 27    assign -> ID ASSIGN EXPRESSION
+Rule 28    assign -> ID ADDASSIGN EXPRESSION
+Rule 29    assign -> ID MINASSIGN EXPRESSION
+Rule 30    assign -> ID MULASSIGN EXPRESSION
+Rule 31    assign -> ID DIVASSIGN EXPRESSION
+Rule 32    assign -> ID [ INT , INT ] ASSIGN EXPRESSION
+Rule 33    BOOLEAN_EXPRESSION -> EXPRESSION LT EXPRESSION
+Rule 34    BOOLEAN_EXPRESSION -> EXPRESSION GT EXPRESSION
+Rule 35    BOOLEAN_EXPRESSION -> EXPRESSION LTE EXPRESSION
+Rule 36    BOOLEAN_EXPRESSION -> EXPRESSION GTE EXPRESSION
+Rule 37    BOOLEAN_EXPRESSION -> EXPRESSION NE EXPRESSION
+Rule 38    BOOLEAN_EXPRESSION -> EXPRESSION RELASSIGN EXPRESSION
+Rule 39    EXPRESSION -> EXPRESSION ADD EXPRESSION
+Rule 40    EXPRESSION -> EXPRESSION MIN EXPRESSION
+Rule 41    EXPRESSION -> EXPRESSION MUL EXPRESSION
+Rule 42    EXPRESSION -> EXPRESSION DIV EXPRESSION
+Rule 43    EXPRESSION -> EXPRESSION DOTADD EXPRESSION
+Rule 44    EXPRESSION -> EXPRESSION DOTMIN EXPRESSION
+Rule 45    EXPRESSION -> EXPRESSION DOTMUL EXPRESSION
+Rule 46    EXPRESSION -> EXPRESSION DOTDIV EXPRESSION
+Rule 47    EXPRESSION -> MIN EXPRESSION
+Rule 48    EXPRESSION -> EXPRESSION TRANSPOSE
+Rule 49    EXPRESSION -> CONSTANT_EXPRESSION
+Rule 50    CONSTANT_EXPRESSION -> MATRIX
+Rule 51    CONSTANT_EXPRESSION -> MATRIX_EXPRESSION
+Rule 52    CONSTANT_EXPRESSION -> NUMBER
+Rule 53    CONSTANT_EXPRESSION -> STR
+Rule 54    CONSTANT_EXPRESSION -> ID
+Rule 55    NUMBER -> INT
+Rule 56    NUMBER -> FLOAT
+Rule 57    MATRIX -> [ ROWS ]
+Rule 58    ROWS -> ROWS ; ROW
+Rule 59    ROWS -> ROW
+Rule 60    ROW -> ROW , NUMBER
+Rule 61    ROW -> NUMBER
+Rule 62    MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR )
+Rule 63    MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR )
+Rule 64    MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR )
+Rule 65    BOOLEAN_IN_PARENTHESES -> ( BOOLEAN_EXPRESSION )
+Rule 66    MULTIPLE_EXPR -> MULTIPLE_EXPR , CONSTANT_EXPRESSION
+Rule 67    MULTIPLE_EXPR -> CONSTANT_EXPRESSION
+Rule 68    PRINT_EXPR -> MULTIPLE_EXPR
+
+Terminals, with rules where they appear
+
+(                    : 62 63 64 65
+)                    : 62 63 64 65
+,                    : 32 60 66
+:                    : 19
+;                    : 11 12 13 14 15 58
+ADD                  : 39
+ADDASSIGN            : 28
+ASSIGN               : 18 27 32
+BREAK                : 21
+COM                  : 
+CONTINUE             : 22
+DIV                  : 42
+DIVASSIGN            : 31
+DOTADD               : 43
+DOTDIV               : 46
+DOTMIN               : 44
+DOTMUL               : 45
+ELSE                 : 17
+EYE                  : 62
+FLOAT                : 56
+FOR                  : 18
+GT                   : 34
+GTE                  : 36
+ID                   : 18 27 28 29 30 31 32 54
+IF                   : 16 17
+IGN                  : 
+INT                  : 32 32 55
+LT                   : 33
+LTE                  : 35
+MIN                  : 40 47
+MINASSIGN            : 29
+MUL                  : 41
+MULASSIGN            : 30
+NE                   : 37
+NL                   : 
+ONES                 : 64
+PRINT                : 26
+RELASSIGN            : 38
+RETURN               : 23 24 25
+STR                  : 53
+TRANSPOSE            : 48
+WHILE                : 20
+ZEROS                : 63
+[                    : 32 57
+]                    : 32 57
+error                : 
+{                    : 6
+}                    : 6
+
+Nonterminals, with rules where they appear
+
+BOOLEAN_EXPRESSION   : 25 65
+BOOLEAN_IN_PARENTHESES : 16 17 20
+CONSTANT_EXPRESSION  : 49 66 67
+EXPRESSION           : 19 19 24 27 28 29 30 31 32 33 33 34 34 35 35 36 36 37 37 38 38 39 39 40 40 41 41 42 42 43 43 44 44 45 45 46 46 47 48
+MATRIX               : 50
+MATRIX_EXPRESSION    : 51
+MULTIPLE_EXPR        : 62 63 64 66 68
+NUMBER               : 52 60 61
+PRINT_EXPR           : 26
+RANGE                : 18
+ROW                  : 58 59 60
+ROWS                 : 57 58
+assign               : 15
+block                : 7
+break                : 11
+continue             : 12
+for                  : 9
+if                   : 8
+instruction          : 4 5 16 17 17 18 20
+instructions         : 2 4 6
+instructions_opt     : 1
+print                : 14
+program              : 0
+return               : 13
+while                : 10
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . instructions_opt
+    (2) instructions_opt -> . instructions
+    (3) instructions_opt -> .
+    (4) instructions -> . instructions instruction
+    (5) instructions -> . instruction
+    (7) instruction -> . block
+    (8) instruction -> . if
+    (9) instruction -> . for
+    (10) instruction -> . while
+    (11) instruction -> . break ;
+    (12) instruction -> . continue ;
+    (13) instruction -> . return ;
+    (14) instruction -> . print ;
+    (15) instruction -> . assign ;
+    (6) block -> . { instructions }
+    (16) if -> . IF BOOLEAN_IN_PARENTHESES instruction
+    (17) if -> . IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction
+    (18) for -> . FOR ID ASSIGN RANGE instruction
+    (20) while -> . WHILE BOOLEAN_IN_PARENTHESES instruction
+    (21) break -> . BREAK
+    (22) continue -> . CONTINUE
+    (23) return -> . RETURN
+    (24) return -> . RETURN EXPRESSION
+    (25) return -> . RETURN BOOLEAN_EXPRESSION
+    (26) print -> . PRINT PRINT_EXPR
+    (27) assign -> . ID ASSIGN EXPRESSION
+    (28) assign -> . ID ADDASSIGN EXPRESSION
+    (29) assign -> . ID MINASSIGN EXPRESSION
+    (30) assign -> . ID MULASSIGN EXPRESSION
+    (31) assign -> . ID DIVASSIGN EXPRESSION
+    (32) assign -> . ID [ INT , INT ] ASSIGN EXPRESSION
+
+    $end            reduce using rule 3 (instructions_opt -> .)
+    {               shift and go to state 14
+    IF              shift and go to state 15
+    FOR             shift and go to state 16
+    WHILE           shift and go to state 18
+    BREAK           shift and go to state 19
+    CONTINUE        shift and go to state 20
+    RETURN          shift and go to state 21
+    PRINT           shift and go to state 22
+    ID              shift and go to state 17
+
+    program                        shift and go to state 1
+    instructions_opt               shift and go to state 2
+    instructions                   shift and go to state 3
+    instruction                    shift and go to state 4
+    block                          shift and go to state 5
+    if                             shift and go to state 6
+    for                            shift and go to state 7
+    while                          shift and go to state 8
+    break                          shift and go to state 9
+    continue                       shift and go to state 10
+    return                         shift and go to state 11
+    print                          shift and go to state 12
+    assign                         shift and go to state 13
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> instructions_opt .
+
+    $end            reduce using rule 1 (program -> instructions_opt .)
+
+
+state 3
+
+    (2) instructions_opt -> instructions .
+    (4) instructions -> instructions . instruction
+    (7) instruction -> . block
+    (8) instruction -> . if
+    (9) instruction -> . for
+    (10) instruction -> . while
+    (11) instruction -> . break ;
+    (12) instruction -> . continue ;
+    (13) instruction -> . return ;
+    (14) instruction -> . print ;
+    (15) instruction -> . assign ;
+    (6) block -> . { instructions }
+    (16) if -> . IF BOOLEAN_IN_PARENTHESES instruction
+    (17) if -> . IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction
+    (18) for -> . FOR ID ASSIGN RANGE instruction
+    (20) while -> . WHILE BOOLEAN_IN_PARENTHESES instruction
+    (21) break -> . BREAK
+    (22) continue -> . CONTINUE
+    (23) return -> . RETURN
+    (24) return -> . RETURN EXPRESSION
+    (25) return -> . RETURN BOOLEAN_EXPRESSION
+    (26) print -> . PRINT PRINT_EXPR
+    (27) assign -> . ID ASSIGN EXPRESSION
+    (28) assign -> . ID ADDASSIGN EXPRESSION
+    (29) assign -> . ID MINASSIGN EXPRESSION
+    (30) assign -> . ID MULASSIGN EXPRESSION
+    (31) assign -> . ID DIVASSIGN EXPRESSION
+    (32) assign -> . ID [ INT , INT ] ASSIGN EXPRESSION
+
+    $end            reduce using rule 2 (instructions_opt -> instructions .)
+    {               shift and go to state 14
+    IF              shift and go to state 15
+    FOR             shift and go to state 16
+    WHILE           shift and go to state 18
+    BREAK           shift and go to state 19
+    CONTINUE        shift and go to state 20
+    RETURN          shift and go to state 21
+    PRINT           shift and go to state 22
+    ID              shift and go to state 17
+
+    instruction                    shift and go to state 23
+    block                          shift and go to state 5
+    if                             shift and go to state 6
+    for                            shift and go to state 7
+    while                          shift and go to state 8
+    break                          shift and go to state 9
+    continue                       shift and go to state 10
+    return                         shift and go to state 11
+    print                          shift and go to state 12
+    assign                         shift and go to state 13
+
+state 4
+
+    (5) instructions -> instruction .
+
+    {               reduce using rule 5 (instructions -> instruction .)
+    IF              reduce using rule 5 (instructions -> instruction .)
+    FOR             reduce using rule 5 (instructions -> instruction .)
+    WHILE           reduce using rule 5 (instructions -> instruction .)
+    BREAK           reduce using rule 5 (instructions -> instruction .)
+    CONTINUE        reduce using rule 5 (instructions -> instruction .)
+    RETURN          reduce using rule 5 (instructions -> instruction .)
+    PRINT           reduce using rule 5 (instructions -> instruction .)
+    ID              reduce using rule 5 (instructions -> instruction .)
+    $end            reduce using rule 5 (instructions -> instruction .)
+    }               reduce using rule 5 (instructions -> instruction .)
+
+
+state 5
+
+    (7) instruction -> block .
+
+    {               reduce using rule 7 (instruction -> block .)
+    IF              reduce using rule 7 (instruction -> block .)
+    FOR             reduce using rule 7 (instruction -> block .)
+    WHILE           reduce using rule 7 (instruction -> block .)
+    BREAK           reduce using rule 7 (instruction -> block .)
+    CONTINUE        reduce using rule 7 (instruction -> block .)
+    RETURN          reduce using rule 7 (instruction -> block .)
+    PRINT           reduce using rule 7 (instruction -> block .)
+    ID              reduce using rule 7 (instruction -> block .)
+    $end            reduce using rule 7 (instruction -> block .)
+    }               reduce using rule 7 (instruction -> block .)
+    ELSE            reduce using rule 7 (instruction -> block .)
+
+
+state 6
+
+    (8) instruction -> if .
+
+    {               reduce using rule 8 (instruction -> if .)
+    IF              reduce using rule 8 (instruction -> if .)
+    FOR             reduce using rule 8 (instruction -> if .)
+    WHILE           reduce using rule 8 (instruction -> if .)
+    BREAK           reduce using rule 8 (instruction -> if .)
+    CONTINUE        reduce using rule 8 (instruction -> if .)
+    RETURN          reduce using rule 8 (instruction -> if .)
+    PRINT           reduce using rule 8 (instruction -> if .)
+    ID              reduce using rule 8 (instruction -> if .)
+    $end            reduce using rule 8 (instruction -> if .)
+    }               reduce using rule 8 (instruction -> if .)
+    ELSE            reduce using rule 8 (instruction -> if .)
+
+
+state 7
+
+    (9) instruction -> for .
+
+    {               reduce using rule 9 (instruction -> for .)
+    IF              reduce using rule 9 (instruction -> for .)
+    FOR             reduce using rule 9 (instruction -> for .)
+    WHILE           reduce using rule 9 (instruction -> for .)
+    BREAK           reduce using rule 9 (instruction -> for .)
+    CONTINUE        reduce using rule 9 (instruction -> for .)
+    RETURN          reduce using rule 9 (instruction -> for .)
+    PRINT           reduce using rule 9 (instruction -> for .)
+    ID              reduce using rule 9 (instruction -> for .)
+    $end            reduce using rule 9 (instruction -> for .)
+    }               reduce using rule 9 (instruction -> for .)
+    ELSE            reduce using rule 9 (instruction -> for .)
+
+
+state 8
+
+    (10) instruction -> while .
+
+    {               reduce using rule 10 (instruction -> while .)
+    IF              reduce using rule 10 (instruction -> while .)
+    FOR             reduce using rule 10 (instruction -> while .)
+    WHILE           reduce using rule 10 (instruction -> while .)
+    BREAK           reduce using rule 10 (instruction -> while .)
+    CONTINUE        reduce using rule 10 (instruction -> while .)
+    RETURN          reduce using rule 10 (instruction -> while .)
+    PRINT           reduce using rule 10 (instruction -> while .)
+    ID              reduce using rule 10 (instruction -> while .)
+    $end            reduce using rule 10 (instruction -> while .)
+    }               reduce using rule 10 (instruction -> while .)
+    ELSE            reduce using rule 10 (instruction -> while .)
+
+
+state 9
+
+    (11) instruction -> break . ;
+
+    ;               shift and go to state 24
+
+
+state 10
+
+    (12) instruction -> continue . ;
+
+    ;               shift and go to state 25
+
+
+state 11
+
+    (13) instruction -> return . ;
+
+    ;               shift and go to state 26
+
+
+state 12
+
+    (14) instruction -> print . ;
+
+    ;               shift and go to state 27
+
+
+state 13
+
+    (15) instruction -> assign . ;
+
+    ;               shift and go to state 28
+
+
+state 14
+
+    (6) block -> { . instructions }
+    (4) instructions -> . instructions instruction
+    (5) instructions -> . instruction
+    (7) instruction -> . block
+    (8) instruction -> . if
+    (9) instruction -> . for
+    (10) instruction -> . while
+    (11) instruction -> . break ;
+    (12) instruction -> . continue ;
+    (13) instruction -> . return ;
+    (14) instruction -> . print ;
+    (15) instruction -> . assign ;
+    (6) block -> . { instructions }
+    (16) if -> . IF BOOLEAN_IN_PARENTHESES instruction
+    (17) if -> . IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction
+    (18) for -> . FOR ID ASSIGN RANGE instruction
+    (20) while -> . WHILE BOOLEAN_IN_PARENTHESES instruction
+    (21) break -> . BREAK
+    (22) continue -> . CONTINUE
+    (23) return -> . RETURN
+    (24) return -> . RETURN EXPRESSION
+    (25) return -> . RETURN BOOLEAN_EXPRESSION
+    (26) print -> . PRINT PRINT_EXPR
+    (27) assign -> . ID ASSIGN EXPRESSION
+    (28) assign -> . ID ADDASSIGN EXPRESSION
+    (29) assign -> . ID MINASSIGN EXPRESSION
+    (30) assign -> . ID MULASSIGN EXPRESSION
+    (31) assign -> . ID DIVASSIGN EXPRESSION
+    (32) assign -> . ID [ INT , INT ] ASSIGN EXPRESSION
+
+    {               shift and go to state 14
+    IF              shift and go to state 15
+    FOR             shift and go to state 16
+    WHILE           shift and go to state 18
+    BREAK           shift and go to state 19
+    CONTINUE        shift and go to state 20
+    RETURN          shift and go to state 21
+    PRINT           shift and go to state 22
+    ID              shift and go to state 17
+
+    instructions                   shift and go to state 29
+    instruction                    shift and go to state 4
+    block                          shift and go to state 5
+    if                             shift and go to state 6
+    for                            shift and go to state 7
+    while                          shift and go to state 8
+    break                          shift and go to state 9
+    continue                       shift and go to state 10
+    return                         shift and go to state 11
+    print                          shift and go to state 12
+    assign                         shift and go to state 13
+
+state 15
+
+    (16) if -> IF . BOOLEAN_IN_PARENTHESES instruction
+    (17) if -> IF . BOOLEAN_IN_PARENTHESES instruction ELSE instruction
+    (65) BOOLEAN_IN_PARENTHESES -> . ( BOOLEAN_EXPRESSION )
+
+    (               shift and go to state 31
+
+    BOOLEAN_IN_PARENTHESES         shift and go to state 30
+
+state 16
+
+    (18) for -> FOR . ID ASSIGN RANGE instruction
+
+    ID              shift and go to state 32
+
+
+state 17
+
+    (27) assign -> ID . ASSIGN EXPRESSION
+    (28) assign -> ID . ADDASSIGN EXPRESSION
+    (29) assign -> ID . MINASSIGN EXPRESSION
+    (30) assign -> ID . MULASSIGN EXPRESSION
+    (31) assign -> ID . DIVASSIGN EXPRESSION
+    (32) assign -> ID . [ INT , INT ] ASSIGN EXPRESSION
+
+    ASSIGN          shift and go to state 33
+    ADDASSIGN       shift and go to state 34
+    MINASSIGN       shift and go to state 35
+    MULASSIGN       shift and go to state 36
+    DIVASSIGN       shift and go to state 37
+    [               shift and go to state 38
+
+
+state 18
+
+    (20) while -> WHILE . BOOLEAN_IN_PARENTHESES instruction
+    (65) BOOLEAN_IN_PARENTHESES -> . ( BOOLEAN_EXPRESSION )
+
+    (               shift and go to state 31
+
+    BOOLEAN_IN_PARENTHESES         shift and go to state 39
+
+state 19
+
+    (21) break -> BREAK .
+
+    ;               reduce using rule 21 (break -> BREAK .)
+
+
+state 20
+
+    (22) continue -> CONTINUE .
+
+    ;               reduce using rule 22 (continue -> CONTINUE .)
+
+
+state 21
+
+    (23) return -> RETURN .
+    (24) return -> RETURN . EXPRESSION
+    (25) return -> RETURN . BOOLEAN_EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (33) BOOLEAN_EXPRESSION -> . EXPRESSION LT EXPRESSION
+    (34) BOOLEAN_EXPRESSION -> . EXPRESSION GT EXPRESSION
+    (35) BOOLEAN_EXPRESSION -> . EXPRESSION LTE EXPRESSION
+    (36) BOOLEAN_EXPRESSION -> . EXPRESSION GTE EXPRESSION
+    (37) BOOLEAN_EXPRESSION -> . EXPRESSION NE EXPRESSION
+    (38) BOOLEAN_EXPRESSION -> . EXPRESSION RELASSIGN EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    ;               reduce using rule 23 (return -> RETURN .)
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 40
+    BOOLEAN_EXPRESSION             shift and go to state 41
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 22
+
+    (26) print -> PRINT . PRINT_EXPR
+    (68) PRINT_EXPR -> . MULTIPLE_EXPR
+    (66) MULTIPLE_EXPR -> . MULTIPLE_EXPR , CONSTANT_EXPRESSION
+    (67) MULTIPLE_EXPR -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    PRINT_EXPR                     shift and go to state 55
+    MULTIPLE_EXPR                  shift and go to state 56
+    CONSTANT_EXPRESSION            shift and go to state 57
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 23
+
+    (4) instructions -> instructions instruction .
+
+    {               reduce using rule 4 (instructions -> instructions instruction .)
+    IF              reduce using rule 4 (instructions -> instructions instruction .)
+    FOR             reduce using rule 4 (instructions -> instructions instruction .)
+    WHILE           reduce using rule 4 (instructions -> instructions instruction .)
+    BREAK           reduce using rule 4 (instructions -> instructions instruction .)
+    CONTINUE        reduce using rule 4 (instructions -> instructions instruction .)
+    RETURN          reduce using rule 4 (instructions -> instructions instruction .)
+    PRINT           reduce using rule 4 (instructions -> instructions instruction .)
+    ID              reduce using rule 4 (instructions -> instructions instruction .)
+    $end            reduce using rule 4 (instructions -> instructions instruction .)
+    }               reduce using rule 4 (instructions -> instructions instruction .)
+
+
+state 24
+
+    (11) instruction -> break ; .
+
+    {               reduce using rule 11 (instruction -> break ; .)
+    IF              reduce using rule 11 (instruction -> break ; .)
+    FOR             reduce using rule 11 (instruction -> break ; .)
+    WHILE           reduce using rule 11 (instruction -> break ; .)
+    BREAK           reduce using rule 11 (instruction -> break ; .)
+    CONTINUE        reduce using rule 11 (instruction -> break ; .)
+    RETURN          reduce using rule 11 (instruction -> break ; .)
+    PRINT           reduce using rule 11 (instruction -> break ; .)
+    ID              reduce using rule 11 (instruction -> break ; .)
+    $end            reduce using rule 11 (instruction -> break ; .)
+    }               reduce using rule 11 (instruction -> break ; .)
+    ELSE            reduce using rule 11 (instruction -> break ; .)
+
+
+state 25
+
+    (12) instruction -> continue ; .
+
+    {               reduce using rule 12 (instruction -> continue ; .)
+    IF              reduce using rule 12 (instruction -> continue ; .)
+    FOR             reduce using rule 12 (instruction -> continue ; .)
+    WHILE           reduce using rule 12 (instruction -> continue ; .)
+    BREAK           reduce using rule 12 (instruction -> continue ; .)
+    CONTINUE        reduce using rule 12 (instruction -> continue ; .)
+    RETURN          reduce using rule 12 (instruction -> continue ; .)
+    PRINT           reduce using rule 12 (instruction -> continue ; .)
+    ID              reduce using rule 12 (instruction -> continue ; .)
+    $end            reduce using rule 12 (instruction -> continue ; .)
+    }               reduce using rule 12 (instruction -> continue ; .)
+    ELSE            reduce using rule 12 (instruction -> continue ; .)
+
+
+state 26
+
+    (13) instruction -> return ; .
+
+    {               reduce using rule 13 (instruction -> return ; .)
+    IF              reduce using rule 13 (instruction -> return ; .)
+    FOR             reduce using rule 13 (instruction -> return ; .)
+    WHILE           reduce using rule 13 (instruction -> return ; .)
+    BREAK           reduce using rule 13 (instruction -> return ; .)
+    CONTINUE        reduce using rule 13 (instruction -> return ; .)
+    RETURN          reduce using rule 13 (instruction -> return ; .)
+    PRINT           reduce using rule 13 (instruction -> return ; .)
+    ID              reduce using rule 13 (instruction -> return ; .)
+    $end            reduce using rule 13 (instruction -> return ; .)
+    }               reduce using rule 13 (instruction -> return ; .)
+    ELSE            reduce using rule 13 (instruction -> return ; .)
+
+
+state 27
+
+    (14) instruction -> print ; .
+
+    {               reduce using rule 14 (instruction -> print ; .)
+    IF              reduce using rule 14 (instruction -> print ; .)
+    FOR             reduce using rule 14 (instruction -> print ; .)
+    WHILE           reduce using rule 14 (instruction -> print ; .)
+    BREAK           reduce using rule 14 (instruction -> print ; .)
+    CONTINUE        reduce using rule 14 (instruction -> print ; .)
+    RETURN          reduce using rule 14 (instruction -> print ; .)
+    PRINT           reduce using rule 14 (instruction -> print ; .)
+    ID              reduce using rule 14 (instruction -> print ; .)
+    $end            reduce using rule 14 (instruction -> print ; .)
+    }               reduce using rule 14 (instruction -> print ; .)
+    ELSE            reduce using rule 14 (instruction -> print ; .)
+
+
+state 28
+
+    (15) instruction -> assign ; .
+
+    {               reduce using rule 15 (instruction -> assign ; .)
+    IF              reduce using rule 15 (instruction -> assign ; .)
+    FOR             reduce using rule 15 (instruction -> assign ; .)
+    WHILE           reduce using rule 15 (instruction -> assign ; .)
+    BREAK           reduce using rule 15 (instruction -> assign ; .)
+    CONTINUE        reduce using rule 15 (instruction -> assign ; .)
+    RETURN          reduce using rule 15 (instruction -> assign ; .)
+    PRINT           reduce using rule 15 (instruction -> assign ; .)
+    ID              reduce using rule 15 (instruction -> assign ; .)
+    $end            reduce using rule 15 (instruction -> assign ; .)
+    }               reduce using rule 15 (instruction -> assign ; .)
+    ELSE            reduce using rule 15 (instruction -> assign ; .)
+
+
+state 29
+
+    (6) block -> { instructions . }
+    (4) instructions -> instructions . instruction
+    (7) instruction -> . block
+    (8) instruction -> . if
+    (9) instruction -> . for
+    (10) instruction -> . while
+    (11) instruction -> . break ;
+    (12) instruction -> . continue ;
+    (13) instruction -> . return ;
+    (14) instruction -> . print ;
+    (15) instruction -> . assign ;
+    (6) block -> . { instructions }
+    (16) if -> . IF BOOLEAN_IN_PARENTHESES instruction
+    (17) if -> . IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction
+    (18) for -> . FOR ID ASSIGN RANGE instruction
+    (20) while -> . WHILE BOOLEAN_IN_PARENTHESES instruction
+    (21) break -> . BREAK
+    (22) continue -> . CONTINUE
+    (23) return -> . RETURN
+    (24) return -> . RETURN EXPRESSION
+    (25) return -> . RETURN BOOLEAN_EXPRESSION
+    (26) print -> . PRINT PRINT_EXPR
+    (27) assign -> . ID ASSIGN EXPRESSION
+    (28) assign -> . ID ADDASSIGN EXPRESSION
+    (29) assign -> . ID MINASSIGN EXPRESSION
+    (30) assign -> . ID MULASSIGN EXPRESSION
+    (31) assign -> . ID DIVASSIGN EXPRESSION
+    (32) assign -> . ID [ INT , INT ] ASSIGN EXPRESSION
+
+    }               shift and go to state 58
+    {               shift and go to state 14
+    IF              shift and go to state 15
+    FOR             shift and go to state 16
+    WHILE           shift and go to state 18
+    BREAK           shift and go to state 19
+    CONTINUE        shift and go to state 20
+    RETURN          shift and go to state 21
+    PRINT           shift and go to state 22
+    ID              shift and go to state 17
+
+    instruction                    shift and go to state 23
+    block                          shift and go to state 5
+    if                             shift and go to state 6
+    for                            shift and go to state 7
+    while                          shift and go to state 8
+    break                          shift and go to state 9
+    continue                       shift and go to state 10
+    return                         shift and go to state 11
+    print                          shift and go to state 12
+    assign                         shift and go to state 13
+
+state 30
+
+    (16) if -> IF BOOLEAN_IN_PARENTHESES . instruction
+    (17) if -> IF BOOLEAN_IN_PARENTHESES . instruction ELSE instruction
+    (7) instruction -> . block
+    (8) instruction -> . if
+    (9) instruction -> . for
+    (10) instruction -> . while
+    (11) instruction -> . break ;
+    (12) instruction -> . continue ;
+    (13) instruction -> . return ;
+    (14) instruction -> . print ;
+    (15) instruction -> . assign ;
+    (6) block -> . { instructions }
+    (16) if -> . IF BOOLEAN_IN_PARENTHESES instruction
+    (17) if -> . IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction
+    (18) for -> . FOR ID ASSIGN RANGE instruction
+    (20) while -> . WHILE BOOLEAN_IN_PARENTHESES instruction
+    (21) break -> . BREAK
+    (22) continue -> . CONTINUE
+    (23) return -> . RETURN
+    (24) return -> . RETURN EXPRESSION
+    (25) return -> . RETURN BOOLEAN_EXPRESSION
+    (26) print -> . PRINT PRINT_EXPR
+    (27) assign -> . ID ASSIGN EXPRESSION
+    (28) assign -> . ID ADDASSIGN EXPRESSION
+    (29) assign -> . ID MINASSIGN EXPRESSION
+    (30) assign -> . ID MULASSIGN EXPRESSION
+    (31) assign -> . ID DIVASSIGN EXPRESSION
+    (32) assign -> . ID [ INT , INT ] ASSIGN EXPRESSION
+
+    {               shift and go to state 14
+    IF              shift and go to state 15
+    FOR             shift and go to state 16
+    WHILE           shift and go to state 18
+    BREAK           shift and go to state 19
+    CONTINUE        shift and go to state 20
+    RETURN          shift and go to state 21
+    PRINT           shift and go to state 22
+    ID              shift and go to state 17
+
+    instruction                    shift and go to state 59
+    block                          shift and go to state 5
+    if                             shift and go to state 6
+    for                            shift and go to state 7
+    while                          shift and go to state 8
+    break                          shift and go to state 9
+    continue                       shift and go to state 10
+    return                         shift and go to state 11
+    print                          shift and go to state 12
+    assign                         shift and go to state 13
+
+state 31
+
+    (65) BOOLEAN_IN_PARENTHESES -> ( . BOOLEAN_EXPRESSION )
+    (33) BOOLEAN_EXPRESSION -> . EXPRESSION LT EXPRESSION
+    (34) BOOLEAN_EXPRESSION -> . EXPRESSION GT EXPRESSION
+    (35) BOOLEAN_EXPRESSION -> . EXPRESSION LTE EXPRESSION
+    (36) BOOLEAN_EXPRESSION -> . EXPRESSION GTE EXPRESSION
+    (37) BOOLEAN_EXPRESSION -> . EXPRESSION NE EXPRESSION
+    (38) BOOLEAN_EXPRESSION -> . EXPRESSION RELASSIGN EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    BOOLEAN_EXPRESSION             shift and go to state 60
+    EXPRESSION                     shift and go to state 61
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 32
+
+    (18) for -> FOR ID . ASSIGN RANGE instruction
+
+    ASSIGN          shift and go to state 62
+
+
+state 33
+
+    (27) assign -> ID ASSIGN . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 63
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 34
+
+    (28) assign -> ID ADDASSIGN . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 64
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 35
+
+    (29) assign -> ID MINASSIGN . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 65
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 36
+
+    (30) assign -> ID MULASSIGN . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 66
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 37
+
+    (31) assign -> ID DIVASSIGN . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 67
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 38
+
+    (32) assign -> ID [ . INT , INT ] ASSIGN EXPRESSION
+
+    INT             shift and go to state 68
+
+
+state 39
+
+    (20) while -> WHILE BOOLEAN_IN_PARENTHESES . instruction
+    (7) instruction -> . block
+    (8) instruction -> . if
+    (9) instruction -> . for
+    (10) instruction -> . while
+    (11) instruction -> . break ;
+    (12) instruction -> . continue ;
+    (13) instruction -> . return ;
+    (14) instruction -> . print ;
+    (15) instruction -> . assign ;
+    (6) block -> . { instructions }
+    (16) if -> . IF BOOLEAN_IN_PARENTHESES instruction
+    (17) if -> . IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction
+    (18) for -> . FOR ID ASSIGN RANGE instruction
+    (20) while -> . WHILE BOOLEAN_IN_PARENTHESES instruction
+    (21) break -> . BREAK
+    (22) continue -> . CONTINUE
+    (23) return -> . RETURN
+    (24) return -> . RETURN EXPRESSION
+    (25) return -> . RETURN BOOLEAN_EXPRESSION
+    (26) print -> . PRINT PRINT_EXPR
+    (27) assign -> . ID ASSIGN EXPRESSION
+    (28) assign -> . ID ADDASSIGN EXPRESSION
+    (29) assign -> . ID MINASSIGN EXPRESSION
+    (30) assign -> . ID MULASSIGN EXPRESSION
+    (31) assign -> . ID DIVASSIGN EXPRESSION
+    (32) assign -> . ID [ INT , INT ] ASSIGN EXPRESSION
+
+    {               shift and go to state 14
+    IF              shift and go to state 15
+    FOR             shift and go to state 16
+    WHILE           shift and go to state 18
+    BREAK           shift and go to state 19
+    CONTINUE        shift and go to state 20
+    RETURN          shift and go to state 21
+    PRINT           shift and go to state 22
+    ID              shift and go to state 17
+
+    instruction                    shift and go to state 69
+    block                          shift and go to state 5
+    if                             shift and go to state 6
+    for                            shift and go to state 7
+    while                          shift and go to state 8
+    break                          shift and go to state 9
+    continue                       shift and go to state 10
+    return                         shift and go to state 11
+    print                          shift and go to state 12
+    assign                         shift and go to state 13
+
+state 40
+
+    (24) return -> RETURN EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+    (33) BOOLEAN_EXPRESSION -> EXPRESSION . LT EXPRESSION
+    (34) BOOLEAN_EXPRESSION -> EXPRESSION . GT EXPRESSION
+    (35) BOOLEAN_EXPRESSION -> EXPRESSION . LTE EXPRESSION
+    (36) BOOLEAN_EXPRESSION -> EXPRESSION . GTE EXPRESSION
+    (37) BOOLEAN_EXPRESSION -> EXPRESSION . NE EXPRESSION
+    (38) BOOLEAN_EXPRESSION -> EXPRESSION . RELASSIGN EXPRESSION
+
+    ;               reduce using rule 24 (return -> RETURN EXPRESSION .)
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+    LT              shift and go to state 79
+    GT              shift and go to state 80
+    LTE             shift and go to state 81
+    GTE             shift and go to state 82
+    NE              shift and go to state 83
+    RELASSIGN       shift and go to state 84
+
+
+state 41
+
+    (25) return -> RETURN BOOLEAN_EXPRESSION .
+
+    ;               reduce using rule 25 (return -> RETURN BOOLEAN_EXPRESSION .)
+
+
+state 42
+
+    (47) EXPRESSION -> MIN . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 85
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 43
+
+    (49) EXPRESSION -> CONSTANT_EXPRESSION .
+
+    ADD             reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    MIN             reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    MUL             reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    DIV             reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    DOTADD          reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    DOTMIN          reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    DOTMUL          reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    DOTDIV          reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    TRANSPOSE       reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    LT              reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    GT              reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    LTE             reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    GTE             reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    NE              reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    RELASSIGN       reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    ;               reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    :               reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    )               reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    {               reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    IF              reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    FOR             reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    WHILE           reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    BREAK           reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    CONTINUE        reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    RETURN          reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    PRINT           reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+    ID              reduce using rule 49 (EXPRESSION -> CONSTANT_EXPRESSION .)
+
+
+state 44
+
+    (50) CONSTANT_EXPRESSION -> MATRIX .
+
+    ADD             reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    MIN             reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    MUL             reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    DIV             reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    DOTADD          reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    DOTMIN          reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    DOTMUL          reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    DOTDIV          reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    TRANSPOSE       reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    LT              reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    GT              reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    LTE             reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    GTE             reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    NE              reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    RELASSIGN       reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    ;               reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    ,               reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    :               reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    )               reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    {               reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    IF              reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    FOR             reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    WHILE           reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    BREAK           reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    CONTINUE        reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    RETURN          reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    PRINT           reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+    ID              reduce using rule 50 (CONSTANT_EXPRESSION -> MATRIX .)
+
+
+state 45
+
+    (51) CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .
+
+    ADD             reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    MIN             reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    MUL             reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    DIV             reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    DOTADD          reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    DOTMIN          reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    DOTMUL          reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    DOTDIV          reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    TRANSPOSE       reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    LT              reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    GT              reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    LTE             reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    GTE             reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    NE              reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    RELASSIGN       reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    ;               reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    ,               reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    :               reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    )               reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    {               reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    IF              reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    FOR             reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    WHILE           reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    BREAK           reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    CONTINUE        reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    RETURN          reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    PRINT           reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+    ID              reduce using rule 51 (CONSTANT_EXPRESSION -> MATRIX_EXPRESSION .)
+
+
+state 46
+
+    (52) CONSTANT_EXPRESSION -> NUMBER .
+
+    ADD             reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    MIN             reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    MUL             reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    DIV             reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    DOTADD          reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    DOTMIN          reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    DOTMUL          reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    DOTDIV          reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    TRANSPOSE       reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    LT              reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    GT              reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    LTE             reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    GTE             reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    NE              reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    RELASSIGN       reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    ;               reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    ,               reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    :               reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    )               reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    {               reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    IF              reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    FOR             reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    WHILE           reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    BREAK           reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    CONTINUE        reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    RETURN          reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    PRINT           reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+    ID              reduce using rule 52 (CONSTANT_EXPRESSION -> NUMBER .)
+
+
+state 47
+
+    (53) CONSTANT_EXPRESSION -> STR .
+
+    ADD             reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    MIN             reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    MUL             reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    DIV             reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    DOTADD          reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    DOTMIN          reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    DOTMUL          reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    DOTDIV          reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    TRANSPOSE       reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    LT              reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    GT              reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    LTE             reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    GTE             reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    NE              reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    RELASSIGN       reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    ;               reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    ,               reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    :               reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    )               reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    {               reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    IF              reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    FOR             reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    WHILE           reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    BREAK           reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    CONTINUE        reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    RETURN          reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    PRINT           reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+    ID              reduce using rule 53 (CONSTANT_EXPRESSION -> STR .)
+
+
+state 48
+
+    (54) CONSTANT_EXPRESSION -> ID .
+
+    ADD             reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    MIN             reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    MUL             reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    DIV             reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    DOTADD          reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    DOTMIN          reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    DOTMUL          reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    DOTDIV          reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    TRANSPOSE       reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    LT              reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    GT              reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    LTE             reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    GTE             reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    NE              reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    RELASSIGN       reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    ;               reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    ,               reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    :               reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    )               reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    {               reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    IF              reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    FOR             reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    WHILE           reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    BREAK           reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    CONTINUE        reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    RETURN          reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    PRINT           reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+    ID              reduce using rule 54 (CONSTANT_EXPRESSION -> ID .)
+
+
+state 49
+
+    (57) MATRIX -> [ . ROWS ]
+    (58) ROWS -> . ROWS ; ROW
+    (59) ROWS -> . ROW
+    (60) ROW -> . ROW , NUMBER
+    (61) ROW -> . NUMBER
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    ROWS                           shift and go to state 86
+    ROW                            shift and go to state 87
+    NUMBER                         shift and go to state 88
+
+state 50
+
+    (62) MATRIX_EXPRESSION -> EYE . ( MULTIPLE_EXPR )
+
+    (               shift and go to state 89
+
+
+state 51
+
+    (63) MATRIX_EXPRESSION -> ZEROS . ( MULTIPLE_EXPR )
+
+    (               shift and go to state 90
+
+
+state 52
+
+    (64) MATRIX_EXPRESSION -> ONES . ( MULTIPLE_EXPR )
+
+    (               shift and go to state 91
+
+
+state 53
+
+    (55) NUMBER -> INT .
+
+    ADD             reduce using rule 55 (NUMBER -> INT .)
+    MIN             reduce using rule 55 (NUMBER -> INT .)
+    MUL             reduce using rule 55 (NUMBER -> INT .)
+    DIV             reduce using rule 55 (NUMBER -> INT .)
+    DOTADD          reduce using rule 55 (NUMBER -> INT .)
+    DOTMIN          reduce using rule 55 (NUMBER -> INT .)
+    DOTMUL          reduce using rule 55 (NUMBER -> INT .)
+    DOTDIV          reduce using rule 55 (NUMBER -> INT .)
+    TRANSPOSE       reduce using rule 55 (NUMBER -> INT .)
+    LT              reduce using rule 55 (NUMBER -> INT .)
+    GT              reduce using rule 55 (NUMBER -> INT .)
+    LTE             reduce using rule 55 (NUMBER -> INT .)
+    GTE             reduce using rule 55 (NUMBER -> INT .)
+    NE              reduce using rule 55 (NUMBER -> INT .)
+    RELASSIGN       reduce using rule 55 (NUMBER -> INT .)
+    ;               reduce using rule 55 (NUMBER -> INT .)
+    ,               reduce using rule 55 (NUMBER -> INT .)
+    :               reduce using rule 55 (NUMBER -> INT .)
+    )               reduce using rule 55 (NUMBER -> INT .)
+    {               reduce using rule 55 (NUMBER -> INT .)
+    IF              reduce using rule 55 (NUMBER -> INT .)
+    FOR             reduce using rule 55 (NUMBER -> INT .)
+    WHILE           reduce using rule 55 (NUMBER -> INT .)
+    BREAK           reduce using rule 55 (NUMBER -> INT .)
+    CONTINUE        reduce using rule 55 (NUMBER -> INT .)
+    RETURN          reduce using rule 55 (NUMBER -> INT .)
+    PRINT           reduce using rule 55 (NUMBER -> INT .)
+    ID              reduce using rule 55 (NUMBER -> INT .)
+    ]               reduce using rule 55 (NUMBER -> INT .)
+
+
+state 54
+
+    (56) NUMBER -> FLOAT .
+
+    ADD             reduce using rule 56 (NUMBER -> FLOAT .)
+    MIN             reduce using rule 56 (NUMBER -> FLOAT .)
+    MUL             reduce using rule 56 (NUMBER -> FLOAT .)
+    DIV             reduce using rule 56 (NUMBER -> FLOAT .)
+    DOTADD          reduce using rule 56 (NUMBER -> FLOAT .)
+    DOTMIN          reduce using rule 56 (NUMBER -> FLOAT .)
+    DOTMUL          reduce using rule 56 (NUMBER -> FLOAT .)
+    DOTDIV          reduce using rule 56 (NUMBER -> FLOAT .)
+    TRANSPOSE       reduce using rule 56 (NUMBER -> FLOAT .)
+    LT              reduce using rule 56 (NUMBER -> FLOAT .)
+    GT              reduce using rule 56 (NUMBER -> FLOAT .)
+    LTE             reduce using rule 56 (NUMBER -> FLOAT .)
+    GTE             reduce using rule 56 (NUMBER -> FLOAT .)
+    NE              reduce using rule 56 (NUMBER -> FLOAT .)
+    RELASSIGN       reduce using rule 56 (NUMBER -> FLOAT .)
+    ;               reduce using rule 56 (NUMBER -> FLOAT .)
+    ,               reduce using rule 56 (NUMBER -> FLOAT .)
+    :               reduce using rule 56 (NUMBER -> FLOAT .)
+    )               reduce using rule 56 (NUMBER -> FLOAT .)
+    {               reduce using rule 56 (NUMBER -> FLOAT .)
+    IF              reduce using rule 56 (NUMBER -> FLOAT .)
+    FOR             reduce using rule 56 (NUMBER -> FLOAT .)
+    WHILE           reduce using rule 56 (NUMBER -> FLOAT .)
+    BREAK           reduce using rule 56 (NUMBER -> FLOAT .)
+    CONTINUE        reduce using rule 56 (NUMBER -> FLOAT .)
+    RETURN          reduce using rule 56 (NUMBER -> FLOAT .)
+    PRINT           reduce using rule 56 (NUMBER -> FLOAT .)
+    ID              reduce using rule 56 (NUMBER -> FLOAT .)
+    ]               reduce using rule 56 (NUMBER -> FLOAT .)
+
+
+state 55
+
+    (26) print -> PRINT PRINT_EXPR .
+
+    ;               reduce using rule 26 (print -> PRINT PRINT_EXPR .)
+
+
+state 56
+
+    (68) PRINT_EXPR -> MULTIPLE_EXPR .
+    (66) MULTIPLE_EXPR -> MULTIPLE_EXPR . , CONSTANT_EXPRESSION
+
+    ;               reduce using rule 68 (PRINT_EXPR -> MULTIPLE_EXPR .)
+    ,               shift and go to state 92
+
+
+state 57
+
+    (67) MULTIPLE_EXPR -> CONSTANT_EXPRESSION .
+
+    ,               reduce using rule 67 (MULTIPLE_EXPR -> CONSTANT_EXPRESSION .)
+    ;               reduce using rule 67 (MULTIPLE_EXPR -> CONSTANT_EXPRESSION .)
+    )               reduce using rule 67 (MULTIPLE_EXPR -> CONSTANT_EXPRESSION .)
+
+
+state 58
+
+    (6) block -> { instructions } .
+
+    {               reduce using rule 6 (block -> { instructions } .)
+    IF              reduce using rule 6 (block -> { instructions } .)
+    FOR             reduce using rule 6 (block -> { instructions } .)
+    WHILE           reduce using rule 6 (block -> { instructions } .)
+    BREAK           reduce using rule 6 (block -> { instructions } .)
+    CONTINUE        reduce using rule 6 (block -> { instructions } .)
+    RETURN          reduce using rule 6 (block -> { instructions } .)
+    PRINT           reduce using rule 6 (block -> { instructions } .)
+    ID              reduce using rule 6 (block -> { instructions } .)
+    $end            reduce using rule 6 (block -> { instructions } .)
+    }               reduce using rule 6 (block -> { instructions } .)
+    ELSE            reduce using rule 6 (block -> { instructions } .)
+
+
+state 59
+
+    (16) if -> IF BOOLEAN_IN_PARENTHESES instruction .
+    (17) if -> IF BOOLEAN_IN_PARENTHESES instruction . ELSE instruction
+
+    {               reduce using rule 16 (if -> IF BOOLEAN_IN_PARENTHESES instruction .)
+    IF              reduce using rule 16 (if -> IF BOOLEAN_IN_PARENTHESES instruction .)
+    FOR             reduce using rule 16 (if -> IF BOOLEAN_IN_PARENTHESES instruction .)
+    WHILE           reduce using rule 16 (if -> IF BOOLEAN_IN_PARENTHESES instruction .)
+    BREAK           reduce using rule 16 (if -> IF BOOLEAN_IN_PARENTHESES instruction .)
+    CONTINUE        reduce using rule 16 (if -> IF BOOLEAN_IN_PARENTHESES instruction .)
+    RETURN          reduce using rule 16 (if -> IF BOOLEAN_IN_PARENTHESES instruction .)
+    PRINT           reduce using rule 16 (if -> IF BOOLEAN_IN_PARENTHESES instruction .)
+    ID              reduce using rule 16 (if -> IF BOOLEAN_IN_PARENTHESES instruction .)
+    $end            reduce using rule 16 (if -> IF BOOLEAN_IN_PARENTHESES instruction .)
+    }               reduce using rule 16 (if -> IF BOOLEAN_IN_PARENTHESES instruction .)
+    ELSE            shift and go to state 93
+
+  ! ELSE            [ reduce using rule 16 (if -> IF BOOLEAN_IN_PARENTHESES instruction .) ]
+
+
+state 60
+
+    (65) BOOLEAN_IN_PARENTHESES -> ( BOOLEAN_EXPRESSION . )
+
+    )               shift and go to state 94
+
+
+state 61
+
+    (33) BOOLEAN_EXPRESSION -> EXPRESSION . LT EXPRESSION
+    (34) BOOLEAN_EXPRESSION -> EXPRESSION . GT EXPRESSION
+    (35) BOOLEAN_EXPRESSION -> EXPRESSION . LTE EXPRESSION
+    (36) BOOLEAN_EXPRESSION -> EXPRESSION . GTE EXPRESSION
+    (37) BOOLEAN_EXPRESSION -> EXPRESSION . NE EXPRESSION
+    (38) BOOLEAN_EXPRESSION -> EXPRESSION . RELASSIGN EXPRESSION
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    LT              shift and go to state 79
+    GT              shift and go to state 80
+    LTE             shift and go to state 81
+    GTE             shift and go to state 82
+    NE              shift and go to state 83
+    RELASSIGN       shift and go to state 84
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+
+state 62
+
+    (18) for -> FOR ID ASSIGN . RANGE instruction
+    (19) RANGE -> . EXPRESSION : EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    RANGE                          shift and go to state 95
+    EXPRESSION                     shift and go to state 96
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 63
+
+    (27) assign -> ID ASSIGN EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ;               reduce using rule 27 (assign -> ID ASSIGN EXPRESSION .)
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+
+state 64
+
+    (28) assign -> ID ADDASSIGN EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ;               reduce using rule 28 (assign -> ID ADDASSIGN EXPRESSION .)
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+
+state 65
+
+    (29) assign -> ID MINASSIGN EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ;               reduce using rule 29 (assign -> ID MINASSIGN EXPRESSION .)
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+
+state 66
+
+    (30) assign -> ID MULASSIGN EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ;               reduce using rule 30 (assign -> ID MULASSIGN EXPRESSION .)
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+
+state 67
+
+    (31) assign -> ID DIVASSIGN EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ;               reduce using rule 31 (assign -> ID DIVASSIGN EXPRESSION .)
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+
+state 68
+
+    (32) assign -> ID [ INT . , INT ] ASSIGN EXPRESSION
+
+    ,               shift and go to state 97
+
+
+state 69
+
+    (20) while -> WHILE BOOLEAN_IN_PARENTHESES instruction .
+
+    {               reduce using rule 20 (while -> WHILE BOOLEAN_IN_PARENTHESES instruction .)
+    IF              reduce using rule 20 (while -> WHILE BOOLEAN_IN_PARENTHESES instruction .)
+    FOR             reduce using rule 20 (while -> WHILE BOOLEAN_IN_PARENTHESES instruction .)
+    WHILE           reduce using rule 20 (while -> WHILE BOOLEAN_IN_PARENTHESES instruction .)
+    BREAK           reduce using rule 20 (while -> WHILE BOOLEAN_IN_PARENTHESES instruction .)
+    CONTINUE        reduce using rule 20 (while -> WHILE BOOLEAN_IN_PARENTHESES instruction .)
+    RETURN          reduce using rule 20 (while -> WHILE BOOLEAN_IN_PARENTHESES instruction .)
+    PRINT           reduce using rule 20 (while -> WHILE BOOLEAN_IN_PARENTHESES instruction .)
+    ID              reduce using rule 20 (while -> WHILE BOOLEAN_IN_PARENTHESES instruction .)
+    $end            reduce using rule 20 (while -> WHILE BOOLEAN_IN_PARENTHESES instruction .)
+    }               reduce using rule 20 (while -> WHILE BOOLEAN_IN_PARENTHESES instruction .)
+    ELSE            reduce using rule 20 (while -> WHILE BOOLEAN_IN_PARENTHESES instruction .)
+
+
+state 70
+
+    (39) EXPRESSION -> EXPRESSION ADD . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 98
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 71
+
+    (40) EXPRESSION -> EXPRESSION MIN . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 99
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 72
+
+    (41) EXPRESSION -> EXPRESSION MUL . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 100
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 73
+
+    (42) EXPRESSION -> EXPRESSION DIV . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 101
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 74
+
+    (43) EXPRESSION -> EXPRESSION DOTADD . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 102
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 75
+
+    (44) EXPRESSION -> EXPRESSION DOTMIN . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 103
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 76
+
+    (45) EXPRESSION -> EXPRESSION DOTMUL . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 104
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 77
+
+    (46) EXPRESSION -> EXPRESSION DOTDIV . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 105
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 78
+
+    (48) EXPRESSION -> EXPRESSION TRANSPOSE .
+
+    ADD             reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    MIN             reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    MUL             reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    DIV             reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    DOTADD          reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    DOTMIN          reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    DOTMUL          reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    DOTDIV          reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    TRANSPOSE       reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    LT              reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    GT              reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    LTE             reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    GTE             reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    NE              reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    RELASSIGN       reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    ;               reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    :               reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    )               reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    {               reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    IF              reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    FOR             reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    WHILE           reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    BREAK           reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    CONTINUE        reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    RETURN          reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    PRINT           reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+    ID              reduce using rule 48 (EXPRESSION -> EXPRESSION TRANSPOSE .)
+
+
+state 79
+
+    (33) BOOLEAN_EXPRESSION -> EXPRESSION LT . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 106
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 80
+
+    (34) BOOLEAN_EXPRESSION -> EXPRESSION GT . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 107
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 81
+
+    (35) BOOLEAN_EXPRESSION -> EXPRESSION LTE . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 108
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 82
+
+    (36) BOOLEAN_EXPRESSION -> EXPRESSION GTE . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 109
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 83
+
+    (37) BOOLEAN_EXPRESSION -> EXPRESSION NE . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 110
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 84
+
+    (38) BOOLEAN_EXPRESSION -> EXPRESSION RELASSIGN . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 111
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 85
+
+    (47) EXPRESSION -> MIN EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ADD             reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    MIN             reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    MUL             reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    DIV             reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    DOTADD          reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    DOTMIN          reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    DOTMUL          reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    DOTDIV          reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    TRANSPOSE       reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    LT              reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    GT              reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    LTE             reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    GTE             reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    NE              reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    RELASSIGN       reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    ;               reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    :               reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    )               reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    {               reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    IF              reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    FOR             reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    WHILE           reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    BREAK           reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    CONTINUE        reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    RETURN          reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    PRINT           reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+    ID              reduce using rule 47 (EXPRESSION -> MIN EXPRESSION .)
+
+  ! ADD             [ shift and go to state 70 ]
+  ! MIN             [ shift and go to state 71 ]
+  ! MUL             [ shift and go to state 72 ]
+  ! DIV             [ shift and go to state 73 ]
+  ! DOTADD          [ shift and go to state 74 ]
+  ! DOTMIN          [ shift and go to state 75 ]
+  ! DOTMUL          [ shift and go to state 76 ]
+  ! DOTDIV          [ shift and go to state 77 ]
+  ! TRANSPOSE       [ shift and go to state 78 ]
+
+
+state 86
+
+    (57) MATRIX -> [ ROWS . ]
+    (58) ROWS -> ROWS . ; ROW
+
+    ]               shift and go to state 112
+    ;               shift and go to state 113
+
+
+state 87
+
+    (59) ROWS -> ROW .
+    (60) ROW -> ROW . , NUMBER
+
+    ]               reduce using rule 59 (ROWS -> ROW .)
+    ;               reduce using rule 59 (ROWS -> ROW .)
+    ,               shift and go to state 114
+
+
+state 88
+
+    (61) ROW -> NUMBER .
+
+    ,               reduce using rule 61 (ROW -> NUMBER .)
+    ]               reduce using rule 61 (ROW -> NUMBER .)
+    ;               reduce using rule 61 (ROW -> NUMBER .)
+
+
+state 89
+
+    (62) MATRIX_EXPRESSION -> EYE ( . MULTIPLE_EXPR )
+    (66) MULTIPLE_EXPR -> . MULTIPLE_EXPR , CONSTANT_EXPRESSION
+    (67) MULTIPLE_EXPR -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    MULTIPLE_EXPR                  shift and go to state 115
+    CONSTANT_EXPRESSION            shift and go to state 57
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 90
+
+    (63) MATRIX_EXPRESSION -> ZEROS ( . MULTIPLE_EXPR )
+    (66) MULTIPLE_EXPR -> . MULTIPLE_EXPR , CONSTANT_EXPRESSION
+    (67) MULTIPLE_EXPR -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    MULTIPLE_EXPR                  shift and go to state 116
+    CONSTANT_EXPRESSION            shift and go to state 57
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 91
+
+    (64) MATRIX_EXPRESSION -> ONES ( . MULTIPLE_EXPR )
+    (66) MULTIPLE_EXPR -> . MULTIPLE_EXPR , CONSTANT_EXPRESSION
+    (67) MULTIPLE_EXPR -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    MULTIPLE_EXPR                  shift and go to state 117
+    CONSTANT_EXPRESSION            shift and go to state 57
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 92
+
+    (66) MULTIPLE_EXPR -> MULTIPLE_EXPR , . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    CONSTANT_EXPRESSION            shift and go to state 118
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 93
+
+    (17) if -> IF BOOLEAN_IN_PARENTHESES instruction ELSE . instruction
+    (7) instruction -> . block
+    (8) instruction -> . if
+    (9) instruction -> . for
+    (10) instruction -> . while
+    (11) instruction -> . break ;
+    (12) instruction -> . continue ;
+    (13) instruction -> . return ;
+    (14) instruction -> . print ;
+    (15) instruction -> . assign ;
+    (6) block -> . { instructions }
+    (16) if -> . IF BOOLEAN_IN_PARENTHESES instruction
+    (17) if -> . IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction
+    (18) for -> . FOR ID ASSIGN RANGE instruction
+    (20) while -> . WHILE BOOLEAN_IN_PARENTHESES instruction
+    (21) break -> . BREAK
+    (22) continue -> . CONTINUE
+    (23) return -> . RETURN
+    (24) return -> . RETURN EXPRESSION
+    (25) return -> . RETURN BOOLEAN_EXPRESSION
+    (26) print -> . PRINT PRINT_EXPR
+    (27) assign -> . ID ASSIGN EXPRESSION
+    (28) assign -> . ID ADDASSIGN EXPRESSION
+    (29) assign -> . ID MINASSIGN EXPRESSION
+    (30) assign -> . ID MULASSIGN EXPRESSION
+    (31) assign -> . ID DIVASSIGN EXPRESSION
+    (32) assign -> . ID [ INT , INT ] ASSIGN EXPRESSION
+
+    {               shift and go to state 14
+    IF              shift and go to state 15
+    FOR             shift and go to state 16
+    WHILE           shift and go to state 18
+    BREAK           shift and go to state 19
+    CONTINUE        shift and go to state 20
+    RETURN          shift and go to state 21
+    PRINT           shift and go to state 22
+    ID              shift and go to state 17
+
+    instruction                    shift and go to state 119
+    block                          shift and go to state 5
+    if                             shift and go to state 6
+    for                            shift and go to state 7
+    while                          shift and go to state 8
+    break                          shift and go to state 9
+    continue                       shift and go to state 10
+    return                         shift and go to state 11
+    print                          shift and go to state 12
+    assign                         shift and go to state 13
+
+state 94
+
+    (65) BOOLEAN_IN_PARENTHESES -> ( BOOLEAN_EXPRESSION ) .
+
+    {               reduce using rule 65 (BOOLEAN_IN_PARENTHESES -> ( BOOLEAN_EXPRESSION ) .)
+    IF              reduce using rule 65 (BOOLEAN_IN_PARENTHESES -> ( BOOLEAN_EXPRESSION ) .)
+    FOR             reduce using rule 65 (BOOLEAN_IN_PARENTHESES -> ( BOOLEAN_EXPRESSION ) .)
+    WHILE           reduce using rule 65 (BOOLEAN_IN_PARENTHESES -> ( BOOLEAN_EXPRESSION ) .)
+    BREAK           reduce using rule 65 (BOOLEAN_IN_PARENTHESES -> ( BOOLEAN_EXPRESSION ) .)
+    CONTINUE        reduce using rule 65 (BOOLEAN_IN_PARENTHESES -> ( BOOLEAN_EXPRESSION ) .)
+    RETURN          reduce using rule 65 (BOOLEAN_IN_PARENTHESES -> ( BOOLEAN_EXPRESSION ) .)
+    PRINT           reduce using rule 65 (BOOLEAN_IN_PARENTHESES -> ( BOOLEAN_EXPRESSION ) .)
+    ID              reduce using rule 65 (BOOLEAN_IN_PARENTHESES -> ( BOOLEAN_EXPRESSION ) .)
+
+
+state 95
+
+    (18) for -> FOR ID ASSIGN RANGE . instruction
+    (7) instruction -> . block
+    (8) instruction -> . if
+    (9) instruction -> . for
+    (10) instruction -> . while
+    (11) instruction -> . break ;
+    (12) instruction -> . continue ;
+    (13) instruction -> . return ;
+    (14) instruction -> . print ;
+    (15) instruction -> . assign ;
+    (6) block -> . { instructions }
+    (16) if -> . IF BOOLEAN_IN_PARENTHESES instruction
+    (17) if -> . IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction
+    (18) for -> . FOR ID ASSIGN RANGE instruction
+    (20) while -> . WHILE BOOLEAN_IN_PARENTHESES instruction
+    (21) break -> . BREAK
+    (22) continue -> . CONTINUE
+    (23) return -> . RETURN
+    (24) return -> . RETURN EXPRESSION
+    (25) return -> . RETURN BOOLEAN_EXPRESSION
+    (26) print -> . PRINT PRINT_EXPR
+    (27) assign -> . ID ASSIGN EXPRESSION
+    (28) assign -> . ID ADDASSIGN EXPRESSION
+    (29) assign -> . ID MINASSIGN EXPRESSION
+    (30) assign -> . ID MULASSIGN EXPRESSION
+    (31) assign -> . ID DIVASSIGN EXPRESSION
+    (32) assign -> . ID [ INT , INT ] ASSIGN EXPRESSION
+
+    {               shift and go to state 14
+    IF              shift and go to state 15
+    FOR             shift and go to state 16
+    WHILE           shift and go to state 18
+    BREAK           shift and go to state 19
+    CONTINUE        shift and go to state 20
+    RETURN          shift and go to state 21
+    PRINT           shift and go to state 22
+    ID              shift and go to state 17
+
+    instruction                    shift and go to state 120
+    block                          shift and go to state 5
+    if                             shift and go to state 6
+    for                            shift and go to state 7
+    while                          shift and go to state 8
+    break                          shift and go to state 9
+    continue                       shift and go to state 10
+    return                         shift and go to state 11
+    print                          shift and go to state 12
+    assign                         shift and go to state 13
+
+state 96
+
+    (19) RANGE -> EXPRESSION . : EXPRESSION
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    :               shift and go to state 121
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+
+state 97
+
+    (32) assign -> ID [ INT , . INT ] ASSIGN EXPRESSION
+
+    INT             shift and go to state 122
+
+
+state 98
+
+    (39) EXPRESSION -> EXPRESSION ADD EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ADD             reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    MIN             reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    DOTADD          reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    DOTMIN          reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    LT              reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    GT              reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    LTE             reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    GTE             reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    NE              reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    RELASSIGN       reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    ;               reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    :               reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    )               reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    {               reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    IF              reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    FOR             reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    WHILE           reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    BREAK           reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    CONTINUE        reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    RETURN          reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    PRINT           reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    ID              reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .)
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+  ! MUL             [ reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .) ]
+  ! DIV             [ reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .) ]
+  ! DOTMUL          [ reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .) ]
+  ! DOTDIV          [ reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .) ]
+  ! TRANSPOSE       [ reduce using rule 39 (EXPRESSION -> EXPRESSION ADD EXPRESSION .) ]
+  ! ADD             [ shift and go to state 70 ]
+  ! MIN             [ shift and go to state 71 ]
+  ! DOTADD          [ shift and go to state 74 ]
+  ! DOTMIN          [ shift and go to state 75 ]
+
+
+state 99
+
+    (40) EXPRESSION -> EXPRESSION MIN EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ADD             reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    MIN             reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    DOTADD          reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    DOTMIN          reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    LT              reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    GT              reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    LTE             reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    GTE             reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    NE              reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    RELASSIGN       reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    ;               reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    :               reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    )               reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    {               reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    IF              reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    FOR             reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    WHILE           reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    BREAK           reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    CONTINUE        reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    RETURN          reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    PRINT           reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    ID              reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .)
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+  ! MUL             [ reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .) ]
+  ! DIV             [ reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .) ]
+  ! DOTMUL          [ reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .) ]
+  ! DOTDIV          [ reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .) ]
+  ! TRANSPOSE       [ reduce using rule 40 (EXPRESSION -> EXPRESSION MIN EXPRESSION .) ]
+  ! ADD             [ shift and go to state 70 ]
+  ! MIN             [ shift and go to state 71 ]
+  ! DOTADD          [ shift and go to state 74 ]
+  ! DOTMIN          [ shift and go to state 75 ]
+
+
+state 100
+
+    (41) EXPRESSION -> EXPRESSION MUL EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ADD             reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    MIN             reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    MUL             reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    DIV             reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    DOTADD          reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    DOTMIN          reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    DOTMUL          reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    DOTDIV          reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    LT              reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    GT              reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    LTE             reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    GTE             reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    NE              reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    RELASSIGN       reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    ;               reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    :               reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    )               reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    {               reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    IF              reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    FOR             reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    WHILE           reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    BREAK           reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    CONTINUE        reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    RETURN          reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    PRINT           reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    ID              reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .)
+    TRANSPOSE       shift and go to state 78
+
+  ! TRANSPOSE       [ reduce using rule 41 (EXPRESSION -> EXPRESSION MUL EXPRESSION .) ]
+  ! ADD             [ shift and go to state 70 ]
+  ! MIN             [ shift and go to state 71 ]
+  ! MUL             [ shift and go to state 72 ]
+  ! DIV             [ shift and go to state 73 ]
+  ! DOTADD          [ shift and go to state 74 ]
+  ! DOTMIN          [ shift and go to state 75 ]
+  ! DOTMUL          [ shift and go to state 76 ]
+  ! DOTDIV          [ shift and go to state 77 ]
+
+
+state 101
+
+    (42) EXPRESSION -> EXPRESSION DIV EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ADD             reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    MIN             reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    MUL             reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    DIV             reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    DOTADD          reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    DOTMIN          reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    DOTMUL          reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    DOTDIV          reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    LT              reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    GT              reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    LTE             reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    GTE             reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    NE              reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    RELASSIGN       reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    ;               reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    :               reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    )               reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    {               reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    IF              reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    FOR             reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    WHILE           reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    BREAK           reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    CONTINUE        reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    RETURN          reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    PRINT           reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    ID              reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .)
+    TRANSPOSE       shift and go to state 78
+
+  ! TRANSPOSE       [ reduce using rule 42 (EXPRESSION -> EXPRESSION DIV EXPRESSION .) ]
+  ! ADD             [ shift and go to state 70 ]
+  ! MIN             [ shift and go to state 71 ]
+  ! MUL             [ shift and go to state 72 ]
+  ! DIV             [ shift and go to state 73 ]
+  ! DOTADD          [ shift and go to state 74 ]
+  ! DOTMIN          [ shift and go to state 75 ]
+  ! DOTMUL          [ shift and go to state 76 ]
+  ! DOTDIV          [ shift and go to state 77 ]
+
+
+state 102
+
+    (43) EXPRESSION -> EXPRESSION DOTADD EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ADD             reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    MIN             reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    DOTADD          reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    DOTMIN          reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    LT              reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    GT              reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    LTE             reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    GTE             reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    NE              reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    RELASSIGN       reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    ;               reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    :               reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    )               reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    {               reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    IF              reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    FOR             reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    WHILE           reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    BREAK           reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    CONTINUE        reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    RETURN          reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    PRINT           reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    ID              reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .)
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+  ! MUL             [ reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .) ]
+  ! DIV             [ reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .) ]
+  ! DOTMUL          [ reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .) ]
+  ! DOTDIV          [ reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .) ]
+  ! TRANSPOSE       [ reduce using rule 43 (EXPRESSION -> EXPRESSION DOTADD EXPRESSION .) ]
+  ! ADD             [ shift and go to state 70 ]
+  ! MIN             [ shift and go to state 71 ]
+  ! DOTADD          [ shift and go to state 74 ]
+  ! DOTMIN          [ shift and go to state 75 ]
+
+
+state 103
+
+    (44) EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ADD             reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    MIN             reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    DOTADD          reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    DOTMIN          reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    LT              reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    GT              reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    LTE             reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    GTE             reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    NE              reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    RELASSIGN       reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    ;               reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    :               reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    )               reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    {               reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    IF              reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    FOR             reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    WHILE           reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    BREAK           reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    CONTINUE        reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    RETURN          reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    PRINT           reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    ID              reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .)
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+  ! MUL             [ reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .) ]
+  ! DIV             [ reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .) ]
+  ! DOTMUL          [ reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .) ]
+  ! DOTDIV          [ reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .) ]
+  ! TRANSPOSE       [ reduce using rule 44 (EXPRESSION -> EXPRESSION DOTMIN EXPRESSION .) ]
+  ! ADD             [ shift and go to state 70 ]
+  ! MIN             [ shift and go to state 71 ]
+  ! DOTADD          [ shift and go to state 74 ]
+  ! DOTMIN          [ shift and go to state 75 ]
+
+
+state 104
+
+    (45) EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ADD             reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    MIN             reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    MUL             reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    DIV             reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    DOTADD          reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    DOTMIN          reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    DOTMUL          reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    DOTDIV          reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    LT              reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    GT              reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    LTE             reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    GTE             reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    NE              reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    RELASSIGN       reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    ;               reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    :               reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    )               reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    {               reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    IF              reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    FOR             reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    WHILE           reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    BREAK           reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    CONTINUE        reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    RETURN          reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    PRINT           reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    ID              reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .)
+    TRANSPOSE       shift and go to state 78
+
+  ! TRANSPOSE       [ reduce using rule 45 (EXPRESSION -> EXPRESSION DOTMUL EXPRESSION .) ]
+  ! ADD             [ shift and go to state 70 ]
+  ! MIN             [ shift and go to state 71 ]
+  ! MUL             [ shift and go to state 72 ]
+  ! DIV             [ shift and go to state 73 ]
+  ! DOTADD          [ shift and go to state 74 ]
+  ! DOTMIN          [ shift and go to state 75 ]
+  ! DOTMUL          [ shift and go to state 76 ]
+  ! DOTDIV          [ shift and go to state 77 ]
+
+
+state 105
+
+    (46) EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ADD             reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    MIN             reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    MUL             reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    DIV             reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    DOTADD          reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    DOTMIN          reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    DOTMUL          reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    DOTDIV          reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    LT              reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    GT              reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    LTE             reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    GTE             reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    NE              reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    RELASSIGN       reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    ;               reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    :               reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    )               reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    {               reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    IF              reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    FOR             reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    WHILE           reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    BREAK           reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    CONTINUE        reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    RETURN          reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    PRINT           reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    ID              reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .)
+    TRANSPOSE       shift and go to state 78
+
+  ! TRANSPOSE       [ reduce using rule 46 (EXPRESSION -> EXPRESSION DOTDIV EXPRESSION .) ]
+  ! ADD             [ shift and go to state 70 ]
+  ! MIN             [ shift and go to state 71 ]
+  ! MUL             [ shift and go to state 72 ]
+  ! DIV             [ shift and go to state 73 ]
+  ! DOTADD          [ shift and go to state 74 ]
+  ! DOTMIN          [ shift and go to state 75 ]
+  ! DOTMUL          [ shift and go to state 76 ]
+  ! DOTDIV          [ shift and go to state 77 ]
+
+
+state 106
+
+    (33) BOOLEAN_EXPRESSION -> EXPRESSION LT EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ;               reduce using rule 33 (BOOLEAN_EXPRESSION -> EXPRESSION LT EXPRESSION .)
+    )               reduce using rule 33 (BOOLEAN_EXPRESSION -> EXPRESSION LT EXPRESSION .)
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+
+state 107
+
+    (34) BOOLEAN_EXPRESSION -> EXPRESSION GT EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ;               reduce using rule 34 (BOOLEAN_EXPRESSION -> EXPRESSION GT EXPRESSION .)
+    )               reduce using rule 34 (BOOLEAN_EXPRESSION -> EXPRESSION GT EXPRESSION .)
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+
+state 108
+
+    (35) BOOLEAN_EXPRESSION -> EXPRESSION LTE EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ;               reduce using rule 35 (BOOLEAN_EXPRESSION -> EXPRESSION LTE EXPRESSION .)
+    )               reduce using rule 35 (BOOLEAN_EXPRESSION -> EXPRESSION LTE EXPRESSION .)
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+
+state 109
+
+    (36) BOOLEAN_EXPRESSION -> EXPRESSION GTE EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ;               reduce using rule 36 (BOOLEAN_EXPRESSION -> EXPRESSION GTE EXPRESSION .)
+    )               reduce using rule 36 (BOOLEAN_EXPRESSION -> EXPRESSION GTE EXPRESSION .)
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+
+state 110
+
+    (37) BOOLEAN_EXPRESSION -> EXPRESSION NE EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ;               reduce using rule 37 (BOOLEAN_EXPRESSION -> EXPRESSION NE EXPRESSION .)
+    )               reduce using rule 37 (BOOLEAN_EXPRESSION -> EXPRESSION NE EXPRESSION .)
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+
+state 111
+
+    (38) BOOLEAN_EXPRESSION -> EXPRESSION RELASSIGN EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ;               reduce using rule 38 (BOOLEAN_EXPRESSION -> EXPRESSION RELASSIGN EXPRESSION .)
+    )               reduce using rule 38 (BOOLEAN_EXPRESSION -> EXPRESSION RELASSIGN EXPRESSION .)
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+
+state 112
+
+    (57) MATRIX -> [ ROWS ] .
+
+    ADD             reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    MIN             reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    MUL             reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    DIV             reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    DOTADD          reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    DOTMIN          reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    DOTMUL          reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    DOTDIV          reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    TRANSPOSE       reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    LT              reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    GT              reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    LTE             reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    GTE             reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    NE              reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    RELASSIGN       reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    ;               reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    ,               reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    :               reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    )               reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    {               reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    IF              reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    FOR             reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    WHILE           reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    BREAK           reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    CONTINUE        reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    RETURN          reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    PRINT           reduce using rule 57 (MATRIX -> [ ROWS ] .)
+    ID              reduce using rule 57 (MATRIX -> [ ROWS ] .)
+
+
+state 113
+
+    (58) ROWS -> ROWS ; . ROW
+    (60) ROW -> . ROW , NUMBER
+    (61) ROW -> . NUMBER
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    ROW                            shift and go to state 123
+    NUMBER                         shift and go to state 88
+
+state 114
+
+    (60) ROW -> ROW , . NUMBER
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    NUMBER                         shift and go to state 124
+
+state 115
+
+    (62) MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR . )
+    (66) MULTIPLE_EXPR -> MULTIPLE_EXPR . , CONSTANT_EXPRESSION
+
+    )               shift and go to state 125
+    ,               shift and go to state 92
+
+
+state 116
+
+    (63) MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR . )
+    (66) MULTIPLE_EXPR -> MULTIPLE_EXPR . , CONSTANT_EXPRESSION
+
+    )               shift and go to state 126
+    ,               shift and go to state 92
+
+
+state 117
+
+    (64) MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR . )
+    (66) MULTIPLE_EXPR -> MULTIPLE_EXPR . , CONSTANT_EXPRESSION
+
+    )               shift and go to state 127
+    ,               shift and go to state 92
+
+
+state 118
+
+    (66) MULTIPLE_EXPR -> MULTIPLE_EXPR , CONSTANT_EXPRESSION .
+
+    ,               reduce using rule 66 (MULTIPLE_EXPR -> MULTIPLE_EXPR , CONSTANT_EXPRESSION .)
+    ;               reduce using rule 66 (MULTIPLE_EXPR -> MULTIPLE_EXPR , CONSTANT_EXPRESSION .)
+    )               reduce using rule 66 (MULTIPLE_EXPR -> MULTIPLE_EXPR , CONSTANT_EXPRESSION .)
+
+
+state 119
+
+    (17) if -> IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction .
+
+    {               reduce using rule 17 (if -> IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction .)
+    IF              reduce using rule 17 (if -> IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction .)
+    FOR             reduce using rule 17 (if -> IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction .)
+    WHILE           reduce using rule 17 (if -> IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction .)
+    BREAK           reduce using rule 17 (if -> IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction .)
+    CONTINUE        reduce using rule 17 (if -> IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction .)
+    RETURN          reduce using rule 17 (if -> IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction .)
+    PRINT           reduce using rule 17 (if -> IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction .)
+    ID              reduce using rule 17 (if -> IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction .)
+    $end            reduce using rule 17 (if -> IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction .)
+    }               reduce using rule 17 (if -> IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction .)
+    ELSE            reduce using rule 17 (if -> IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction .)
+
+
+state 120
+
+    (18) for -> FOR ID ASSIGN RANGE instruction .
+
+    {               reduce using rule 18 (for -> FOR ID ASSIGN RANGE instruction .)
+    IF              reduce using rule 18 (for -> FOR ID ASSIGN RANGE instruction .)
+    FOR             reduce using rule 18 (for -> FOR ID ASSIGN RANGE instruction .)
+    WHILE           reduce using rule 18 (for -> FOR ID ASSIGN RANGE instruction .)
+    BREAK           reduce using rule 18 (for -> FOR ID ASSIGN RANGE instruction .)
+    CONTINUE        reduce using rule 18 (for -> FOR ID ASSIGN RANGE instruction .)
+    RETURN          reduce using rule 18 (for -> FOR ID ASSIGN RANGE instruction .)
+    PRINT           reduce using rule 18 (for -> FOR ID ASSIGN RANGE instruction .)
+    ID              reduce using rule 18 (for -> FOR ID ASSIGN RANGE instruction .)
+    $end            reduce using rule 18 (for -> FOR ID ASSIGN RANGE instruction .)
+    }               reduce using rule 18 (for -> FOR ID ASSIGN RANGE instruction .)
+    ELSE            reduce using rule 18 (for -> FOR ID ASSIGN RANGE instruction .)
+
+
+state 121
+
+    (19) RANGE -> EXPRESSION : . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 128
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 122
+
+    (32) assign -> ID [ INT , INT . ] ASSIGN EXPRESSION
+
+    ]               shift and go to state 129
+
+
+state 123
+
+    (58) ROWS -> ROWS ; ROW .
+    (60) ROW -> ROW . , NUMBER
+
+    ]               reduce using rule 58 (ROWS -> ROWS ; ROW .)
+    ;               reduce using rule 58 (ROWS -> ROWS ; ROW .)
+    ,               shift and go to state 114
+
+
+state 124
+
+    (60) ROW -> ROW , NUMBER .
+
+    ,               reduce using rule 60 (ROW -> ROW , NUMBER .)
+    ]               reduce using rule 60 (ROW -> ROW , NUMBER .)
+    ;               reduce using rule 60 (ROW -> ROW , NUMBER .)
+
+
+state 125
+
+    (62) MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .
+
+    ADD             reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    MIN             reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    MUL             reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    DIV             reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    DOTADD          reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    DOTMIN          reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    DOTMUL          reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    DOTDIV          reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    TRANSPOSE       reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    LT              reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    GT              reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    LTE             reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    GTE             reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    NE              reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    RELASSIGN       reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    ;               reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    ,               reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    :               reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    )               reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    {               reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    IF              reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    FOR             reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    WHILE           reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    BREAK           reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    CONTINUE        reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    RETURN          reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    PRINT           reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+    ID              reduce using rule 62 (MATRIX_EXPRESSION -> EYE ( MULTIPLE_EXPR ) .)
+
+
+state 126
+
+    (63) MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .
+
+    ADD             reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    MIN             reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    MUL             reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    DIV             reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    DOTADD          reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    DOTMIN          reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    DOTMUL          reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    DOTDIV          reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    TRANSPOSE       reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    LT              reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    GT              reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    LTE             reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    GTE             reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    NE              reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    RELASSIGN       reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    ;               reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    ,               reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    :               reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    )               reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    {               reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    IF              reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    FOR             reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    WHILE           reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    BREAK           reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    CONTINUE        reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    RETURN          reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    PRINT           reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+    ID              reduce using rule 63 (MATRIX_EXPRESSION -> ZEROS ( MULTIPLE_EXPR ) .)
+
+
+state 127
+
+    (64) MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .
+
+    ADD             reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    MIN             reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    MUL             reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    DIV             reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    DOTADD          reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    DOTMIN          reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    DOTMUL          reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    DOTDIV          reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    TRANSPOSE       reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    LT              reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    GT              reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    LTE             reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    GTE             reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    NE              reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    RELASSIGN       reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    ;               reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    ,               reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    :               reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    )               reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    {               reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    IF              reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    FOR             reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    WHILE           reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    BREAK           reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    CONTINUE        reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    RETURN          reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    PRINT           reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+    ID              reduce using rule 64 (MATRIX_EXPRESSION -> ONES ( MULTIPLE_EXPR ) .)
+
+
+state 128
+
+    (19) RANGE -> EXPRESSION : EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    {               reduce using rule 19 (RANGE -> EXPRESSION : EXPRESSION .)
+    IF              reduce using rule 19 (RANGE -> EXPRESSION : EXPRESSION .)
+    FOR             reduce using rule 19 (RANGE -> EXPRESSION : EXPRESSION .)
+    WHILE           reduce using rule 19 (RANGE -> EXPRESSION : EXPRESSION .)
+    BREAK           reduce using rule 19 (RANGE -> EXPRESSION : EXPRESSION .)
+    CONTINUE        reduce using rule 19 (RANGE -> EXPRESSION : EXPRESSION .)
+    RETURN          reduce using rule 19 (RANGE -> EXPRESSION : EXPRESSION .)
+    PRINT           reduce using rule 19 (RANGE -> EXPRESSION : EXPRESSION .)
+    ID              reduce using rule 19 (RANGE -> EXPRESSION : EXPRESSION .)
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
+
+state 129
+
+    (32) assign -> ID [ INT , INT ] . ASSIGN EXPRESSION
+
+    ASSIGN          shift and go to state 130
+
+
+state 130
+
+    (32) assign -> ID [ INT , INT ] ASSIGN . EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (46) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (47) EXPRESSION -> . MIN EXPRESSION
+    (48) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (49) EXPRESSION -> . CONSTANT_EXPRESSION
+    (50) CONSTANT_EXPRESSION -> . MATRIX
+    (51) CONSTANT_EXPRESSION -> . MATRIX_EXPRESSION
+    (52) CONSTANT_EXPRESSION -> . NUMBER
+    (53) CONSTANT_EXPRESSION -> . STR
+    (54) CONSTANT_EXPRESSION -> . ID
+    (57) MATRIX -> . [ ROWS ]
+    (62) MATRIX_EXPRESSION -> . EYE ( MULTIPLE_EXPR )
+    (63) MATRIX_EXPRESSION -> . ZEROS ( MULTIPLE_EXPR )
+    (64) MATRIX_EXPRESSION -> . ONES ( MULTIPLE_EXPR )
+    (55) NUMBER -> . INT
+    (56) NUMBER -> . FLOAT
+
+    MIN             shift and go to state 42
+    STR             shift and go to state 47
+    ID              shift and go to state 48
+    [               shift and go to state 49
+    EYE             shift and go to state 50
+    ZEROS           shift and go to state 51
+    ONES            shift and go to state 52
+    INT             shift and go to state 53
+    FLOAT           shift and go to state 54
+
+    EXPRESSION                     shift and go to state 131
+    CONSTANT_EXPRESSION            shift and go to state 43
+    MATRIX                         shift and go to state 44
+    MATRIX_EXPRESSION              shift and go to state 45
+    NUMBER                         shift and go to state 46
+
+state 131
+
+    (32) assign -> ID [ INT , INT ] ASSIGN EXPRESSION .
+    (39) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (46) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (48) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    ;               reduce using rule 32 (assign -> ID [ INT , INT ] ASSIGN EXPRESSION .)
+    ADD             shift and go to state 70
+    MIN             shift and go to state 71
+    MUL             shift and go to state 72
+    DIV             shift and go to state 73
+    DOTADD          shift and go to state 74
+    DOTMIN          shift and go to state 75
+    DOTMUL          shift and go to state 76
+    DOTDIV          shift and go to state 77
+    TRANSPOSE       shift and go to state 78
+
