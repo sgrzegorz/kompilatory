@@ -39,29 +39,6 @@ class Interpreter(object):
     def visit(self, node):
         pass
 
-    # @when(AST.BinOp)
-    # def visit(self, node):
-    #     r1 = node.left.accept(self)
-    #     r2 = node.right.accept(self)
-    #     # try sth smarter than:
-    #     # if(node.op=='+') return r1+r2
-    #     # elsif(node.op=='-') ...
-    #     # but do not use python eval
-
-    # @when(AST.Assignment)
-    # def visit(self, node):
-    # #
-    # #
-    #
-    # # simplistic while loop interpretation
-    # @when(AST.WhileInstr)
-    # def visit(self, node):
-    #     r = None
-    #     while node.cond.accept(self):
-    #         r = node.body.accept(self)
-    #     return r
-    #
-
     @when(AST.InstructionsOpt)
     def visit(self, node):
         node.instructions.accept(self)
@@ -90,16 +67,20 @@ class Interpreter(object):
     def visit(self, node):
         self.memory_stack.push(Memory("For"))
 
-        name =node.id.accept(self)
         (start, end) = node.range.accept(self)
 
-        for i in range(start,end): #TODO check range
+        if not self.memory_stack.set(node.id.value,start):
+            self.memory_stack.insert(node.id.value,start)
+
+        while self.memory_stack.get(node.id.value) < end:
             try:
-                self.memory_stack.insert(name,i)
                 node.instruction.accept(self)
+
+                self.memory_stack.set(node.id.value, self.memory_stack.get(node.id.value)+1) #i+=1
             except ReturnValueException: #TODO return check
                 return
             except ContinueException:
+                self.memory_stack.set(node.id.value, self.memory_stack.get(node.id.value)+1) #i+=1
                 continue
             except BreakException:
                 break
@@ -111,7 +92,6 @@ class Interpreter(object):
     def visit(self, node):
         start =node.start.accept(self)
         end =node.end.accept(self)
-        start, end = [self.getValueWhenID(i) for i in [start,end]]
         return (start,end)
         pass
 
@@ -151,7 +131,8 @@ class Interpreter(object):
     def visit(self, node):
         printExpressions =node.multiple_expression.accept(self)
         for expression in printExpressions:
-            print(self.getValueWhenID(expression))
+            print(expression,end=" ")
+        print()
 
     @when(AST.AssignOperators) # x += , -=, *=, /=
     def visit(self, node):
@@ -159,7 +140,6 @@ class Interpreter(object):
         left = self.memory_stack.get(name)
         right = node.expression.accept(self)
 
-        left,right = [self.getValueWhenID(i) for i in [left,right]] #TODO można poprawić bo za czesto sie powtarza ta linijka
 
         if node.oper == '*=' and isinstance(left,np.ndarray)  and isinstance(right,np.ndarray):
             result= np.matmul(left,right)
@@ -200,7 +180,6 @@ class Interpreter(object):
     def visit(self, node):
         left = node.left.accept(self)
         right = node.right.accept(self)
-        left,right = [ self.getValueWhenID(i) for i in [left,right]]
         if node.oper == '*' and isinstance(left,np.ndarray)  and isinstance(right,np.ndarray):
             return np.matmul(left,right)
         return self.operators[node.oper](left,right) #TODO matrix multiplication bedzie inaczej
@@ -212,19 +191,10 @@ class Interpreter(object):
             t.append(expr.accept(self))
         return t
 
-
-    def getValueWhenID(self,val):
-        if isinstance(val, str):
-            val = self.memory_stack.get(val)
-            if val is None:
-                print('This shouldnt be printed')
-        return val
-
     @when(AST.BooleanExpression)
     def visit(self, node):
         left =node.left.accept(self)
         right =node.right.accept(self)
-        left,right = [ self.getValueWhenID(i) for i in [left,right]]
 
         return self.operators[node.oper](left,right)
         pass
@@ -253,7 +223,6 @@ class Interpreter(object):
         row =[]
         for number in node.numbers:
             row.append(number.accept(self))
-        row = [self.getValueWhenID(i) for i in row]
 
         return np.array(row)
         pass
@@ -261,7 +230,6 @@ class Interpreter(object):
     @when(AST.MatrixFunctions)
     def visit(self, node):
         dims =node.expressions.accept(self)
-        dims = [self.getValueWhenID(i) for i in dims]
         if len(dims) == 1:
             dims.append(dims[0])
         dims = tuple(dims)
@@ -289,5 +257,5 @@ class Interpreter(object):
 
     @when(AST.Id)
     def visit(self, node):
-        return node.value
+        return self.memory_stack.get(node.value)
         pass
