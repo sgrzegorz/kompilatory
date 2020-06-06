@@ -134,8 +134,8 @@ class Interpreter(object):
 
     @when(AST.AssignOperators) # x += , -=, *=, /=
     def visit(self, node):
-        name = node.id.accept(self)
-        left = self.memory_stack.get(name)
+        # name = node.id.accept(self)
+        left = self.memory_stack.get(node.id.value)
         right = node.expression.accept(self)
 
 
@@ -143,7 +143,7 @@ class Interpreter(object):
             result= np.matmul(left,right)
         else:
             result = self.operators[node.oper](left,right)
-        self.memory_stack.set(name,result)
+        self.memory_stack.set(node.id.value,result)
         pass
 
     @when(AST.Assign)

@@ -160,19 +160,18 @@ class TypeChecker(NodeVisitor):
         if right_type == 'unknown':
             return 'unknown'
         try:
-            symbol = self.symbol_table.get(node.id.value)
+            left = self.symbol_table.get(node.id.value)
         except KeyError:
             print('Line {}: Id {} used but undeclared'.format(node.line, node.id.value))
             return 'unknown'
-        left_type = symbol.type
 
-        return_type = self.semantic_rules.types[node.oper][left_type][right_type]
+        return_type = self.semantic_rules.types[node.oper][left.type][right_type]
 
         if return_type == 'unknown':
-            self.handle_error('Line {}: Unsupported operation between {} {}'.format(node.line, left_type, right_type))
+            self.handle_error('Line {}: Unsupported operation between {} {}'.format(node.line, left.type, right_type))
             return 'unknown'
 
-        if left_type == 'matrix' and right_type == 'matrix':
+        if left.type == 'matrix' and right_type == 'matrix':
             if isinstance(node.expression, AST.Id):
                 right_matrix = self.symbol_table.get(node.expression.value)
                 right_dim1 = right_matrix.dim1
@@ -180,19 +179,20 @@ class TypeChecker(NodeVisitor):
             elif isinstance(node.expression, AST.Rows):
                 right_matrix = node.expression
                 right_dim1, right_dim2 = self.get_matrix_dimensions(right_matrix)
+            elif isinstance(node.expression,AST.MatrixFunctions):
+                self.handle_error('Line {}: We reject expressions of form a += ones(2) '.format(node.line))
+                return 'unknown'
             else:
                 print('it should be impossible')
                 return 'unknown'  # it should be impossible
-            left_dim_1 = symbol.dim1
-            left_dim_2 = symbol.dim2
 
             if node.oper=='*=':
-                if left_dim_2 != right_dim1:
+                if left.dim2 != right_dim1:
                     self.handle_error('Line {}: Matrices dimensions do not match on matrix multiplication'.format(node.line))
                     return 'unknown'
                 return return_type
 
-            if left_dim_1 != right_dim1 or left_dim_2 != right_dim2:
+            if left.dim1 != right_dim1 or left.dim2 != right_dim2:
                 self.handle_error('Line {}: Matrices dimensions do not match'.format(node.line))
                 return 'unknown'
         return return_type
@@ -231,7 +231,7 @@ class TypeChecker(NodeVisitor):
                 return 'unknown'
 
         if node.ind1.value <=0 or node.ind2.value <=0 or node.ind1.value > symbol.dim1 or node.ind2.value > symbol.dim2:
-            self.handle_error('Line {}: [{},{}] incorrect dimension reference, array indexation from 1 to N'.format(node.line,node.ind1.value,node.ind2.value))
+            self.handle_error('Line {}: [{},{}] incorrect dimension reference, array indexation starts from 1'.format(node.line,node.ind1.value,node.ind2.value))
             return 'unknown'
 
 
