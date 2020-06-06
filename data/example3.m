@@ -1,8 +1,4 @@
-
-k = 3;
-if(k<5)
-    i = 1;
-
-else
-    m = 3;
-
+# control flow instruction
+a=3;
+print "N==10";
+print a;

@@ -208,11 +208,18 @@ class TreePrinter:
         self.left.printTree(indent + 1)
         self.right.printTree(indent + 1)
 
+    @addToClass(AST.String)
     @addToClass(AST.Constant)
     def printTree(self, indent=0):
         for i in range(indent):
             print("|  ", end='')
         print(self.value)
+
+
+    # def printTree(self, indent=0):
+    #     for i in range(indent):
+    #         print("|  ", end='')
+    #     print(self.value)
 
     @addToClass(AST.Id)
     def printTree(self, indent=0):

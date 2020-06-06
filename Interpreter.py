@@ -28,6 +28,11 @@ class Interpreter(object):
         self.operators['<='] = operator.le
         self.operators['=='] = operator.eq
         self.operators['!='] = operator.ne
+        self.operators['+='] = operator.add
+        self.operators['-='] = operator.sub
+        self.operators['/='] = operator.truediv
+        self.operators['*='] = operator.mul
+
 
 
     @on('node')
@@ -89,7 +94,6 @@ class Interpreter(object):
         (start, end) = node.range.accept(self)
 
         for i in range(start,end): #TODO check range
-
             try:
                 self.memory_stack.insert(name,i)
                 node.instruction.accept(self)
@@ -107,6 +111,7 @@ class Interpreter(object):
     def visit(self, node):
         start =node.start.accept(self)
         end =node.end.accept(self)
+        start, end = [self.getValueWhenID(i) for i in [start,end]]
         return (start,end)
         pass
 
@@ -144,7 +149,6 @@ class Interpreter(object):
 
     @when(AST.Print)
     def visit(self, node):
-
         printExpressions =node.multiple_expression.accept(self)
         for expression in printExpressions:
             print(self.getValueWhenID(expression))
@@ -166,14 +170,14 @@ class Interpreter(object):
 
     @when(AST.Assign)
     def visit(self, node):
-        name = node.id.accept(self)
+      #  name = node.id.accept(self)
         val=node.expression.accept(self)
         # k = 2; for such situation im working on one global k
         # while (k > 0) {
         # k = k - 1;
         # }
-        if not self.memory_stack.set(name,val):
-            self.memory_stack.insert(name,val)
+        if not self.memory_stack.set(node.id.value,val):
+            self.memory_stack.insert(node.id.value,val)
         pass
 
     @when(AST.AssignRef)
@@ -278,6 +282,10 @@ class Interpreter(object):
     @when(AST.Constant)
     def visit(self, node):
         return node.value
+
+    @when(AST.String)
+    def visit(self, node):
+        return node.value[1:-1]
 
     @when(AST.Id)
     def visit(self, node):

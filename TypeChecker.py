@@ -132,12 +132,15 @@ class TypeChecker(NodeVisitor):
         # self.visit(node.id)
         # self.shouldThrowUndeclaredIdError = True
 
-
         if right_type == 'matrix':
             matrix = node.expression
             if isinstance(matrix, AST.MatrixFunctions):
-                dim1 = 1
-                dim2 = matrix.expressions.exprs[0].value
+                if len(matrix.expressions.exprs)==1: #zeros(2) <=> zeros(2,2)
+                    dim1 = matrix.expressions.exprs[0].value
+                    dim2 = matrix.expressions.exprs[0].value
+                if len(matrix.expressions.exprs) == 2: # zeros(3,1), zeros(2,2)
+                    dim1 = matrix.expressions.exprs[0].value
+                    dim2 = matrix.expressions.exprs[1].value
             elif isinstance(matrix, AST.Expression):  # it's a matrix expression
                 dim1 = self.symbol_table.get(matrix.left.value).dim1  # might be done differently as well
                 dim2 = self.symbol_table.get(matrix.left.value).dim2
@@ -361,7 +364,6 @@ class TypeChecker(NodeVisitor):
             return 'int'
         if type(val) is float:
             return 'float'
-        return 'string'
 
     def visit_Id(self, node):
         if (verbose): self.printFunctionName()
@@ -377,6 +379,9 @@ class TypeChecker(NodeVisitor):
     def visit_Error(self, node):
         if (verbose): self.printFunctionName()
         pass
+
+    def visit_String(self, node):
+        return 'string'
 
     def get_error_message_for_matrix_fun(self, node):
         error_msg = 'Line {}: Illegal matrix initialization: {}({}'.format(node.line, node.func,node.expressions.exprs[0].value)

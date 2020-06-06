@@ -202,7 +202,7 @@ def p_constant_expression_1(p):
 
 def p_constant_expression_2(p):
     """CONSTANT_EXPRESSION : STR"""
-    p[0] = Constant(p[1])
+    p[0] = String(p[1])
     p[0].line = scanner.lexer.lineno
 
 
