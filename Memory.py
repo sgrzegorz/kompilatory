@@ -37,7 +37,7 @@ class MemoryStack:
         return False
 
     def push(self, memory): # pushes memory <memory> onto the stack
-        if(memory.instanceof(Memory)):
+        if(isinstance(memory,Memory)):
             self.stack.append(memory)
             return
         raise Exception("Argument is not Memory.class")

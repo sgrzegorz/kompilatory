@@ -70,27 +70,36 @@ class Interpreter(object):
 
     @when(AST.If)
     def visit(self, node):
-        node.booleanInParentheses.accept(self)
-        node.instruction.accept(self)
-        pass
+        if node.booleanInParentheses.accept(self):
+            node.instruction.accept(self)
 
     @when(AST.IfElse)
     def visit(self, node):
-        node.booleanInParentheses.accept(self)
-        node.instruction.accept(self)
-        node.else_instruction.accept(self)
+        if node.booleanInParentheses.accept(self):
+            node.instruction.accept(self)
+        else:
+            node.else_instruction.accept(self)
         pass
 
     @when(AST.For)
     def visit(self, node):
         self.memory_stack.push(Memory("For"))
-        self.memory_stack.insert(node.id.accept(self))
+
+        name =node.id.accept(self)
         (start, end) = node.range.accept(self)
-        try:
-            for i in range(start,end): #TODO check range
+
+        for i in range(start,end): #TODO check range
+            try:
+                self.memory_stack.insert(name,i)
                 node.instruction.accept(self)
-        except (ReturnValueException, ContinueException, BreakException):
-            print('for --')
+                self.memory_stack.delete(name,i)
+            except ReturnValueException: #TODO return check
+                return
+            except ContinueException:
+                continue
+            except BreakException:
+                break
+
         self.memory_stack.pop()
 
 
@@ -104,11 +113,18 @@ class Interpreter(object):
     @when(AST.While)
     def visit(self, node):
         self.memory_stack.push(Memory("While"))
-        try:
-            node.booleanInParentheses.accept(self)
-            node.instruction.accept(self)
-        except (ReturnValueException, ContinueException, BreakException):
-            print('while --')
+
+
+        while node.booleanInParentheses.accept(self):
+            try:
+                node.instruction.accept(self)
+            except ReturnValueException:  # TODO return check
+                return
+            except ContinueException:
+                continue
+            except BreakException:
+                break
+
         self.memory_stack.pop()
 
     @when(AST.Break)
@@ -135,14 +151,18 @@ class Interpreter(object):
 
     @when(AST.AssignOperators) # x += , -=, *=, /=
     def visit(self, node):
-        node.id.accept(self)
-        node.expression.accept(self)
+        name = node.id.accept(self)
+        left = self.memory_stack.get(name)
+        right = node.expression.accept(self)
+        result = self.operators[node.oper](left,right)
+        self.memory_stack.set(name,result)
         pass
 
     @when(AST.Assign)
     def visit(self, node):
-        node.id.accept(self)
-        node.expression.accept(self)
+        name = node.id.accept(self)
+        val=node.expression.accept(self)
+        self.memory_stack.insert(name,val)
         pass
 
     @when(AST.AssignRef)
@@ -165,20 +185,30 @@ class Interpreter(object):
     def visit(self, node):
         left = node.left.accept(self)
         right = node.right.accept(self)
-
-        operator[node.oper](left,right) #TODO matrix multiplication bedzie inaczej
+        left,right = [ self.getValueWhenID(i) for i in [left,right]]
+        return self.operators[node.oper](left,right) #TODO matrix multiplication bedzie inaczej
 
     @when(AST.MultipleExpression)
     def visit(self, node):
         t = []
-        for e in node.exprs:
-            t.append(e.accept(self))
+        for expr in node.exprs:
+            t.append(expr.accept(self))
         return t
+
+
+    def getValueWhenID(self,val):
+        if isinstance(val, str):
+            val = self.memory_stack.get(val)
+            if val is None:
+                print('This shouldnt be printed')
+        return val
 
     @when(AST.BooleanExpression)
     def visit(self, node):
         left =node.left.accept(self)
         right =node.right.accept(self)
+        left,right = [ self.getValueWhenID(i) for i in [left,right]]
+
         return self.operators[node.oper](left,right)
         pass
 
