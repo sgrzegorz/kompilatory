@@ -5,7 +5,9 @@ class Memory:
         self.symbols = dict()
     def has_key(self, name):  # variable name
         if name in self.symbols:
-            return self.symbols[name]
+            return True
+        return False
+
     def get(self, name):         # gets from memory current value of variable <name>
         if self.has_key(name):
             return self.symbols[name]
@@ -34,6 +36,7 @@ class MemoryStack:
             if memory.has_key(name):
                 memory.put(name,value)
                 return True
+        #variable wasnt found
         return False
 
     def push(self, memory): # pushes memory <memory> onto the stack

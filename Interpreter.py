@@ -162,7 +162,12 @@ class Interpreter(object):
     def visit(self, node):
         name = node.id.accept(self)
         val=node.expression.accept(self)
-        self.memory_stack.insert(name,val)
+        # k = 2; for such situation im working on one global k
+        # while (k > 0) {
+        # k = k - 1;
+        # }
+        if not self.memory_stack.set(name,val):
+            self.memory_stack.insert(name,val)
         pass
 
     @when(AST.AssignRef)
