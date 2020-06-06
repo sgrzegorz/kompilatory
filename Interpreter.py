@@ -33,8 +33,6 @@ class Interpreter(object):
         self.operators['/='] = operator.truediv
         self.operators['*='] = operator.mul
 
-
-
     @on('node')
     def visit(self, node):
         pass
@@ -164,10 +162,10 @@ class Interpreter(object):
     def visit(self, node):
         (ind1,ind2) = node.ref.accept(self)
         expression =node.expression.accept(self)
-        matrix = self.memory_stack.get(node.ref.name)
+        matrix = self.memory_stack.get(node.ref.id.value)
 
-        if matrix!=None:
-            matrix[ind1,ind2] = expression
+        if matrix is not None:
+            matrix[ind1-1,ind2-1] = expression #-1 because array indexation from 1 to N
         pass
 
     @when(AST.Ref)
@@ -239,6 +237,8 @@ class Interpreter(object):
 
         elif node.func == 'zeros':
             return np.zeros(dims)
+        elif node.func == 'eye':
+            return np.eye(dims[0])
 
     @when(AST.MatixFunctionsExpression)
     def visit(self, node):

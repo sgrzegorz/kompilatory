@@ -231,7 +231,7 @@ class TypeChecker(NodeVisitor):
                 return 'unknown'
 
         if node.ind1.value <=0 or node.ind2.value <=0 or node.ind1.value > symbol.dim1 or node.ind2.value > symbol.dim2:
-            self.handle_error('Line {}: [{},{}] incorrect dimension reference'.format(node.line,node.ind1.value,node.ind2.value))
+            self.handle_error('Line {}: [{},{}] incorrect dimension reference, array indexation from 1 to N'.format(node.line,node.ind1.value,node.ind2.value))
             return 'unknown'
 
 
@@ -265,6 +265,12 @@ class TypeChecker(NodeVisitor):
 
     def visit_MatrixFunctions(self, node):
         if (verbose): self.printFunctionName()
+
+
+        if node.func=='eye' and len(node.expressions.exprs)!=1:
+            self.handle_error(self.get_error_message_for_matrix_fun(node) +" eye must be square, we allow eye(5), we forbid eye(5,5)")
+            return 'unknown'
+
         dim_type = self.visit(node.expressions)
 
         if dim_type != 'int':
