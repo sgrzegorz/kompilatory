@@ -27,7 +27,7 @@ if __name__ == '__main__':
         print('start TypeChecker')
         typeChecker = TypeChecker()
         typeChecker.visit(ast)   # or alternatively ast.accept(typeChecker)
-
+        if typeChecker.error: sys.exit(1) # if there was an error in TypeChecker there is no sense in using Interpreter
         print('start Interpreter')
         ast.accept(Interpreter())
         # in future

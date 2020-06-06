@@ -154,7 +154,13 @@ class Interpreter(object):
         name = node.id.accept(self)
         left = self.memory_stack.get(name)
         right = node.expression.accept(self)
-        result = self.operators[node.oper](left,right)
+
+        left,right = [self.getValueWhenID(i) for i in [left,right]] #TODO można poprawić bo za czesto sie powtarza ta linijka
+
+        if node.oper == '*=' and isinstance(left,np.ndarray)  and isinstance(right,np.ndarray):
+            result= np.matmul(left,right)
+        else:
+            result = self.operators[node.oper](left,right)
         self.memory_stack.set(name,result)
         pass
 
@@ -191,6 +197,8 @@ class Interpreter(object):
         left = node.left.accept(self)
         right = node.right.accept(self)
         left,right = [ self.getValueWhenID(i) for i in [left,right]]
+        if node.oper == '*' and isinstance(left,np.ndarray)  and isinstance(right,np.ndarray):
+            return np.matmul(left,right)
         return self.operators[node.oper](left,right) #TODO matrix multiplication bedzie inaczej
 
     @when(AST.MultipleExpression)
@@ -241,6 +249,8 @@ class Interpreter(object):
         row =[]
         for number in node.numbers:
             row.append(number.accept(self))
+        row = [self.getValueWhenID(i) for i in row]
+
         return np.array(row)
         pass
 
