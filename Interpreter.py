@@ -256,8 +256,24 @@ class Interpreter(object):
 
     @when(AST.MatrixFunctions)
     def visit(self, node):
-        node.expressions.accept(self)
-        return np.array()
+        dims =node.expressions.accept(self)
+        dims = [self.getValueWhenID(i) for i in dims]
+        if len(dims) == 1:
+            dims.append(dims[0])
+        dims = tuple(dims)
+
+        if node.func =='ones':
+            return np.ones(dims)
+
+        elif node.func == 'zeros':
+            return np.zeros(dims)
+
+    @when(AST.MatixFunctionsExpression)
+    def visit(self, node):
+        dims = []
+        for i in node.exprs:
+            dims.append(i.accept(self))
+        return dims
 
     @when(AST.Constant)
     def visit(self, node):

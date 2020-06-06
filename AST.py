@@ -112,6 +112,12 @@ class MultipleExpression(Node):
     def append(self, expr):
         self.exprs.append(expr)
 
+class MatixFunctionsExpression(Node):
+    def __init__(self, expr):
+        self.exprs = [expr]
+    def append(self, expr):
+        self.exprs.append(expr)
+
 class BooleanExpression(Node):
     def __init__(self, oper, left, right):
         self.oper = oper
@@ -143,9 +149,9 @@ class Row(Node):
         self.numbers.append(number)
 
 class MatrixFunctions(Node):
-    def __init__(self, func, expression):
+    def __init__(self, func, expressions):
         self.func = func
-        self.expressions = expression
+        self.expressions = expressions
 
 class Constant(Node):
     def __init__(self, value):

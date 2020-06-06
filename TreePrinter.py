@@ -188,6 +188,11 @@ class TreePrinter:
         for e in self.exprs:
             e.printTree(indent)
 
+    @addToClass(AST.MatixFunctionsExpression)
+    def printTree(self, indent=0):
+        for e in self.exprs:
+            e.printTree(indent)
+
     @addToClass(AST.Print)
     def printTree(self, indent=0):
         for i in range(indent):

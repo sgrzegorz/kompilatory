@@ -250,12 +250,31 @@ def p_matrix_row(p):
 
 
 def p_expression_matrix_functions(p):
-    """MATRIX_FUNCTIONS : EYE '(' MULTIPLE_EXPR ')'
-                         | ZEROS '(' MULTIPLE_EXPR ')'
-                         | ONES '(' MULTIPLE_EXPR ')'"""
+    """MATRIX_FUNCTIONS : EYE '(' MATRIX_FUNCTIONS_EXPRESSION ')'
+                         | ZEROS '(' MATRIX_FUNCTIONS_EXPRESSION ')'
+                         | ONES '(' MATRIX_FUNCTIONS_EXPRESSION ')'"""
 
     p[0] = MatrixFunctions(p[1], p[3])
     p[0].line = scanner.lexer.lineno
+
+def p_expression_matrix_functions_expression(p):
+    """MATRIX_FUNCTIONS_EXPRESSION : MATRIX_FUNCTIONS_EXPRESSION ',' VARIABLE
+                            | VARIABLE"""
+    if len(p) == 4:
+        p[0] = p[1]
+        p[0].append(p[3])
+    elif len(p) == 2:
+        p[0] = MatixFunctionsExpression(p[1])
+        p[0].line = scanner.lexer.lineno
+
+def p_variable(p):
+    """ VARIABLE : NUMBER"""
+    p[0] =p[1]
+
+def p_variable1(p):
+    """ VARIABLE : ID"""
+    p[0]=Id(p[1])
+
 
 
 def p_boolean_in_parentheses(p):

@@ -267,8 +267,22 @@ class TypeChecker(NodeVisitor):
         if dim_type != 'int':
             self.handle_error(self.get_error_message_for_matrix_fun(node))
             return 'unknown'
-
         return 'matrix'
+
+    def visit_MatixFunctionsExpression(self, node):
+        if (verbose): self.printFunctionName()
+
+        if len(node.exprs) == 1:
+            dim_type = self.visit(node.exprs[0])
+            return dim_type
+        elif len(node.exprs) ==2:
+            dim_type1 = self.visit(node.exprs[0])
+            dim_type2 = self.visit(node.exprs[1])
+            if dim_type1!=dim_type2:
+                return 'unknown'
+            return dim_type1
+        else:
+            return 'unknown'
 
     def visit_MultipleExpression(self, node):
         if (verbose): self.printFunctionName()
@@ -279,6 +293,8 @@ class TypeChecker(NodeVisitor):
         expr_type = self.visit(node.exprs[0])
 
         return expr_type
+
+
 
     def visit_BooleanExpression(self, node):
         if (verbose): self.printFunctionName()
