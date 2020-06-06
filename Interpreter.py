@@ -89,10 +89,10 @@ class Interpreter(object):
         (start, end) = node.range.accept(self)
 
         for i in range(start,end): #TODO check range
+
             try:
                 self.memory_stack.insert(name,i)
                 node.instruction.accept(self)
-                self.memory_stack.delete(name,i)
             except ReturnValueException: #TODO return check
                 return
             except ContinueException:
@@ -112,10 +112,10 @@ class Interpreter(object):
 
     @when(AST.While)
     def visit(self, node):
-        self.memory_stack.push(Memory("While"))
-
+        self.memory_stack.push(Memory("While")) ## lekkie uproszczenie powinno być wewnątrz while
 
         while node.booleanInParentheses.accept(self):
+
             try:
                 node.instruction.accept(self)
             except ReturnValueException:  # TODO return check
@@ -144,10 +144,10 @@ class Interpreter(object):
 
     @when(AST.Print)
     def visit(self, node):
-        string =''
-        # for expression in node.multiple_expression:
-        #     string+=expression.accept(self)
-        print(string)
+
+        printExpressions =node.multiple_expression.accept(self)
+        for expression in printExpressions:
+            print(self.getValueWhenID(expression))
 
     @when(AST.AssignOperators) # x += , -=, *=, /=
     def visit(self, node):
