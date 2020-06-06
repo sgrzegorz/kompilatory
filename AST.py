@@ -73,10 +73,10 @@ class Return(Node):
         self.expr = expr
 
 class Print(Node):
-    def __init__(self, print_expression):
-        self.print_expressions = [print_expression]
-    def append(self, print_expression):
-        self.print_expressions.append(print_expression)
+    def __init__(self, multiple_expression):
+        self.multiple_expression = multiple_expression
+    # def append(self, print_expression):
+    #     self.print_expressions.append(print_expression)
 
 class AssignOperators(Node):
     def __init__(self, oper, id, expression):

@@ -120,9 +120,7 @@ def p_return(p):
     p[0].line = scanner.lexer.lineno
 
 
-def p_print(p):
-    """print : PRINT PRINT_EXPR """
-    p[0] = p[2]
+
 
 def p_expression_assignment(p):
     """assign : ID ASSIGN EXPRESSION"""
@@ -275,15 +273,19 @@ def p_multiple_expression(p):
         p[0] = MultipleExpression(p[1])
         p[0].line = scanner.lexer.lineno
 
+def p_print(p):
+    """print : PRINT MULTIPLE_EXPR """
+    p[0] = Print(p[2])
+    p[0].line = scanner.lexer.lineno
 
-def p_print_expression(p):
-    """PRINT_EXPR : MULTIPLE_EXPR"""
-    if len(p) == 4:
-        p[0] = p[1]
-        p[0].append(p[3])
-    elif len(p) == 2:
-        p[0] = Print(p[1])
-        p[0].line = scanner.lexer.lineno
+# def p_print_expression(p):
+#     """PRINT_EXPR : MULTIPLE_EXPR"""
+#     if len(p) == 4:
+#         p[0] = p[1]
+#         p[0].append(p[3])
+#     elif len(p) == 2:
+#         p[0] = Print(p[1])
+#         p[0].line = scanner.lexer.lineno
 
 
 def p_error(p):

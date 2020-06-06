@@ -145,8 +145,8 @@ class Interpreter(object):
     @when(AST.Print)
     def visit(self, node):
         string =''
-        for expression in node.print_expressions:
-            string+=expression.accept(self)
+        # for expression in node.multiple_expression:
+        #     string+=expression.accept(self)
         print(string)
 
     @when(AST.AssignOperators) # x += , -=, *=, /=

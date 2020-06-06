@@ -1,5 +1,5 @@
-#for j = 1:10
-#    print j;
+for j = 1:10
+    print j,k,b;
 
 #k=2;
 #while(k>0) {

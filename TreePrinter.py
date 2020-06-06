@@ -193,9 +193,7 @@ class TreePrinter:
         for i in range(indent):
             print("|  ", end='')
         print("PRINT")
-        for i in self.print_expressions:
-            # print("iiiiiiiiiiiii " + str(i))
-            i.printTree(indent + 1)
+        self.multiple_expression.printTree(indent + 1)
 
     @addToClass(AST.BooleanExpression)  # TODO: is it necessary?
     def printTree(self, indent=0):
