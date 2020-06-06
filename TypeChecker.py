@@ -77,7 +77,7 @@ class TypeChecker(NodeVisitor):
         self.symbol_table.pushNesting()
         self.symbol_table.pushScope('for')
 
-        self.symbol_table.put(node.id.value,Symbol(name=node.id.value, type='int'))
+        self.symbol_table.put(node.id.name,Symbol(name=node.id.name, type='int'))
         self.visit(node.id)
         self.visit(node.range)
         self.visit(node.instruction)
@@ -136,20 +136,22 @@ class TypeChecker(NodeVisitor):
             matrix = node.expression
             if isinstance(matrix, AST.MatrixFunctions):
                 if len(matrix.expressions.exprs)==1: #zeros(2) <=> zeros(2,2)
+                    # if isinstance(matrix.expressions.exprs[0],AST.Id): #TODO test 8
+
                     dim1 = matrix.expressions.exprs[0].value
-                    dim2 = matrix.expressions.exprs[0].value
+                    dim2 = dim1
                 if len(matrix.expressions.exprs) == 2: # zeros(3,1), zeros(2,2)
                     dim1 = matrix.expressions.exprs[0].value
                     dim2 = matrix.expressions.exprs[1].value
             elif isinstance(matrix, AST.Expression):  # it's a matrix expression
-                dim1 = self.symbol_table.get(matrix.left.value).dim1  # might be done differently as well
-                dim2 = self.symbol_table.get(matrix.left.value).dim2
+                dim1 = self.symbol_table.get(matrix.left.name).dim1  # might be done differently as well
+                dim2 = self.symbol_table.get(matrix.left.name).dim2
             else:  # it's a Rows object
                 dim1, dim2 = self.get_matrix_dimensions(matrix)
-            symbol = VariableSymbol(name=node.id.value, type=right_type, dim1=dim1, dim2=dim2)
+            symbol = VariableSymbol(name=node.id.name, type=right_type, dim1=dim1, dim2=dim2)
         else:
-            symbol = Symbol(name=node.id.value, type=right_type)
-        self.symbol_table.put(node.id.value, symbol)
+            symbol = Symbol(name=node.id.name, type=right_type)
+        self.symbol_table.put(node.id.name, symbol)
         return right_type
 
     def visit_AssignOperators(self, node):  # x += , -=, *=, /=
@@ -160,9 +162,9 @@ class TypeChecker(NodeVisitor):
         if right_type == 'unknown':
             return 'unknown'
         try:
-            left = self.symbol_table.get(node.id.value)
+            left = self.symbol_table.get(node.id.name)
         except KeyError:
-            print('Line {}: Id {} used but undeclared'.format(node.line, node.id.value))
+            print('Line {}: Id {} used but undeclared'.format(node.line, node.id.name))
             return 'unknown'
 
         return_type = self.semantic_rules.types[node.oper][left.type][right_type]
@@ -173,7 +175,7 @@ class TypeChecker(NodeVisitor):
 
         if left.type == 'matrix' and right_type == 'matrix':
             if isinstance(node.expression, AST.Id):
-                right_matrix = self.symbol_table.get(node.expression.value)
+                right_matrix = self.symbol_table.get(node.expression.name)
                 right_dim1 = right_matrix.dim1
                 right_dim2 = right_matrix.dim2
             elif isinstance(node.expression, AST.Rows):
@@ -212,9 +214,9 @@ class TypeChecker(NodeVisitor):
         if (verbose): self.printFunctionName()
         # node_name = self.visit(node.id)
         try:
-            symbol = self.symbol_table.get(node.id.value)
+            symbol = self.symbol_table.get(node.id.name)
         except KeyError:
-            self.handle_error('Line {}: {} is used but not declared'.format(node.line, node.id.value))
+            self.handle_error('Line {}: {} is used but not declared'.format(node.line, node.id.name))
             return 'unknown'
         if symbol.type == 'unknown':
             return 'unknown'
@@ -244,10 +246,10 @@ class TypeChecker(NodeVisitor):
             return 'unknown'
 
         if left_type == 'matrix' and right_type == 'matrix':
-            left_dim1 = self.symbol_table.get(node.left.value).dim1
-            left_dim2 = self.symbol_table.get(node.left.value).dim2  # FIXME
-            right_dim1 = self.symbol_table.get(node.right.value).dim1
-            right_dim2 = self.symbol_table.get(node.right.value).dim2
+            left_dim1 = self.symbol_table.get(node.left.name).dim1
+            left_dim2 = self.symbol_table.get(node.left.name).dim2  # FIXME
+            right_dim1 = self.symbol_table.get(node.right.name).dim1
+            right_dim2 = self.symbol_table.get(node.right.name).dim2
 
             if node.oper=='*' and left_dim2 == right_dim1:
                 return 'matrix'
@@ -374,10 +376,10 @@ class TypeChecker(NodeVisitor):
     def visit_Id(self, node):
         if (verbose): self.printFunctionName()
         try:
-            symbol = self.symbol_table.get(node.value)
+            symbol = self.symbol_table.get(node.name)
         except KeyError:
             if self.shouldThrowUndeclaredIdError:
-                self.handle_error('Line {}: Id {} is used but not declared'.format(node.line, node.value))
+                self.handle_error('Line {}: Id {} is used but not declared'.format(node.line, node.name))
             return "unknown"
 
         return symbol.type

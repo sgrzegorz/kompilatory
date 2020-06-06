@@ -67,18 +67,18 @@ class Interpreter(object):
 
         (start, end) = node.range.accept(self)
 
-        if not self.memory_stack.set(node.id.value,start):
-            self.memory_stack.insert(node.id.value,start)
+        if not self.memory_stack.set(node.id.name,start):
+            self.memory_stack.insert(node.id.name,start)
 
-        while self.memory_stack.get(node.id.value) < end:
+        while self.memory_stack.get(node.id.name) < end:
             try:
                 node.instruction.accept(self)
 
-                self.memory_stack.set(node.id.value, self.memory_stack.get(node.id.value)+1) #i+=1
+                self.memory_stack.set(node.id.name, self.memory_stack.get(node.id.name)+1) #i+=1
             except ReturnValueException: #TODO return check
                 return
             except ContinueException:
-                self.memory_stack.set(node.id.value, self.memory_stack.get(node.id.value)+1) #i+=1
+                self.memory_stack.set(node.id.name, self.memory_stack.get(node.id.name)+1) #i+=1
                 continue
             except BreakException:
                 break
@@ -135,7 +135,7 @@ class Interpreter(object):
     @when(AST.AssignOperators) # x += , -=, *=, /=
     def visit(self, node):
         # name = node.id.accept(self)
-        left = self.memory_stack.get(node.id.value)
+        left = self.memory_stack.get(node.id.name)
         right = node.expression.accept(self)
 
 
@@ -143,7 +143,7 @@ class Interpreter(object):
             result= np.matmul(left,right)
         else:
             result = self.operators[node.oper](left,right)
-        self.memory_stack.set(node.id.value,result)
+        self.memory_stack.set(node.id.name,result)
         pass
 
     @when(AST.Assign)
@@ -154,15 +154,15 @@ class Interpreter(object):
         # while (k > 0) {
         # k = k - 1;
         # }
-        if not self.memory_stack.set(node.id.value,val):
-            self.memory_stack.insert(node.id.value,val)
+        if not self.memory_stack.set(node.id.name,val):
+            self.memory_stack.insert(node.id.name,val)
         pass
 
     @when(AST.AssignRef)
     def visit(self, node):
         (ind1,ind2) = node.ref.accept(self)
         expression =node.expression.accept(self)
-        matrix = self.memory_stack.get(node.ref.id.value)
+        matrix = self.memory_stack.get(node.ref.id.name)
 
         if matrix is not None:
             matrix[ind1-1,ind2-1] = expression #-1 because array indexation from 1 to N
@@ -257,5 +257,5 @@ class Interpreter(object):
 
     @when(AST.Id)
     def visit(self, node):
-        return self.memory_stack.get(node.value)
+        return self.memory_stack.get(node.name)
         pass

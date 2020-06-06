@@ -162,8 +162,8 @@ class String(Node):
         self.value = value
 
 class Id(Node):
-    def __init__(self, value):
-        self.value = value
+    def __init__(self, name):
+        self.name = name
 
 class Error(Node):
     def __init__(self):

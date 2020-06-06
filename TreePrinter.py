@@ -225,7 +225,7 @@ class TreePrinter:
     def printTree(self, indent=0):
         for i in range(indent):
             print("|  ", end='')
-        print(self.value)
+        print(self.name)
 
     @addToClass(AST.Error)
     def printTree(self, indent=0):
