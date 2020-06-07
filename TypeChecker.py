@@ -127,6 +127,9 @@ class TypeChecker(NodeVisitor):
 
         right_type = self.visit(node.expression)
 
+        if right_type == 'unknown':
+            return 'unknown'
+
         if right_type == 'matrix':
             matrix = node.expression
 
@@ -276,8 +279,7 @@ class TypeChecker(NodeVisitor):
             if node.oper == '*' and left_dim2 == right_dim1:
                 return 'matrix'
             if left_dim1 != right_dim1 or left_dim2 != right_dim2:
-                self.handle_error(
-                    'Line {}: Unsupported operation between matrices of different dimensions'.format(node.line))
+                self.handle_error( 'Line {}: Unsupported operation between matrices of different dimensions'.format(node.line))
                 return 'unknown'
 
         return_type = self.semantic_rules.types[node.oper][left_type][right_type]
