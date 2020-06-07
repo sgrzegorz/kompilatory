@@ -7,6 +7,7 @@ from SymbolTable import *
 
 verbose = False
 
+
 class NodeVisitor(object):
     def __init__(self):
         self.semantic_rules = SemanticRules()
@@ -77,7 +78,7 @@ class TypeChecker(NodeVisitor):
         self.symbol_table.pushNesting()
         self.symbol_table.pushScope('for')
 
-        self.symbol_table.put(node.id.name,Symbol(name=node.id.name, type='int'))
+        self.symbol_table.put(node.id.name, Symbol(name=node.id.name, type='int'))
         self.visit(node.id)
         self.visit(node.range)
         self.visit(node.instruction)
@@ -121,34 +122,38 @@ class TypeChecker(NodeVisitor):
         if (verbose): self.printFunctionName()
         self.visit(node.expr)
 
-
     def visit_Assign(self, node):
         if (verbose): self.printFunctionName()
 
         right_type = self.visit(node.expression)
 
-        # three lines below important only in for i=1:5
-        # self.shouldThrowUndeclaredIdError = False
-        # self.visit(node.id)
-        # self.shouldThrowUndeclaredIdError = True
-
         if right_type == 'matrix':
             matrix = node.expression
-            if isinstance(matrix, AST.MatrixFunctions):
-                if len(matrix.expressions.exprs)==1: #zeros(2) <=> zeros(2,2)
-                    # if isinstance(matrix.expressions.exprs[0],AST.Id): #TODO test 8
 
-                    dim1 = matrix.expressions.exprs[0].value
+            if isinstance(matrix, AST.MatrixFunctions):  # zeros(a,b,c) TODO: modify matrices to be multiple-dim
+                matrix_func_dims = []
+                for expr in matrix.expressions.exprs:
+                    if isinstance(expr, AST.Id):
+                        if self.visit(expr) == 'unknown':
+                            return 'unknown'
+
+                        value = self.symbol_table.get(expr.name)
+                        matrix_func_dims.append(value)
+                    else:
+                        matrix_func_dims.append(expr.value)
+
+                if len(matrix.expressions.exprs) == 1:  # zeros(2) <=> zeros(2,2)
+                    dim1 = matrix_func_dims[0]
                     dim2 = dim1
-                if len(matrix.expressions.exprs) == 2: # zeros(3,1), zeros(2,2)
-                    dim1 = matrix.expressions.exprs[0].value
-                    dim2 = matrix.expressions.exprs[1].value
+                if len(matrix.expressions.exprs) == 2:  # zeros(3,1), zeros(2,2)
+                    dim1 = matrix_func_dims[0]
+                    dim2 = matrix_func_dims[1]
             elif isinstance(matrix, AST.Expression):  # it's a matrix expression
                 dim1 = self.symbol_table.get(matrix.left.name).dim1  # might be done differently as well
                 dim2 = self.symbol_table.get(matrix.left.name).dim2
             else:  # it's a Rows object
                 dim1, dim2 = self.get_matrix_dimensions(matrix)
-            symbol = VariableSymbol(name=node.id.name, type=right_type, dim1=dim1, dim2=dim2)
+            symbol = VariableSymbol(name=node.id.name, type=right_type, dim1=dim1, dim2=dim2)  # TODO: check
         else:
             symbol = Symbol(name=node.id.name, type=right_type)
         self.symbol_table.put(node.id.name, symbol)
@@ -157,23 +162,20 @@ class TypeChecker(NodeVisitor):
     def visit_AssignOperators(self, node):  # x += , -=, *=, /=
         if (verbose): self.printFunctionName()
 
+        left_type = self.visit(node.id)
         right_type = self.visit(node.expression)
 
-        if right_type == 'unknown':
-            return 'unknown'
-        try:
-            left = self.symbol_table.get(node.id.name)
-        except KeyError:
-            print('Line {}: Id {} used but undeclared'.format(node.line, node.id.name))
+        if left_type == 'unknown' or right_type == 'unknown':
             return 'unknown'
 
-        return_type = self.semantic_rules.types[node.oper][left.type][right_type]
+        left = self.symbol_table.get(node.id.name)
+        return_type = self.semantic_rules.types[node.oper][left_type][right_type]
 
         if return_type == 'unknown':
             self.handle_error('Line {}: Unsupported operation between {} {}'.format(node.line, left.type, right_type))
             return 'unknown'
 
-        if left.type == 'matrix' and right_type == 'matrix':
+        if left_type == 'matrix' and right_type == 'matrix':
             if isinstance(node.expression, AST.Id):
                 right_matrix = self.symbol_table.get(node.expression.name)
                 right_dim1 = right_matrix.dim1
@@ -181,7 +183,7 @@ class TypeChecker(NodeVisitor):
             elif isinstance(node.expression, AST.Rows):
                 right_matrix = node.expression
                 right_dim1, right_dim2 = self.get_matrix_dimensions(right_matrix)
-            elif isinstance(node.expression,AST.MatrixFunctions):
+            elif isinstance(node.expression, AST.MatrixFunctions):
                 self.handle_error('Line {}: We reject expressions of form a += ones(2) '.format(node.line))
                 return 'unknown'
             else:
@@ -190,7 +192,8 @@ class TypeChecker(NodeVisitor):
 
             if node.oper == '*=':
                 if left.dim2 != right_dim1:
-                    self.handle_error('Line {}: Matrices dimensions do not match on matrix multiplication'.format(node.line))
+                    self.handle_error(
+                        'Line {}: Matrices dimensions do not match on matrix multiplication'.format(node.line))
                     return 'unknown'
                 return return_type
 
@@ -198,7 +201,6 @@ class TypeChecker(NodeVisitor):
                 self.handle_error('Line {}: Matrices dimensions do not match'.format(node.line))
                 return 'unknown'
         return return_type
-
 
     def get_matrix_dimensions(self, matrix):
         # it must be matrix of correct dimensions - otherwise
@@ -232,10 +234,12 @@ class TypeChecker(NodeVisitor):
                 self.handle_error('Line {}: index is not integer'.format(node.line))
                 return 'unknown'
 
-        if node.ind1.value <=0 or node.ind2.value <=0 or node.ind1.value > symbol.dim1 or node.ind2.value > symbol.dim2:
-            self.handle_error('Line {}: [{},{}] incorrect dimension reference, array indexation starts from 1'.format(node.line,node.ind1.value,node.ind2.value))
+        if node.ind1.value <= 0 or node.ind2.value <= 0 or node.ind1.value > symbol.dim1 or node.ind2.value > symbol.dim2:
+            self.handle_error(
+                'Line {}: [{},{}] incorrect dimension reference, array indexation starts from 1'.format(node.line,
+                                                                                                        node.ind1.value,
+                                                                                                        node.ind2.value))
             return 'unknown'
-
 
     def visit_Expression(self, node):
         if (verbose): self.printFunctionName()
@@ -251,10 +255,11 @@ class TypeChecker(NodeVisitor):
             right_dim1 = self.symbol_table.get(node.right.name).dim1
             right_dim2 = self.symbol_table.get(node.right.name).dim2
 
-            if node.oper=='*' and left_dim2 == right_dim1:
+            if node.oper == '*' and left_dim2 == right_dim1:
                 return 'matrix'
             if left_dim1 != right_dim1 or left_dim2 != right_dim2:
-                self.handle_error('Line {}: Unsupported operation between matrices of different dimensions'.format(node.line))
+                self.handle_error(
+                    'Line {}: Unsupported operation between matrices of different dimensions'.format(node.line))
                 return 'unknown'
 
         return_type = self.semantic_rules.types[node.oper][left_type][right_type]
@@ -268,15 +273,15 @@ class TypeChecker(NodeVisitor):
     def visit_MatrixFunctions(self, node):
         if (verbose): self.printFunctionName()
 
-
-        if node.func=='eye' and len(node.expressions.exprs) != 1:
-            self.handle_error(self.get_error_message_for_matrix_fun(node) + " eye must be square, we allow eye(5), we forbid eye(5,5)")
+        if node.func == 'eye' and len(node.expressions.exprs) != 1:
+            self.handle_error(self.get_error_message_for_matrix_fun(
+                node) + " eye must be square, we allow only eye(5)")
             return 'unknown'
 
         dim_type = self.visit(node.expressions)
 
         print("DIM_TYPE: " + dim_type)
-        if dim_type != 'int':
+        if dim_type != 'multiple_expression':
             self.handle_error(self.get_error_message_for_matrix_fun(node))
             return 'unknown'
         return 'matrix'
@@ -287,26 +292,22 @@ class TypeChecker(NodeVisitor):
         if len(node.exprs) == 1:
             dim_type = self.visit(node.exprs[0])
             return dim_type
-        elif len(node.exprs) ==2:
+        elif len(node.exprs) == 2:
             dim_type1 = self.visit(node.exprs[0])
             dim_type2 = self.visit(node.exprs[1])
-            if dim_type1!=dim_type2:
+            if dim_type1 != dim_type2:
                 return 'unknown'
             return dim_type1
         else:
             return 'unknown'
 
-    def visit_MultipleExpression(self, node):
+    def visit_MultipleExpression(self, node):  # designed for printing as well as matrix functions
         if (verbose): self.printFunctionName()
+        for expr in node.exprs:
+            if self.visit(expr) == 'unknown':
+                return 'unknown'
 
-        if len(node.exprs) > 1:
-            return 'unknown'
-
-        expr_type = self.visit(node.exprs[0])
-
-        return expr_type
-
-
+        return 'multiple_expression'
 
     def visit_BooleanExpression(self, node):
         if (verbose): self.printFunctionName()
@@ -379,8 +380,7 @@ class TypeChecker(NodeVisitor):
         try:
             symbol = self.symbol_table.get(node.name)
         except KeyError:
-            if self.shouldThrowUndeclaredIdError:
-                self.handle_error('Line {}: Id {} is used but not declared'.format(node.line, node.name))
+            self.handle_error('Line {}: Id {} is used but not declared'.format(node.line, node.name))
             return "unknown"
 
         return symbol.type
@@ -393,7 +393,8 @@ class TypeChecker(NodeVisitor):
         return 'string'
 
     def get_error_message_for_matrix_fun(self, node):
-        error_msg = 'Line {}: Illegal matrix initialization: {}({}'.format(node.line, node.func,node.expressions.exprs[0].name)
+        error_msg = 'Line {}: Illegal matrix initialization: {}({}'.format(node.line, node.func,
+                                                                           node.expressions.exprs[0].name)
 
         if len(node.expressions.exprs) > 1:
             for i in range(1, len(node.expressions.exprs)):
