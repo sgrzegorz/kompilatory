@@ -188,7 +188,7 @@ class TypeChecker(NodeVisitor):
                 print('it should be impossible')
                 return 'unknown'  # it should be impossible
 
-            if node.oper=='*=':
+            if node.oper == '*=':
                 if left.dim2 != right_dim1:
                     self.handle_error('Line {}: Matrices dimensions do not match on matrix multiplication'.format(node.line))
                     return 'unknown'
@@ -269,12 +269,13 @@ class TypeChecker(NodeVisitor):
         if (verbose): self.printFunctionName()
 
 
-        if node.func=='eye' and len(node.expressions.exprs)!=1:
-            self.handle_error(self.get_error_message_for_matrix_fun(node) +" eye must be square, we allow eye(5), we forbid eye(5,5)")
+        if node.func=='eye' and len(node.expressions.exprs) != 1:
+            self.handle_error(self.get_error_message_for_matrix_fun(node) + " eye must be square, we allow eye(5), we forbid eye(5,5)")
             return 'unknown'
 
         dim_type = self.visit(node.expressions)
 
+        print("DIM_TYPE: " + dim_type)
         if dim_type != 'int':
             self.handle_error(self.get_error_message_for_matrix_fun(node))
             return 'unknown'
@@ -392,7 +393,7 @@ class TypeChecker(NodeVisitor):
         return 'string'
 
     def get_error_message_for_matrix_fun(self, node):
-        error_msg = 'Line {}: Illegal matrix initialization: {}({}'.format(node.line, node.func,node.expressions.exprs[0].value)
+        error_msg = 'Line {}: Illegal matrix initialization: {}({}'.format(node.line, node.func,node.expressions.exprs[0].name)
 
         if len(node.expressions.exprs) > 1:
             for i in range(1, len(node.expressions.exprs)):
