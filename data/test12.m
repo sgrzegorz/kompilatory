@@ -7,6 +7,8 @@ A = [ 1, 2, 3;
        7, 8, 9 ] ;
 
 A[1,3] = 0;
+print "A: ", A;
+print A+A;
 
 b = zeros(5);
 

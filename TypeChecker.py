@@ -133,6 +133,7 @@ class TypeChecker(NodeVisitor):
         if right_type == 'matrix':
             matrix = node.expression
 
+            dim1 = dim2 = None
             if isinstance(matrix, AST.MatrixFunctions):  # zeros(a,b,c) TODO: modify matrices to be multiple-dim
                 matrix_func_dims = []
                 for expr in matrix.mfe.expressions:
@@ -156,9 +157,11 @@ class TypeChecker(NodeVisitor):
             else:  # it's a Rows object
                 dim1, dim2 = self.get_matrix_dimensions(matrix)
             symbol = VariableSymbol(name=node.id.name, type=right_type, dim1=dim1, dim2=dim2)  # TODO: check
-        #     TODO:
         else:
-            symbol = Symbol(name=node.id.name, type=right_type, val=node.expression.value)
+            val = None
+            if isinstance(node.expression, AST.Constant):
+                val = node.expression.value
+            symbol = Symbol(name=node.id.name, type=right_type, val=val)
         self.symbol_table.put(node.id.name, symbol)
         return right_type
 
@@ -186,11 +189,11 @@ class TypeChecker(NodeVisitor):
             elif isinstance(node.expression, AST.Rows):
                 right_matrix = node.expression
                 right_dim1, right_dim2 = self.get_matrix_dimensions(right_matrix)
-            elif isinstance(node.expression,
-                            AST.MatrixFunctions):  # TODO: add base class to Matrix (Rows) and MatrixFunctions or sth like this
-                self.handle_error('Line {}: We reject expressions of form a += ones(2) '.format(node.line))
-                return 'unknown'
-            else:
+            # elif isinstance(node.expression,
+            #                 AST.MatrixFunctions):  # TODO: add base class to Matrix (Rows) and MatrixFunctions or sth like this
+            #     self.handle_error('Line {}: We reject expressions of form a += ones(2) '.format(node.line))
+            #     return 'unknown'
+            else: # TODO: fixme - test6 should not throw above error
                 print('it should be impossible')
                 return 'unknown'  # it should be impossible
 
@@ -239,10 +242,8 @@ class TypeChecker(NodeVisitor):
                 return 'unknown'
 
         if node.ind1.value <= 0 or node.ind2.value <= 0 or node.ind1.value > symbol.dim1 or node.ind2.value > symbol.dim2:
-            self.handle_error(
-                'Line {}: [{},{}] incorrect dimension reference, array indexation starts from 1'.format(node.line,
-                                                                                                        node.ind1.value,
-                                                                                                        node.ind2.value))
+            self.handle_error( # FIXME: test5
+                'Line {}: Matrix index is out of bounds: [{},{}].'.format(node.line, node.ind1.value, node.ind2.value))
             return 'unknown'
 
     def visit_Expression(self, node):

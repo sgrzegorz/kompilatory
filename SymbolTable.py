@@ -1,5 +1,5 @@
 class Symbol:
-    def __init__(self, name, type=None,val=None):
+    def __init__(self, name, type=None, val=None):
         self.name = name
         self.type = type
         self.val = val
@@ -32,7 +32,6 @@ class SymbolTable(object):
         # {Node19bfdifa1 : MatrixSymbol('y','matrix', dimensions=10) #matrix 10x10 TODO: save the whole matrix, not just dimensions
         self.symbols = {}
 
-
     def put(self, name, symbol):  # put variable symbol or fundef under <name> entry
         self.symbols[name] = symbol
         symbol.name = name
@@ -61,4 +60,3 @@ class SymbolTable(object):
     def popNesting(self):
         self.nesting -= 1
     #
-
