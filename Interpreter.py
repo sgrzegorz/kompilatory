@@ -190,6 +190,9 @@ class Interpreter(object):
         left = node.left.accept(self)
         right = node.right.accept(self)
 
+        if node.oper in ('!=', '==') and isinstance(left, np.ndarray) and isinstance(right, np.ndarray):
+            return np.array_equal(left, right)
+
         return self.operators[node.oper](left, right)
         pass
 

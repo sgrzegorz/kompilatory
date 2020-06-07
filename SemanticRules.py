@@ -108,28 +108,24 @@ class SemanticRules():
         self.types['>']['int']['float'] = 'boolean'
         self.types['>']['float']['int'] = 'boolean'
         self.types['>']['string']['string'] = 'boolean'
-        self.types['>']['matrix']['matrix'] = 'boolean'
 
         self.types['<']['int']['int'] = 'boolean'
         self.types['<']['float']['float'] = 'boolean'
         self.types['<']['int']['float'] = 'boolean'
         self.types['<']['float']['int'] = 'boolean'
         self.types['<']['string']['string'] = 'boolean'
-        self.types['<']['matrix']['matrix'] = 'boolean'
 
         self.types['>=']['int']['int'] = 'boolean'
         self.types['>=']['float']['float'] = 'boolean'
         self.types['>=']['int']['float'] = 'boolean'
         self.types['>=']['float']['int'] = 'boolean'
         self.types['>=']['string']['string'] = 'boolean'
-        self.types['>=']['matrix']['matrix'] = 'boolean'
 
         self.types['<=']['int']['int'] = 'boolean'
         self.types['<=']['float']['float'] = 'boolean'
         self.types['<=']['int']['float'] = 'boolean'
         self.types['<=']['float']['int'] = 'boolean'
         self.types['<=']['string']['string'] = 'boolean'
-        self.types['<=']['matrix']['matrix'] = 'boolean'
 
         self.unary_types['UMINUS']['int'] = 'int'
         self.unary_types['UMINUS']['float'] = 'float'

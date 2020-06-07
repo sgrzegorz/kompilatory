@@ -200,7 +200,7 @@ class TreePrinter:
         print("PRINT")
         self.multiple_expression.printTree(indent + 1)
 
-    @addToClass(AST.BooleanExpression)  # TODO: is it necessary?
+    @addToClass(AST.BooleanExpression)
     def printTree(self, indent=0):
         for i in range(indent):
             print("|  ", end='')
