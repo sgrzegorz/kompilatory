@@ -158,7 +158,7 @@ class TreePrinter:
         for i in range(indent):
             print("|  ", end='')
         print(self.func)
-        self.expressions.printTree(indent + 1)
+        self.mfe.printTree(indent)
 
     @addToClass(AST.UMinusExpression)
     def printTree(self, indent=0):
@@ -185,13 +185,13 @@ class TreePrinter:
 
     @addToClass(AST.MultipleExpression)
     def printTree(self, indent=0):
-        for e in self.exprs:
+        for e in self.expressions:
             e.printTree(indent)
 
-    @addToClass(AST.MatixFunctionsExpression)
+    @addToClass(AST.MatrixFunctionsExpression)
     def printTree(self, indent=0):
-        for e in self.exprs:
-            e.printTree(indent)
+        for e in self.expressions:
+            e.printTree(indent + 1)
 
     @addToClass(AST.Print)
     def printTree(self, indent=0):

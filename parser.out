@@ -68,19 +68,21 @@ Rule 56    ROWS -> ROWS ; ROW
 Rule 57    ROWS -> ROW
 Rule 58    ROW -> ROW , EXPRESSION
 Rule 59    ROW -> EXPRESSION
-Rule 60    MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR )
-Rule 61    MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR )
-Rule 62    MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR )
+Rule 60    MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+Rule 61    MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+Rule 62    MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION )
 Rule 63    BOOLEAN_IN_PARENTHESES -> ( BOOLEAN_EXPRESSION )
 Rule 64    MULTIPLE_EXPR -> MULTIPLE_EXPR , EXPRESSION
 Rule 65    MULTIPLE_EXPR -> EXPRESSION
-Rule 66    print -> PRINT MULTIPLE_EXPR
+Rule 66    MATRIX_FUNCTIONS_EXPRESSION -> MATRIX_FUNCTIONS_EXPRESSION , EXPRESSION
+Rule 67    MATRIX_FUNCTIONS_EXPRESSION -> EXPRESSION
+Rule 68    print -> PRINT MULTIPLE_EXPR
 
 Terminals, with rules where they appear
 
 (                    : 60 61 62 63
 )                    : 60 61 62 63
-,                    : 31 58 64
+,                    : 31 58 64 66
 :                    : 19
 ;                    : 11 12 13 14 15 56
 ADD                  : 38
@@ -114,7 +116,7 @@ MULASSIGN            : 29
 NE                   : 36
 NL                   : 
 ONES                 : 62
-PRINT                : 66
+PRINT                : 68
 RELASSIGN            : 37
 RETURN               : 23 24 25
 STR                  : 51
@@ -131,10 +133,11 @@ Nonterminals, with rules where they appear
 
 BOOLEAN_EXPRESSION   : 25 63
 BOOLEAN_IN_PARENTHESES : 16 17 20
-EXPRESSION           : 19 19 24 26 27 28 29 30 31 32 32 33 33 34 34 35 35 36 36 37 37 38 38 39 39 40 40 41 41 42 42 43 43 44 44 45 45 46 47 58 59 64 65
+EXPRESSION           : 19 19 24 26 27 28 29 30 31 32 32 33 33 34 34 35 35 36 36 37 37 38 38 39 39 40 40 41 41 42 42 43 43 44 44 45 45 46 47 58 59 64 65 66 67
 MATRIX               : 48
 MATRIX_FUNCTIONS     : 49
-MULTIPLE_EXPR        : 60 61 62 64 66
+MATRIX_FUNCTIONS_EXPRESSION : 60 61 62 66
+MULTIPLE_EXPR        : 64 68
 NUMBER               : 50
 RANGE                : 18
 ROW                  : 56 57 58
@@ -182,7 +185,7 @@ state 0
     (23) return -> . RETURN
     (24) return -> . RETURN EXPRESSION
     (25) return -> . RETURN BOOLEAN_EXPRESSION
-    (66) print -> . PRINT MULTIPLE_EXPR
+    (68) print -> . PRINT MULTIPLE_EXPR
     (26) assign -> . ID ASSIGN EXPRESSION
     (27) assign -> . ID ADDASSIGN EXPRESSION
     (28) assign -> . ID MINASSIGN EXPRESSION
@@ -251,7 +254,7 @@ state 3
     (23) return -> . RETURN
     (24) return -> . RETURN EXPRESSION
     (25) return -> . RETURN BOOLEAN_EXPRESSION
-    (66) print -> . PRINT MULTIPLE_EXPR
+    (68) print -> . PRINT MULTIPLE_EXPR
     (26) assign -> . ID ASSIGN EXPRESSION
     (27) assign -> . ID ADDASSIGN EXPRESSION
     (28) assign -> . ID MINASSIGN EXPRESSION
@@ -429,7 +432,7 @@ state 14
     (23) return -> . RETURN
     (24) return -> . RETURN EXPRESSION
     (25) return -> . RETURN BOOLEAN_EXPRESSION
-    (66) print -> . PRINT MULTIPLE_EXPR
+    (68) print -> . PRINT MULTIPLE_EXPR
     (26) assign -> . ID ASSIGN EXPRESSION
     (27) assign -> . ID ADDASSIGN EXPRESSION
     (28) assign -> . ID MINASSIGN EXPRESSION
@@ -543,9 +546,9 @@ state 21
     (36) BOOLEAN_EXPRESSION -> . EXPRESSION NE EXPRESSION
     (37) BOOLEAN_EXPRESSION -> . EXPRESSION RELASSIGN EXPRESSION
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -568,7 +571,7 @@ state 21
 
 state 22
 
-    (66) print -> PRINT . MULTIPLE_EXPR
+    (68) print -> PRINT . MULTIPLE_EXPR
     (64) MULTIPLE_EXPR -> . MULTIPLE_EXPR , EXPRESSION
     (65) MULTIPLE_EXPR -> . EXPRESSION
     (38) EXPRESSION -> . EXPRESSION ADD EXPRESSION
@@ -587,9 +590,9 @@ state 22
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -739,7 +742,7 @@ state 29
     (23) return -> . RETURN
     (24) return -> . RETURN EXPRESSION
     (25) return -> . RETURN BOOLEAN_EXPRESSION
-    (66) print -> . PRINT MULTIPLE_EXPR
+    (68) print -> . PRINT MULTIPLE_EXPR
     (26) assign -> . ID ASSIGN EXPRESSION
     (27) assign -> . ID ADDASSIGN EXPRESSION
     (28) assign -> . ID MINASSIGN EXPRESSION
@@ -792,7 +795,7 @@ state 30
     (23) return -> . RETURN
     (24) return -> . RETURN EXPRESSION
     (25) return -> . RETURN BOOLEAN_EXPRESSION
-    (66) print -> . PRINT MULTIPLE_EXPR
+    (68) print -> . PRINT MULTIPLE_EXPR
     (26) assign -> . ID ASSIGN EXPRESSION
     (27) assign -> . ID ADDASSIGN EXPRESSION
     (28) assign -> . ID MINASSIGN EXPRESSION
@@ -846,9 +849,9 @@ state 31
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -894,9 +897,9 @@ state 33
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -934,9 +937,9 @@ state 34
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -974,9 +977,9 @@ state 35
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -1014,9 +1017,9 @@ state 36
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -1054,9 +1057,9 @@ state 37
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -1104,7 +1107,7 @@ state 39
     (23) return -> . RETURN
     (24) return -> . RETURN EXPRESSION
     (25) return -> . RETURN BOOLEAN_EXPRESSION
-    (66) print -> . PRINT MULTIPLE_EXPR
+    (68) print -> . PRINT MULTIPLE_EXPR
     (26) assign -> . ID ASSIGN EXPRESSION
     (27) assign -> . ID ADDASSIGN EXPRESSION
     (28) assign -> . ID MINASSIGN EXPRESSION
@@ -1196,9 +1199,9 @@ state 42
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -1415,9 +1418,9 @@ state 48
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -1440,21 +1443,21 @@ state 48
 
 state 49
 
-    (60) MATRIX_FUNCTIONS -> EYE . ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> EYE . ( MATRIX_FUNCTIONS_EXPRESSION )
 
     (               shift and go to state 87
 
 
 state 50
 
-    (61) MATRIX_FUNCTIONS -> ZEROS . ( MULTIPLE_EXPR )
+    (61) MATRIX_FUNCTIONS -> ZEROS . ( MATRIX_FUNCTIONS_EXPRESSION )
 
     (               shift and go to state 88
 
 
 state 51
 
-    (62) MATRIX_FUNCTIONS -> ONES . ( MULTIPLE_EXPR )
+    (62) MATRIX_FUNCTIONS -> ONES . ( MATRIX_FUNCTIONS_EXPRESSION )
 
     (               shift and go to state 89
 
@@ -1531,10 +1534,10 @@ state 53
 
 state 54
 
-    (66) print -> PRINT MULTIPLE_EXPR .
+    (68) print -> PRINT MULTIPLE_EXPR .
     (64) MULTIPLE_EXPR -> MULTIPLE_EXPR . , EXPRESSION
 
-    ;               reduce using rule 66 (print -> PRINT MULTIPLE_EXPR .)
+    ;               reduce using rule 68 (print -> PRINT MULTIPLE_EXPR .)
     ,               shift and go to state 90
 
 
@@ -1553,7 +1556,6 @@ state 55
 
     ,               reduce using rule 65 (MULTIPLE_EXPR -> EXPRESSION .)
     ;               reduce using rule 65 (MULTIPLE_EXPR -> EXPRESSION .)
-    )               reduce using rule 65 (MULTIPLE_EXPR -> EXPRESSION .)
     ADD             shift and go to state 68
     MIN             shift and go to state 69
     MUL             shift and go to state 70
@@ -1666,9 +1668,9 @@ state 60
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -1857,9 +1859,9 @@ state 68
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -1897,9 +1899,9 @@ state 69
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -1937,9 +1939,9 @@ state 70
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -1977,9 +1979,9 @@ state 71
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -2017,9 +2019,9 @@ state 72
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -2057,9 +2059,9 @@ state 73
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -2097,9 +2099,9 @@ state 74
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -2137,9 +2139,9 @@ state 75
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -2212,9 +2214,9 @@ state 77
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -2252,9 +2254,9 @@ state 78
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -2292,9 +2294,9 @@ state 79
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -2332,9 +2334,9 @@ state 80
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -2372,9 +2374,9 @@ state 81
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -2412,9 +2414,9 @@ state 82
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -2535,9 +2537,9 @@ state 86
 
 state 87
 
-    (60) MATRIX_FUNCTIONS -> EYE ( . MULTIPLE_EXPR )
-    (64) MULTIPLE_EXPR -> . MULTIPLE_EXPR , EXPRESSION
-    (65) MULTIPLE_EXPR -> . EXPRESSION
+    (60) MATRIX_FUNCTIONS -> EYE ( . MATRIX_FUNCTIONS_EXPRESSION )
+    (66) MATRIX_FUNCTIONS_EXPRESSION -> . MATRIX_FUNCTIONS_EXPRESSION , EXPRESSION
+    (67) MATRIX_FUNCTIONS_EXPRESSION -> . EXPRESSION
     (38) EXPRESSION -> . EXPRESSION ADD EXPRESSION
     (39) EXPRESSION -> . EXPRESSION MIN EXPRESSION
     (40) EXPRESSION -> . EXPRESSION MUL EXPRESSION
@@ -2554,9 +2556,9 @@ state 87
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -2570,17 +2572,17 @@ state 87
     INT             shift and go to state 52
     FLOAT           shift and go to state 53
 
-    MULTIPLE_EXPR                  shift and go to state 113
-    EXPRESSION                     shift and go to state 55
+    MATRIX_FUNCTIONS_EXPRESSION    shift and go to state 113
+    EXPRESSION                     shift and go to state 114
     MATRIX                         shift and go to state 43
     MATRIX_FUNCTIONS               shift and go to state 44
     NUMBER                         shift and go to state 45
 
 state 88
 
-    (61) MATRIX_FUNCTIONS -> ZEROS ( . MULTIPLE_EXPR )
-    (64) MULTIPLE_EXPR -> . MULTIPLE_EXPR , EXPRESSION
-    (65) MULTIPLE_EXPR -> . EXPRESSION
+    (61) MATRIX_FUNCTIONS -> ZEROS ( . MATRIX_FUNCTIONS_EXPRESSION )
+    (66) MATRIX_FUNCTIONS_EXPRESSION -> . MATRIX_FUNCTIONS_EXPRESSION , EXPRESSION
+    (67) MATRIX_FUNCTIONS_EXPRESSION -> . EXPRESSION
     (38) EXPRESSION -> . EXPRESSION ADD EXPRESSION
     (39) EXPRESSION -> . EXPRESSION MIN EXPRESSION
     (40) EXPRESSION -> . EXPRESSION MUL EXPRESSION
@@ -2597,9 +2599,9 @@ state 88
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -2613,17 +2615,17 @@ state 88
     INT             shift and go to state 52
     FLOAT           shift and go to state 53
 
-    MULTIPLE_EXPR                  shift and go to state 114
-    EXPRESSION                     shift and go to state 55
+    MATRIX_FUNCTIONS_EXPRESSION    shift and go to state 115
+    EXPRESSION                     shift and go to state 114
     MATRIX                         shift and go to state 43
     MATRIX_FUNCTIONS               shift and go to state 44
     NUMBER                         shift and go to state 45
 
 state 89
 
-    (62) MATRIX_FUNCTIONS -> ONES ( . MULTIPLE_EXPR )
-    (64) MULTIPLE_EXPR -> . MULTIPLE_EXPR , EXPRESSION
-    (65) MULTIPLE_EXPR -> . EXPRESSION
+    (62) MATRIX_FUNCTIONS -> ONES ( . MATRIX_FUNCTIONS_EXPRESSION )
+    (66) MATRIX_FUNCTIONS_EXPRESSION -> . MATRIX_FUNCTIONS_EXPRESSION , EXPRESSION
+    (67) MATRIX_FUNCTIONS_EXPRESSION -> . EXPRESSION
     (38) EXPRESSION -> . EXPRESSION ADD EXPRESSION
     (39) EXPRESSION -> . EXPRESSION MIN EXPRESSION
     (40) EXPRESSION -> . EXPRESSION MUL EXPRESSION
@@ -2640,9 +2642,9 @@ state 89
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -2656,8 +2658,8 @@ state 89
     INT             shift and go to state 52
     FLOAT           shift and go to state 53
 
-    MULTIPLE_EXPR                  shift and go to state 115
-    EXPRESSION                     shift and go to state 55
+    MATRIX_FUNCTIONS_EXPRESSION    shift and go to state 116
+    EXPRESSION                     shift and go to state 114
     MATRIX                         shift and go to state 43
     MATRIX_FUNCTIONS               shift and go to state 44
     NUMBER                         shift and go to state 45
@@ -2681,9 +2683,9 @@ state 90
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -2697,7 +2699,7 @@ state 90
     INT             shift and go to state 52
     FLOAT           shift and go to state 53
 
-    EXPRESSION                     shift and go to state 116
+    EXPRESSION                     shift and go to state 117
     MATRIX                         shift and go to state 43
     MATRIX_FUNCTIONS               shift and go to state 44
     NUMBER                         shift and go to state 45
@@ -2724,7 +2726,7 @@ state 91
     (23) return -> . RETURN
     (24) return -> . RETURN EXPRESSION
     (25) return -> . RETURN BOOLEAN_EXPRESSION
-    (66) print -> . PRINT MULTIPLE_EXPR
+    (68) print -> . PRINT MULTIPLE_EXPR
     (26) assign -> . ID ASSIGN EXPRESSION
     (27) assign -> . ID ADDASSIGN EXPRESSION
     (28) assign -> . ID MINASSIGN EXPRESSION
@@ -2742,7 +2744,7 @@ state 91
     PRINT           shift and go to state 22
     ID              shift and go to state 17
 
-    instruction                    shift and go to state 117
+    instruction                    shift and go to state 118
     block                          shift and go to state 5
     if                             shift and go to state 6
     for                            shift and go to state 7
@@ -2790,7 +2792,7 @@ state 93
     (23) return -> . RETURN
     (24) return -> . RETURN EXPRESSION
     (25) return -> . RETURN BOOLEAN_EXPRESSION
-    (66) print -> . PRINT MULTIPLE_EXPR
+    (68) print -> . PRINT MULTIPLE_EXPR
     (26) assign -> . ID ASSIGN EXPRESSION
     (27) assign -> . ID ADDASSIGN EXPRESSION
     (28) assign -> . ID MINASSIGN EXPRESSION
@@ -2808,7 +2810,7 @@ state 93
     PRINT           shift and go to state 22
     ID              shift and go to state 17
 
-    instruction                    shift and go to state 118
+    instruction                    shift and go to state 119
     block                          shift and go to state 5
     if                             shift and go to state 6
     for                            shift and go to state 7
@@ -2832,7 +2834,7 @@ state 94
     (45) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
     (47) EXPRESSION -> EXPRESSION . TRANSPOSE
 
-    :               shift and go to state 119
+    :               shift and go to state 120
     ADD             shift and go to state 68
     MIN             shift and go to state 69
     MUL             shift and go to state 70
@@ -2848,7 +2850,7 @@ state 95
 
     (31) assign -> ID [ INT , . INT ] ASSIGN EXPRESSION
 
-    INT             shift and go to state 120
+    INT             shift and go to state 121
 
 
 state 96
@@ -3495,9 +3497,9 @@ state 111
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -3511,7 +3513,7 @@ state 111
     INT             shift and go to state 52
     FLOAT           shift and go to state 53
 
-    ROW                            shift and go to state 121
+    ROW                            shift and go to state 122
     EXPRESSION                     shift and go to state 86
     MATRIX                         shift and go to state 43
     MATRIX_FUNCTIONS               shift and go to state 44
@@ -3536,9 +3538,9 @@ state 112
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -3552,39 +3554,65 @@ state 112
     INT             shift and go to state 52
     FLOAT           shift and go to state 53
 
-    EXPRESSION                     shift and go to state 122
+    EXPRESSION                     shift and go to state 123
     MATRIX                         shift and go to state 43
     MATRIX_FUNCTIONS               shift and go to state 44
     NUMBER                         shift and go to state 45
 
 state 113
 
-    (60) MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR . )
-    (64) MULTIPLE_EXPR -> MULTIPLE_EXPR . , EXPRESSION
+    (60) MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION . )
+    (66) MATRIX_FUNCTIONS_EXPRESSION -> MATRIX_FUNCTIONS_EXPRESSION . , EXPRESSION
 
-    )               shift and go to state 123
-    ,               shift and go to state 90
+    )               shift and go to state 124
+    ,               shift and go to state 125
 
 
 state 114
 
-    (61) MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR . )
-    (64) MULTIPLE_EXPR -> MULTIPLE_EXPR . , EXPRESSION
+    (67) MATRIX_FUNCTIONS_EXPRESSION -> EXPRESSION .
+    (38) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (39) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (47) EXPRESSION -> EXPRESSION . TRANSPOSE
 
-    )               shift and go to state 124
-    ,               shift and go to state 90
+    )               reduce using rule 67 (MATRIX_FUNCTIONS_EXPRESSION -> EXPRESSION .)
+    ,               reduce using rule 67 (MATRIX_FUNCTIONS_EXPRESSION -> EXPRESSION .)
+    ADD             shift and go to state 68
+    MIN             shift and go to state 69
+    MUL             shift and go to state 70
+    DIV             shift and go to state 71
+    DOTADD          shift and go to state 72
+    DOTMIN          shift and go to state 73
+    DOTMUL          shift and go to state 74
+    DOTDIV          shift and go to state 75
+    TRANSPOSE       shift and go to state 76
 
 
 state 115
 
-    (62) MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR . )
-    (64) MULTIPLE_EXPR -> MULTIPLE_EXPR . , EXPRESSION
+    (61) MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION . )
+    (66) MATRIX_FUNCTIONS_EXPRESSION -> MATRIX_FUNCTIONS_EXPRESSION . , EXPRESSION
 
-    )               shift and go to state 125
-    ,               shift and go to state 90
+    )               shift and go to state 126
+    ,               shift and go to state 125
 
 
 state 116
+
+    (62) MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION . )
+    (66) MATRIX_FUNCTIONS_EXPRESSION -> MATRIX_FUNCTIONS_EXPRESSION . , EXPRESSION
+
+    )               shift and go to state 127
+    ,               shift and go to state 125
+
+
+state 117
 
     (64) MULTIPLE_EXPR -> MULTIPLE_EXPR , EXPRESSION .
     (38) EXPRESSION -> EXPRESSION . ADD EXPRESSION
@@ -3599,7 +3627,6 @@ state 116
 
     ,               reduce using rule 64 (MULTIPLE_EXPR -> MULTIPLE_EXPR , EXPRESSION .)
     ;               reduce using rule 64 (MULTIPLE_EXPR -> MULTIPLE_EXPR , EXPRESSION .)
-    )               reduce using rule 64 (MULTIPLE_EXPR -> MULTIPLE_EXPR , EXPRESSION .)
     ADD             shift and go to state 68
     MIN             shift and go to state 69
     MUL             shift and go to state 70
@@ -3611,7 +3638,7 @@ state 116
     TRANSPOSE       shift and go to state 76
 
 
-state 117
+state 118
 
     (17) if -> IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction .
 
@@ -3629,7 +3656,7 @@ state 117
     ELSE            reduce using rule 17 (if -> IF BOOLEAN_IN_PARENTHESES instruction ELSE instruction .)
 
 
-state 118
+state 119
 
     (18) for -> FOR ID ASSIGN RANGE instruction .
 
@@ -3647,7 +3674,7 @@ state 118
     ELSE            reduce using rule 18 (for -> FOR ID ASSIGN RANGE instruction .)
 
 
-state 119
+state 120
 
     (19) RANGE -> EXPRESSION : . EXPRESSION
     (38) EXPRESSION -> . EXPRESSION ADD EXPRESSION
@@ -3666,9 +3693,9 @@ state 119
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -3682,19 +3709,19 @@ state 119
     INT             shift and go to state 52
     FLOAT           shift and go to state 53
 
-    EXPRESSION                     shift and go to state 126
+    EXPRESSION                     shift and go to state 128
     MATRIX                         shift and go to state 43
     MATRIX_FUNCTIONS               shift and go to state 44
     NUMBER                         shift and go to state 45
 
-state 120
+state 121
 
     (31) assign -> ID [ INT , INT . ] ASSIGN EXPRESSION
 
-    ]               shift and go to state 127
+    ]               shift and go to state 129
 
 
-state 121
+state 122
 
     (56) ROWS -> ROWS ; ROW .
     (58) ROW -> ROW . , EXPRESSION
@@ -3704,7 +3731,7 @@ state 121
     ,               shift and go to state 112
 
 
-state 122
+state 123
 
     (58) ROW -> ROW , EXPRESSION .
     (38) EXPRESSION -> EXPRESSION . ADD EXPRESSION
@@ -3731,112 +3758,152 @@ state 122
     TRANSPOSE       shift and go to state 76
 
 
-state 123
-
-    (60) MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .
-
-    ADD             reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    MIN             reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    MUL             reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    DIV             reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    DOTADD          reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    DOTMIN          reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    DOTMUL          reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    DOTDIV          reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    TRANSPOSE       reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    LT              reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    GT              reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    LTE             reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    GTE             reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    NE              reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    RELASSIGN       reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    ;               reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    ,               reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    ]               reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    :               reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    )               reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    {               reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    IF              reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    FOR             reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    WHILE           reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    BREAK           reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    CONTINUE        reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    RETURN          reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    PRINT           reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-    ID              reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MULTIPLE_EXPR ) .)
-
-
 state 124
 
-    (61) MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .
+    (60) MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .
 
-    ADD             reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    MIN             reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    MUL             reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    DIV             reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    DOTADD          reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    DOTMIN          reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    DOTMUL          reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    DOTDIV          reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    TRANSPOSE       reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    LT              reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    GT              reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    LTE             reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    GTE             reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    NE              reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    RELASSIGN       reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    ;               reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    ,               reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    ]               reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    :               reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    )               reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    {               reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    IF              reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    FOR             reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    WHILE           reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    BREAK           reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    CONTINUE        reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    RETURN          reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    PRINT           reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
-    ID              reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MULTIPLE_EXPR ) .)
+    ADD             reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    MIN             reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    MUL             reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    DIV             reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    DOTADD          reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    DOTMIN          reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    DOTMUL          reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    DOTDIV          reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    TRANSPOSE       reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    LT              reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    GT              reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    LTE             reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    GTE             reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    NE              reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    RELASSIGN       reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    ;               reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    ,               reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    ]               reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    :               reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    )               reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    {               reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    IF              reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    FOR             reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    WHILE           reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    BREAK           reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    CONTINUE        reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    RETURN          reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    PRINT           reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    ID              reduce using rule 60 (MATRIX_FUNCTIONS -> EYE ( MATRIX_FUNCTIONS_EXPRESSION ) .)
 
 
 state 125
 
-    (62) MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .
+    (66) MATRIX_FUNCTIONS_EXPRESSION -> MATRIX_FUNCTIONS_EXPRESSION , . EXPRESSION
+    (38) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (46) EXPRESSION -> . MIN EXPRESSION
+    (47) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (48) EXPRESSION -> . MATRIX
+    (49) EXPRESSION -> . MATRIX_FUNCTIONS
+    (50) EXPRESSION -> . NUMBER
+    (51) EXPRESSION -> . STR
+    (52) EXPRESSION -> . ID
+    (55) MATRIX -> . [ ROWS ]
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
+    (53) NUMBER -> . INT
+    (54) NUMBER -> . FLOAT
 
-    ADD             reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    MIN             reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    MUL             reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    DIV             reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    DOTADD          reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    DOTMIN          reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    DOTMUL          reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    DOTDIV          reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    TRANSPOSE       reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    LT              reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    GT              reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    LTE             reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    GTE             reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    NE              reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    RELASSIGN       reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    ;               reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    ,               reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    ]               reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    :               reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    )               reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    {               reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    IF              reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    FOR             reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    WHILE           reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    BREAK           reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    CONTINUE        reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    RETURN          reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    PRINT           reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
-    ID              reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MULTIPLE_EXPR ) .)
+    MIN             shift and go to state 42
+    STR             shift and go to state 46
+    ID              shift and go to state 47
+    [               shift and go to state 48
+    EYE             shift and go to state 49
+    ZEROS           shift and go to state 50
+    ONES            shift and go to state 51
+    INT             shift and go to state 52
+    FLOAT           shift and go to state 53
 
+    EXPRESSION                     shift and go to state 130
+    MATRIX                         shift and go to state 43
+    MATRIX_FUNCTIONS               shift and go to state 44
+    NUMBER                         shift and go to state 45
 
 state 126
+
+    (61) MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .
+
+    ADD             reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    MIN             reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    MUL             reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    DIV             reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    DOTADD          reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    DOTMIN          reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    DOTMUL          reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    DOTDIV          reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    TRANSPOSE       reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    LT              reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    GT              reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    LTE             reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    GTE             reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    NE              reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    RELASSIGN       reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    ;               reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    ,               reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    ]               reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    :               reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    )               reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    {               reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    IF              reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    FOR             reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    WHILE           reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    BREAK           reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    CONTINUE        reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    RETURN          reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    PRINT           reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    ID              reduce using rule 61 (MATRIX_FUNCTIONS -> ZEROS ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+
+
+state 127
+
+    (62) MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .
+
+    ADD             reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    MIN             reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    MUL             reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    DIV             reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    DOTADD          reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    DOTMIN          reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    DOTMUL          reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    DOTDIV          reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    TRANSPOSE       reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    LT              reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    GT              reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    LTE             reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    GTE             reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    NE              reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    RELASSIGN       reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    ;               reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    ,               reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    ]               reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    :               reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    )               reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    {               reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    IF              reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    FOR             reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    WHILE           reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    BREAK           reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    CONTINUE        reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    RETURN          reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    PRINT           reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+    ID              reduce using rule 62 (MATRIX_FUNCTIONS -> ONES ( MATRIX_FUNCTIONS_EXPRESSION ) .)
+
+
+state 128
 
     (19) RANGE -> EXPRESSION : EXPRESSION .
     (38) EXPRESSION -> EXPRESSION . ADD EXPRESSION
@@ -3869,14 +3936,40 @@ state 126
     TRANSPOSE       shift and go to state 76
 
 
-state 127
+state 129
 
     (31) assign -> ID [ INT , INT ] . ASSIGN EXPRESSION
 
-    ASSIGN          shift and go to state 128
+    ASSIGN          shift and go to state 131
 
 
-state 128
+state 130
+
+    (66) MATRIX_FUNCTIONS_EXPRESSION -> MATRIX_FUNCTIONS_EXPRESSION , EXPRESSION .
+    (38) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (39) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (47) EXPRESSION -> EXPRESSION . TRANSPOSE
+
+    )               reduce using rule 66 (MATRIX_FUNCTIONS_EXPRESSION -> MATRIX_FUNCTIONS_EXPRESSION , EXPRESSION .)
+    ,               reduce using rule 66 (MATRIX_FUNCTIONS_EXPRESSION -> MATRIX_FUNCTIONS_EXPRESSION , EXPRESSION .)
+    ADD             shift and go to state 68
+    MIN             shift and go to state 69
+    MUL             shift and go to state 70
+    DIV             shift and go to state 71
+    DOTADD          shift and go to state 72
+    DOTMIN          shift and go to state 73
+    DOTMUL          shift and go to state 74
+    DOTDIV          shift and go to state 75
+    TRANSPOSE       shift and go to state 76
+
+
+state 131
 
     (31) assign -> ID [ INT , INT ] ASSIGN . EXPRESSION
     (38) EXPRESSION -> . EXPRESSION ADD EXPRESSION
@@ -3895,9 +3988,9 @@ state 128
     (51) EXPRESSION -> . STR
     (52) EXPRESSION -> . ID
     (55) MATRIX -> . [ ROWS ]
-    (60) MATRIX_FUNCTIONS -> . EYE ( MULTIPLE_EXPR )
-    (61) MATRIX_FUNCTIONS -> . ZEROS ( MULTIPLE_EXPR )
-    (62) MATRIX_FUNCTIONS -> . ONES ( MULTIPLE_EXPR )
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
     (53) NUMBER -> . INT
     (54) NUMBER -> . FLOAT
 
@@ -3911,12 +4004,12 @@ state 128
     INT             shift and go to state 52
     FLOAT           shift and go to state 53
 
-    EXPRESSION                     shift and go to state 129
+    EXPRESSION                     shift and go to state 132
     MATRIX                         shift and go to state 43
     MATRIX_FUNCTIONS               shift and go to state 44
     NUMBER                         shift and go to state 45
 
-state 129
+state 132
 
     (31) assign -> ID [ INT , INT ] ASSIGN EXPRESSION .
     (38) EXPRESSION -> EXPRESSION . ADD EXPRESSION

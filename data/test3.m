@@ -8,3 +8,11 @@ y= [1,0;
 
 c = x*y;
 x*=y;
+if (x == c) {
+print "YYYYYYYYYYYUHUHUHUHU";
+}
+print x,c;
+
+a = 5 * 8;
+print zeros(4);
+print 5 * 4, a * 3, c;

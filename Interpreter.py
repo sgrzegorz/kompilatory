@@ -181,7 +181,7 @@ class Interpreter(object):
     @when(AST.MultipleExpression)
     def visit(self, node):
         t = []
-        for expr in node.exprs:
+        for expr in node.expressions:
             t.append(expr.accept(self))
         return t
 
@@ -226,23 +226,22 @@ class Interpreter(object):
 
     @when(AST.MatrixFunctions)
     def visit(self, node):
-        dims = node.expressions.accept(self)
+        dims = node.mfe.accept(self)
         if len(dims) == 1:
             dims.append(dims[0])
         dims = tuple(dims)
 
         if node.func == 'ones':
             return np.ones(dims)
-
         elif node.func == 'zeros':
             return np.zeros(dims)
         elif node.func == 'eye':
             return np.eye(dims[0])  # todo: dim is always a number in this case
 
-    @when(AST.MatixFunctionsExpression)
+    @when(AST.MatrixFunctionsExpression)
     def visit(self, node):
         dims = []
-        for i in node.exprs:
+        for i in node.expressions:
             dims.append(i.accept(self))
         return dims
 

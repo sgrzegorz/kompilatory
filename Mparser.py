@@ -1,8 +1,9 @@
-from AST import *
-import scanner
 import sys
 
 import ply.yacc as yacc
+
+import scanner
+from AST import *
 
 tokens = scanner.tokens
 
@@ -248,9 +249,9 @@ def p_matrix_row(p):
 
 
 def p_expression_matrix_functions(p):
-    """MATRIX_FUNCTIONS : EYE '(' MULTIPLE_EXPR ')'
-                         | ZEROS '(' MULTIPLE_EXPR ')'
-                         | ONES '(' MULTIPLE_EXPR ')'"""
+    """MATRIX_FUNCTIONS : EYE '(' MATRIX_FUNCTIONS_EXPRESSION ')'
+                         | ZEROS '(' MATRIX_FUNCTIONS_EXPRESSION ')'
+                         | ONES '(' MATRIX_FUNCTIONS_EXPRESSION ')'"""
 
     p[0] = MatrixFunctions(p[1], p[3])
     p[0].line = scanner.lexer.lineno
@@ -269,6 +270,17 @@ def p_multiple_expression(p):
         p[0].append(p[3])
     elif len(p) == 2:
         p[0] = MultipleExpression(p[1])
+        p[0].line = scanner.lexer.lineno
+
+
+def p_expression_matrix_functions_expression(p):
+    """MATRIX_FUNCTIONS_EXPRESSION : MATRIX_FUNCTIONS_EXPRESSION ',' EXPRESSION
+                            | EXPRESSION"""
+    if len(p) == 4:
+        p[0] = p[1]
+        p[0].append(p[3])
+    elif len(p) == 2:
+        p[0] = MatrixFunctionsExpression(p[1])
         p[0].line = scanner.lexer.lineno
 
 

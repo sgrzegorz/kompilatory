@@ -132,7 +132,7 @@ class TypeChecker(NodeVisitor):
 
             if isinstance(matrix, AST.MatrixFunctions):  # zeros(a,b,c) TODO: modify matrices to be multiple-dim
                 matrix_func_dims = []
-                for expr in matrix.expressions.exprs:
+                for expr in matrix.mfe.expressions:
                     if isinstance(expr, AST.Id):
                         if self.visit(expr) == 'unknown':
                             return 'unknown'
@@ -142,10 +142,10 @@ class TypeChecker(NodeVisitor):
                     else:
                         matrix_func_dims.append(expr.value)
 
-                if len(matrix.expressions.exprs) == 1:  # zeros(2) <=> zeros(2,2)
+                if len(matrix.mfe.expressions) == 1:  # zeros(2) <=> zeros(2,2)
                     dim1 = matrix_func_dims[0]
                     dim2 = dim1
-                if len(matrix.expressions.exprs) == 2:  # zeros(3,1), zeros(2,2)
+                if len(matrix.mfe.expressions) == 2:  # zeros(3,1), zeros(2,2)
                     dim1 = matrix_func_dims[0]
                     dim2 = matrix_func_dims[1]
             elif isinstance(matrix, AST.Expression):  # it's a matrix expression
@@ -183,7 +183,8 @@ class TypeChecker(NodeVisitor):
             elif isinstance(node.expression, AST.Rows):
                 right_matrix = node.expression
                 right_dim1, right_dim2 = self.get_matrix_dimensions(right_matrix)
-            elif isinstance(node.expression, AST.MatrixFunctions):  # TODO: add base class to Matrix (Rows) and MatrixFunctions or sth like this
+            elif isinstance(node.expression,
+                            AST.MatrixFunctions):  # TODO: add base class to Matrix (Rows) and MatrixFunctions or sth like this
                 self.handle_error('Line {}: We reject expressions of form a += ones(2) '.format(node.line))
                 return 'unknown'
             else:
@@ -250,10 +251,12 @@ class TypeChecker(NodeVisitor):
             return 'unknown'
 
         if left_type == 'matrix' and right_type == 'matrix':
-            left_dim1 = self.symbol_table.get(node.left.name).dim1
-            left_dim2 = self.symbol_table.get(node.left.name).dim2  # FIXME
-            right_dim1 = self.symbol_table.get(node.right.name).dim1
-            right_dim2 = self.symbol_table.get(node.right.name).dim2
+            left_symbol = self.symbol_table.get(node.left.name)
+            right_symbol = self.symbol_table.get(node.right.name)
+            left_dim1 = left_symbol.dim1
+            left_dim2 = left_symbol.dim2  # FIXME
+            right_dim1 = right_symbol.dim1
+            right_dim2 = right_symbol.dim2
 
             if node.oper == '*' and left_dim2 == right_dim1:
                 return 'matrix'
@@ -271,37 +274,40 @@ class TypeChecker(NodeVisitor):
         return return_type
 
     def visit_MatrixFunctions(self, node):
-        if (verbose): self.printFunctionName()
+        if (verbose): self.printFunctionName()  # zeros(1,3)
 
         if node.func == 'eye' and len(node.expressions.exprs) != 1:
-            self.handle_error(self.get_error_message_for_matrix_fun(
-                node) + " eye must be square, we allow only eye(5)")
+            self.handle_error(self.get_error_message_for_matrix_fun(node) + " eye must be square, we allow only eye(5)")
             return 'unknown'
 
-        dim_type = self.visit(node.expressions)
-        if dim_type != 'multiple_expression':
+        dim_type = self.visit(node.mfe)
+
+        # print 1, [2,4,3], 5
+        if dim_type == 'unknown':
             self.handle_error(self.get_error_message_for_matrix_fun(node))
             return 'unknown'
         return 'matrix'
 
-    def visit_MatixFunctionsExpression(self, node):
+    def visit_MatrixFunctionsExpression(self, node):
         if (verbose): self.printFunctionName()
 
-        if len(node.exprs) == 1:
-            dim_type = self.visit(node.exprs[0])
-            return dim_type
-        elif len(node.exprs) == 2:
-            dim_type1 = self.visit(node.exprs[0])
-            dim_type2 = self.visit(node.exprs[1])
-            if dim_type1 != dim_type2:
+        if len(node.expressions) == 1:
+            dim_type = self.visit(node.expressions[0])
+            if dim_type != 'int':
+                return 'unknown'  # TODO
+            return 'mfe'
+        elif len(node.expressions) == 2:
+            dim_type1 = self.visit(node.expressions[0])
+            dim_type2 = self.visit(node.expressions[1])
+            if dim_type1 != 'int' or dim_type2 != 'int':
                 return 'unknown'
-            return dim_type1
+            return 'mfe'
         else:
             return 'unknown'
 
     def visit_MultipleExpression(self, node):  # designed for printing as well as matrix functions
         if (verbose): self.printFunctionName()
-        for expr in node.exprs:
+        for expr in node.expressions:
             if self.visit(expr) == 'unknown':
                 return 'unknown'
 
@@ -393,12 +399,18 @@ class TypeChecker(NodeVisitor):
         return 'string'
 
     def get_error_message_for_matrix_fun(self, node):
-        error_msg = 'Line {}: Illegal matrix initialization: {}({}'.format(node.line, node.func,
-                                                                           node.expressions.exprs[0].name)
+        error_msg = 'Line {}: Illegal matrix initialization: {}('.format(node.line, node.func)
 
-        if len(node.expressions.exprs) > 1:
-            for i in range(1, len(node.expressions.exprs)):
-                error_msg += (', {}').format(node.expressions.exprs[i].value)
+        matrix_functions_expressions = node.mfe.expressions
+        if len(matrix_functions_expressions):
+            commas_count = len(matrix_functions_expressions) - 1
+            for i in range(0, len(matrix_functions_expressions)):
+                error_msg += '{}'.format(matrix_functions_expressions[i])
+                if commas_count:
+                    error_msg += ', '
+                    commas_count -= 1
+                else:
+                    error_msg += ' '
 
         error_msg += ')'
         return error_msg
