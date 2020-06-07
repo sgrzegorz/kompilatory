@@ -183,7 +183,7 @@ class TypeChecker(NodeVisitor):
             elif isinstance(node.expression, AST.Rows):
                 right_matrix = node.expression
                 right_dim1, right_dim2 = self.get_matrix_dimensions(right_matrix)
-            elif isinstance(node.expression, AST.MatrixFunctions):
+            elif isinstance(node.expression, AST.MatrixFunctions):  # TODO: add base class to Matrix (Rows) and MatrixFunctions or sth like this
                 self.handle_error('Line {}: We reject expressions of form a += ones(2) '.format(node.line))
                 return 'unknown'
             else:
@@ -342,6 +342,8 @@ class TypeChecker(NodeVisitor):
             if row_types == 'unknown':
                 return 'unknown'
             matrixOfTypes.append(row_types)
+
+        # TODO: insert into symbol_table
 
         if not len(set([len(l) for l in matrixOfTypes])) == 1:
             self.handle_error('Line {}: Matrix initialization with vectors of different sizes'.format(node.line))

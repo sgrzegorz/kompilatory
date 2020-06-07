@@ -122,7 +122,9 @@ def p_return(p):
 
 def p_expression_assignment(p):
     """assign : ID ASSIGN EXPRESSION"""
-    p[0] = Assign(Id(p[1]), p[3])
+    id = Id(p[1])
+    id.line = scanner.lexer.lineno
+    p[0] = Assign(id, p[3])
     p[0].line = scanner.lexer.lineno
 
 
@@ -131,16 +133,20 @@ def p_expression_assignment1(p):
               | ID MINASSIGN EXPRESSION
               | ID MULASSIGN EXPRESSION
               | ID DIVASSIGN EXPRESSION """
-    p[0] = AssignOperators(p[2], Id(p[1]), p[3])
+    id = Id(p[1])
+    id.line = scanner.lexer.lineno
+    p[0] = AssignOperators(p[2], id, p[3])
     p[0].line = scanner.lexer.lineno
 
 
 def p_expression_assignment_ref(p):
     """assign : ID '[' INT  ',' INT ']' ASSIGN EXPRESSION"""
 
-    ref = Ref(Id(p[1]), Constant(p[3]), Constant(p[5]))
-    p[0] = AssignRef(ref, p[8])
+    id = Id(p[1])
+    id.line = scanner.lexer.lineno
+    ref = Ref(id, Constant(p[3]), Constant(p[5]))
     ref.line = scanner.lexer.lineno
+    p[0] = AssignRef(ref, p[8])
     p[0].line = scanner.lexer.lineno
 
 
