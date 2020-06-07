@@ -1,7 +1,9 @@
-a = [1,2;
+
+
+a=2;
+b = zeros(a,3);
+z = [1,2;
     3,4];
 
-
-b = zeros(2);
-
-print a+b;
+c = z+b;
+print c;
