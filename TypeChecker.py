@@ -279,8 +279,6 @@ class TypeChecker(NodeVisitor):
             return 'unknown'
 
         dim_type = self.visit(node.expressions)
-
-        print("DIM_TYPE: " + dim_type)
         if dim_type != 'multiple_expression':
             self.handle_error(self.get_error_message_for_matrix_fun(node))
             return 'unknown'

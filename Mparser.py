@@ -125,6 +125,7 @@ def p_expression_assignment(p):
     p[0] = Assign(Id(p[1]), p[3])
     p[0].line = scanner.lexer.lineno
 
+
 def p_expression_assignment1(p):
     """assign : ID ADDASSIGN EXPRESSION
               | ID MINASSIGN EXPRESSION
@@ -186,26 +187,21 @@ def p_transpose(p):
     p[0].line = scanner.lexer.lineno
 
 
-def p_expression(p):
-    """EXPRESSION : CONSTANT_EXPRESSION"""
-    p[0] = p[1]
-
-
-def p_constant_expression_1(p):
-    """CONSTANT_EXPRESSION : MATRIX
+def p_expression_1(p):
+    """EXPRESSION : MATRIX
                 | MATRIX_FUNCTIONS
                 | NUMBER"""
     p[0] = p[1]
 
 
-def p_constant_expression_2(p):
-    """CONSTANT_EXPRESSION : STR"""
+def p_expression_2(p):
+    """EXPRESSION : STR"""
     p[0] = String(p[1])
     p[0].line = scanner.lexer.lineno
 
 
-def p_constant_expression_3(p):
-    """CONSTANT_EXPRESSION : ID"""
+def p_expression_3(p):
+    """EXPRESSION : ID"""
     p[0] = Id(p[1])
     p[0].line = scanner.lexer.lineno
 
@@ -260,14 +256,15 @@ def p_boolean_in_parentheses(p):
 
 
 def p_multiple_expression(p):
-    """MULTIPLE_EXPR : MULTIPLE_EXPR ',' CONSTANT_EXPRESSION
-                  | CONSTANT_EXPRESSION"""
+    """MULTIPLE_EXPR : MULTIPLE_EXPR ',' EXPRESSION
+                  | EXPRESSION"""
     if len(p) == 4:
         p[0] = p[1]
         p[0].append(p[3])
     elif len(p) == 2:
         p[0] = MultipleExpression(p[1])
         p[0].line = scanner.lexer.lineno
+
 
 def p_print(p):
     """print : PRINT MULTIPLE_EXPR """
