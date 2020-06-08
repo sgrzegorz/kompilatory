@@ -39,7 +39,7 @@ Rule 27    assign -> ID ADDASSIGN EXPRESSION
 Rule 28    assign -> ID MINASSIGN EXPRESSION
 Rule 29    assign -> ID MULASSIGN EXPRESSION
 Rule 30    assign -> ID DIVASSIGN EXPRESSION
-Rule 31    assign -> ID [ INT , INT ] ASSIGN EXPRESSION
+Rule 31    assign -> ID [ EXPRESSION , EXPRESSION ] ASSIGN EXPRESSION
 Rule 32    BOOLEAN_EXPRESSION -> EXPRESSION LT EXPRESSION
 Rule 33    BOOLEAN_EXPRESSION -> EXPRESSION GT EXPRESSION
 Rule 34    BOOLEAN_EXPRESSION -> EXPRESSION LTE EXPRESSION
@@ -106,7 +106,7 @@ GTE                  : 35
 ID                   : 18 26 27 28 29 30 31 52
 IF                   : 16 17
 IGN                  : 
-INT                  : 31 31 53
+INT                  : 53
 LT                   : 32
 LTE                  : 34
 MIN                  : 39 46
@@ -133,7 +133,7 @@ Nonterminals, with rules where they appear
 
 BOOLEAN_EXPRESSION   : 25 63
 BOOLEAN_IN_PARENTHESES : 16 17 20
-EXPRESSION           : 19 19 24 26 27 28 29 30 31 32 32 33 33 34 34 35 35 36 36 37 37 38 38 39 39 40 40 41 41 42 42 43 43 44 44 45 45 46 47 58 59 64 65 66 67
+EXPRESSION           : 19 19 24 26 27 28 29 30 31 31 31 32 32 33 33 34 34 35 35 36 36 37 37 38 38 39 39 40 40 41 41 42 42 43 43 44 44 45 45 46 47 58 59 64 65 66 67
 MATRIX               : 48
 MATRIX_FUNCTIONS     : 49
 MATRIX_FUNCTIONS_EXPRESSION : 60 61 62 66
@@ -191,7 +191,7 @@ state 0
     (28) assign -> . ID MINASSIGN EXPRESSION
     (29) assign -> . ID MULASSIGN EXPRESSION
     (30) assign -> . ID DIVASSIGN EXPRESSION
-    (31) assign -> . ID [ INT , INT ] ASSIGN EXPRESSION
+    (31) assign -> . ID [ EXPRESSION , EXPRESSION ] ASSIGN EXPRESSION
 
     $end            reduce using rule 3 (instructions_opt -> .)
     {               shift and go to state 14
@@ -260,7 +260,7 @@ state 3
     (28) assign -> . ID MINASSIGN EXPRESSION
     (29) assign -> . ID MULASSIGN EXPRESSION
     (30) assign -> . ID DIVASSIGN EXPRESSION
-    (31) assign -> . ID [ INT , INT ] ASSIGN EXPRESSION
+    (31) assign -> . ID [ EXPRESSION , EXPRESSION ] ASSIGN EXPRESSION
 
     $end            reduce using rule 2 (instructions_opt -> instructions .)
     {               shift and go to state 14
@@ -438,7 +438,7 @@ state 14
     (28) assign -> . ID MINASSIGN EXPRESSION
     (29) assign -> . ID MULASSIGN EXPRESSION
     (30) assign -> . ID DIVASSIGN EXPRESSION
-    (31) assign -> . ID [ INT , INT ] ASSIGN EXPRESSION
+    (31) assign -> . ID [ EXPRESSION , EXPRESSION ] ASSIGN EXPRESSION
 
     {               shift and go to state 14
     IF              shift and go to state 15
@@ -486,7 +486,7 @@ state 17
     (28) assign -> ID . MINASSIGN EXPRESSION
     (29) assign -> ID . MULASSIGN EXPRESSION
     (30) assign -> ID . DIVASSIGN EXPRESSION
-    (31) assign -> ID . [ INT , INT ] ASSIGN EXPRESSION
+    (31) assign -> ID . [ EXPRESSION , EXPRESSION ] ASSIGN EXPRESSION
 
     ASSIGN          shift and go to state 33
     ADDASSIGN       shift and go to state 34
@@ -748,7 +748,7 @@ state 29
     (28) assign -> . ID MINASSIGN EXPRESSION
     (29) assign -> . ID MULASSIGN EXPRESSION
     (30) assign -> . ID DIVASSIGN EXPRESSION
-    (31) assign -> . ID [ INT , INT ] ASSIGN EXPRESSION
+    (31) assign -> . ID [ EXPRESSION , EXPRESSION ] ASSIGN EXPRESSION
 
     }               shift and go to state 56
     {               shift and go to state 14
@@ -801,7 +801,7 @@ state 30
     (28) assign -> . ID MINASSIGN EXPRESSION
     (29) assign -> . ID MULASSIGN EXPRESSION
     (30) assign -> . ID DIVASSIGN EXPRESSION
-    (31) assign -> . ID [ INT , INT ] ASSIGN EXPRESSION
+    (31) assign -> . ID [ EXPRESSION , EXPRESSION ] ASSIGN EXPRESSION
 
     {               shift and go to state 14
     IF              shift and go to state 15
@@ -1080,10 +1080,43 @@ state 37
 
 state 38
 
-    (31) assign -> ID [ . INT , INT ] ASSIGN EXPRESSION
+    (31) assign -> ID [ . EXPRESSION , EXPRESSION ] ASSIGN EXPRESSION
+    (38) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (46) EXPRESSION -> . MIN EXPRESSION
+    (47) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (48) EXPRESSION -> . MATRIX
+    (49) EXPRESSION -> . MATRIX_FUNCTIONS
+    (50) EXPRESSION -> . NUMBER
+    (51) EXPRESSION -> . STR
+    (52) EXPRESSION -> . ID
+    (55) MATRIX -> . [ ROWS ]
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
+    (53) NUMBER -> . INT
+    (54) NUMBER -> . FLOAT
 
-    INT             shift and go to state 66
+    MIN             shift and go to state 42
+    STR             shift and go to state 46
+    ID              shift and go to state 47
+    [               shift and go to state 48
+    EYE             shift and go to state 49
+    ZEROS           shift and go to state 50
+    ONES            shift and go to state 51
+    INT             shift and go to state 52
+    FLOAT           shift and go to state 53
 
+    EXPRESSION                     shift and go to state 66
+    MATRIX                         shift and go to state 43
+    MATRIX_FUNCTIONS               shift and go to state 44
+    NUMBER                         shift and go to state 45
 
 state 39
 
@@ -1113,7 +1146,7 @@ state 39
     (28) assign -> . ID MINASSIGN EXPRESSION
     (29) assign -> . ID MULASSIGN EXPRESSION
     (30) assign -> . ID DIVASSIGN EXPRESSION
-    (31) assign -> . ID [ INT , INT ] ASSIGN EXPRESSION
+    (31) assign -> . ID [ EXPRESSION , EXPRESSION ] ASSIGN EXPRESSION
 
     {               shift and go to state 14
     IF              shift and go to state 15
@@ -1817,9 +1850,27 @@ state 65
 
 state 66
 
-    (31) assign -> ID [ INT . , INT ] ASSIGN EXPRESSION
+    (31) assign -> ID [ EXPRESSION . , EXPRESSION ] ASSIGN EXPRESSION
+    (38) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (39) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (47) EXPRESSION -> EXPRESSION . TRANSPOSE
 
     ,               shift and go to state 95
+    ADD             shift and go to state 68
+    MIN             shift and go to state 69
+    MUL             shift and go to state 70
+    DIV             shift and go to state 71
+    DOTADD          shift and go to state 72
+    DOTMIN          shift and go to state 73
+    DOTMUL          shift and go to state 74
+    DOTDIV          shift and go to state 75
+    TRANSPOSE       shift and go to state 76
 
 
 state 67
@@ -2732,7 +2783,7 @@ state 91
     (28) assign -> . ID MINASSIGN EXPRESSION
     (29) assign -> . ID MULASSIGN EXPRESSION
     (30) assign -> . ID DIVASSIGN EXPRESSION
-    (31) assign -> . ID [ INT , INT ] ASSIGN EXPRESSION
+    (31) assign -> . ID [ EXPRESSION , EXPRESSION ] ASSIGN EXPRESSION
 
     {               shift and go to state 14
     IF              shift and go to state 15
@@ -2798,7 +2849,7 @@ state 93
     (28) assign -> . ID MINASSIGN EXPRESSION
     (29) assign -> . ID MULASSIGN EXPRESSION
     (30) assign -> . ID DIVASSIGN EXPRESSION
-    (31) assign -> . ID [ INT , INT ] ASSIGN EXPRESSION
+    (31) assign -> . ID [ EXPRESSION , EXPRESSION ] ASSIGN EXPRESSION
 
     {               shift and go to state 14
     IF              shift and go to state 15
@@ -2848,10 +2899,43 @@ state 94
 
 state 95
 
-    (31) assign -> ID [ INT , . INT ] ASSIGN EXPRESSION
+    (31) assign -> ID [ EXPRESSION , . EXPRESSION ] ASSIGN EXPRESSION
+    (38) EXPRESSION -> . EXPRESSION ADD EXPRESSION
+    (39) EXPRESSION -> . EXPRESSION MIN EXPRESSION
+    (40) EXPRESSION -> . EXPRESSION MUL EXPRESSION
+    (41) EXPRESSION -> . EXPRESSION DIV EXPRESSION
+    (42) EXPRESSION -> . EXPRESSION DOTADD EXPRESSION
+    (43) EXPRESSION -> . EXPRESSION DOTMIN EXPRESSION
+    (44) EXPRESSION -> . EXPRESSION DOTMUL EXPRESSION
+    (45) EXPRESSION -> . EXPRESSION DOTDIV EXPRESSION
+    (46) EXPRESSION -> . MIN EXPRESSION
+    (47) EXPRESSION -> . EXPRESSION TRANSPOSE
+    (48) EXPRESSION -> . MATRIX
+    (49) EXPRESSION -> . MATRIX_FUNCTIONS
+    (50) EXPRESSION -> . NUMBER
+    (51) EXPRESSION -> . STR
+    (52) EXPRESSION -> . ID
+    (55) MATRIX -> . [ ROWS ]
+    (60) MATRIX_FUNCTIONS -> . EYE ( MATRIX_FUNCTIONS_EXPRESSION )
+    (61) MATRIX_FUNCTIONS -> . ZEROS ( MATRIX_FUNCTIONS_EXPRESSION )
+    (62) MATRIX_FUNCTIONS -> . ONES ( MATRIX_FUNCTIONS_EXPRESSION )
+    (53) NUMBER -> . INT
+    (54) NUMBER -> . FLOAT
 
-    INT             shift and go to state 121
+    MIN             shift and go to state 42
+    STR             shift and go to state 46
+    ID              shift and go to state 47
+    [               shift and go to state 48
+    EYE             shift and go to state 49
+    ZEROS           shift and go to state 50
+    ONES            shift and go to state 51
+    INT             shift and go to state 52
+    FLOAT           shift and go to state 53
 
+    EXPRESSION                     shift and go to state 121
+    MATRIX                         shift and go to state 43
+    MATRIX_FUNCTIONS               shift and go to state 44
+    NUMBER                         shift and go to state 45
 
 state 96
 
@@ -3716,9 +3800,27 @@ state 120
 
 state 121
 
-    (31) assign -> ID [ INT , INT . ] ASSIGN EXPRESSION
+    (31) assign -> ID [ EXPRESSION , EXPRESSION . ] ASSIGN EXPRESSION
+    (38) EXPRESSION -> EXPRESSION . ADD EXPRESSION
+    (39) EXPRESSION -> EXPRESSION . MIN EXPRESSION
+    (40) EXPRESSION -> EXPRESSION . MUL EXPRESSION
+    (41) EXPRESSION -> EXPRESSION . DIV EXPRESSION
+    (42) EXPRESSION -> EXPRESSION . DOTADD EXPRESSION
+    (43) EXPRESSION -> EXPRESSION . DOTMIN EXPRESSION
+    (44) EXPRESSION -> EXPRESSION . DOTMUL EXPRESSION
+    (45) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
+    (47) EXPRESSION -> EXPRESSION . TRANSPOSE
 
     ]               shift and go to state 129
+    ADD             shift and go to state 68
+    MIN             shift and go to state 69
+    MUL             shift and go to state 70
+    DIV             shift and go to state 71
+    DOTADD          shift and go to state 72
+    DOTMIN          shift and go to state 73
+    DOTMUL          shift and go to state 74
+    DOTDIV          shift and go to state 75
+    TRANSPOSE       shift and go to state 76
 
 
 state 122
@@ -3938,7 +4040,7 @@ state 128
 
 state 129
 
-    (31) assign -> ID [ INT , INT ] . ASSIGN EXPRESSION
+    (31) assign -> ID [ EXPRESSION , EXPRESSION ] . ASSIGN EXPRESSION
 
     ASSIGN          shift and go to state 131
 
@@ -3971,7 +4073,7 @@ state 130
 
 state 131
 
-    (31) assign -> ID [ INT , INT ] ASSIGN . EXPRESSION
+    (31) assign -> ID [ EXPRESSION , EXPRESSION ] ASSIGN . EXPRESSION
     (38) EXPRESSION -> . EXPRESSION ADD EXPRESSION
     (39) EXPRESSION -> . EXPRESSION MIN EXPRESSION
     (40) EXPRESSION -> . EXPRESSION MUL EXPRESSION
@@ -4011,7 +4113,7 @@ state 131
 
 state 132
 
-    (31) assign -> ID [ INT , INT ] ASSIGN EXPRESSION .
+    (31) assign -> ID [ EXPRESSION , EXPRESSION ] ASSIGN EXPRESSION .
     (38) EXPRESSION -> EXPRESSION . ADD EXPRESSION
     (39) EXPRESSION -> EXPRESSION . MIN EXPRESSION
     (40) EXPRESSION -> EXPRESSION . MUL EXPRESSION
@@ -4022,7 +4124,7 @@ state 132
     (45) EXPRESSION -> EXPRESSION . DOTDIV EXPRESSION
     (47) EXPRESSION -> EXPRESSION . TRANSPOSE
 
-    ;               reduce using rule 31 (assign -> ID [ INT , INT ] ASSIGN EXPRESSION .)
+    ;               reduce using rule 31 (assign -> ID [ EXPRESSION , EXPRESSION ] ASSIGN EXPRESSION .)
     ADD             shift and go to state 68
     MIN             shift and go to state 69
     MUL             shift and go to state 70

@@ -13,7 +13,6 @@ class NodeVisitor(object):
         self.semantic_rules = SemanticRules()
         self.symbol_table = SymbolTable(None, 'Program')
         self.error = False
-        self.shouldThrowUndeclaredIdError = True
 
     def visit(self, node):
         method = 'visit_' + node.__class__.__name__
@@ -193,7 +192,7 @@ class TypeChecker(NodeVisitor):
             #                 AST.MatrixFunctions):  # TODO: add base class to Matrix (Rows) and MatrixFunctions or sth like this
             #     self.handle_error('Line {}: We reject expressions of form a += ones(2) '.format(node.line))
             #     return 'unknown'
-            else: # TODO: fixme - test6 should not throw above error
+            else:  # TODO: fixme - test6 should not throw above error
                 print('it should be impossible')
                 return 'unknown'  # it should be impossible
 
@@ -221,28 +220,24 @@ class TypeChecker(NodeVisitor):
 
     def visit_Ref(self, node):  # x[1,2]
         if (verbose): self.printFunctionName()
-        # node_name = self.visit(node.id)
-        try:
-            symbol = self.symbol_table.get(node.id.name)
-        except KeyError:
-            self.handle_error('Line {}: {} is used but not declared'.format(node.line, node.id.name))
+        node_type = self.visit(node.id)
+        if node_type != 'matrix':
+            self.handle_error('Line {}: Reference to: {}'.format(node.line, node_type))
             return 'unknown'
-        if symbol.type == 'unknown':
-            return 'unknown'
-        elif symbol.type != 'matrix':
-            self.handle_error('Line {}: Reference to: {}'.format(node.line, symbol.type))
-            return 'unknown'
+
+        matrix_symbol = self.symbol_table.get(node.id.name)
 
         ind1_type = self.visit(node.ind1)
         ind2_type = self.visit(node.ind2)
 
         for t in {ind1_type, ind2_type}:
-            if t != 'unknown' and t != 'int':  # TODO: sprawdzić, czy jest niesiony
-                self.handle_error('Line {}: index is not integer'.format(node.line))
+            if t != 'int':
+                self.handle_error('Line {}: Matrix index is not an integer: {}'.format(node.line, t))
                 return 'unknown'
 
-        if node.ind1.value <= 0 or node.ind2.value <= 0 or node.ind1.value > symbol.dim1 or node.ind2.value > symbol.dim2:
-            self.handle_error( # FIXME: test5
+        if node.ind1.value <= 0 or node.ind2.value <= 0 or node.ind1.value > matrix_symbol.dim1 \
+                or node.ind2.value > matrix_symbol.dim2:  # TODO: imo, we shouldn't throw it here, in TypeChecker...
+            self.handle_error(  # FIXME: test5
                 'Line {}: Matrix index is out of bounds: [{},{}].'.format(node.line, node.ind1.value, node.ind2.value))
             return 'unknown'
 

@@ -141,11 +141,11 @@ def p_expression_assignment1(p):
 
 
 def p_expression_assignment_ref(p):
-    """assign : ID '[' INT  ',' INT ']' ASSIGN EXPRESSION"""
+    """assign : ID '[' EXPRESSION  ',' EXPRESSION ']' ASSIGN EXPRESSION"""
 
     id = Id(p[1])
     id.line = scanner.lexer.lineno
-    ref = Ref(id, Constant(p[3]), Constant(p[5]))
+    ref = Ref(id, p[3], p[5])
     ref.line = scanner.lexer.lineno
     p[0] = AssignRef(ref, p[8])
     p[0].line = scanner.lexer.lineno
