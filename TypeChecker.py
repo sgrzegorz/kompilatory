@@ -225,8 +225,6 @@ class TypeChecker(NodeVisitor):
             self.handle_error('Line {}: Reference to: {}'.format(node.line, node_type))
             return 'unknown'
 
-        matrix_symbol = self.symbol_table.get(node.id.name)
-
         ind1_type = self.visit(node.ind1)
         ind2_type = self.visit(node.ind2)
 
@@ -234,12 +232,6 @@ class TypeChecker(NodeVisitor):
             if t != 'int':
                 self.handle_error('Line {}: Matrix index is not an integer: {}'.format(node.line, t))
                 return 'unknown'
-
-        if node.ind1.value <= 0 or node.ind2.value <= 0 or node.ind1.value > matrix_symbol.dim1 \
-                or node.ind2.value > matrix_symbol.dim2:  # TODO: imo, we shouldn't throw it here, in TypeChecker...
-            self.handle_error(  # FIXME: test5
-                'Line {}: Matrix index is out of bounds: [{},{}].'.format(node.line, node.ind1.value, node.ind2.value))
-            return 'unknown'
 
     def visit_Expression(self, node):
         if (verbose): self.printFunctionName()

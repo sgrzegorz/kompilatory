@@ -57,7 +57,6 @@ class Interpreter(object):
             node.instruction.accept(self)
         else:
             node.else_instruction.accept(self)
-        pass
 
     @when(AST.For)
     def visit(self, node):
@@ -88,7 +87,6 @@ class Interpreter(object):
         start = node.start.accept(self)
         end = node.end.accept(self)
         return (start, end)
-        pass
 
     @when(AST.While)
     def visit(self, node):
@@ -110,22 +108,19 @@ class Interpreter(object):
     @when(AST.Break)
     def visit(self, node):
         raise BreakException
-        pass
 
     @when(AST.Continue)
     def visit(self, node):
         raise ContinueException
-        pass
 
     @when(AST.Return)
     def visit(self, node):
         raise ReturnValueException
-        pass
 
     @when(AST.Print)
     def visit(self, node):
-        printExpressions = node.multiple_expression.accept(self)
-        for expression in printExpressions:
+        print_expressions = node.multiple_expression.accept(self)
+        for expression in print_expressions:  # FIXME: test5.m!!!
             print(expression, end=" ")
         print()
 
@@ -140,7 +135,6 @@ class Interpreter(object):
         else:
             result = self.operators[node.oper](left, right)
         self.memory_stack.set(node.id.name, result)
-        pass
 
     @when(AST.Assign)
     def visit(self, node):
@@ -152,7 +146,6 @@ class Interpreter(object):
         # }
         if not self.memory_stack.set(node.id.name, val):
             self.memory_stack.insert(node.id.name, val)
-        pass
 
     @when(AST.AssignRef)
     def visit(self, node):
@@ -160,15 +153,20 @@ class Interpreter(object):
         expression = node.expression.accept(self)
         matrix = self.memory_stack.get(node.ref.id.name)
 
+        # TODO: zrobić jakiegoś while'a, żeby wyłuskać takie id, co zależą od innych (i trzymać w value Symbol z tablicy) - WSZĘDZIE!!!!!!
+
         if matrix is not None:
-            matrix[ind1 - 1, ind2 - 1] = expression  # -1 because array indexation from 1 to N
-        pass
+            try:
+                matrix[ind1 - 1, ind2 - 1] = expression  # -1 because array indexation from 1 to N
+            except IndexError:  # TODO: print error differently ????
+                print('Line {}: Matrix index is out of bounds: [{},{}].'.format(node.line, ind1 - 1, ind2 - 1))
+                exit(-1)
 
     @when(AST.Ref)
     def visit(self, node):
         ind1 = node.ind1.accept(self)
         ind2 = node.ind2.accept(self)
-        return (ind1, ind2)
+        return ind1, ind2
 
     @when(AST.Expression)
     def visit(self, node):
@@ -194,7 +192,6 @@ class Interpreter(object):
             return np.array_equal(left, right)
 
         return self.operators[node.oper](left, right)
-        pass
 
     @when(AST.UMinusExpression)
     def visit(self, node):
@@ -204,7 +201,6 @@ class Interpreter(object):
     def visit(self, node):
         matrix = node.expression.accept(self)
         return np.transpose(matrix)
-        pass
 
     @when(AST.Rows)
     def visit(self, node):
@@ -222,7 +218,6 @@ class Interpreter(object):
             row.append(number.accept(self))
 
         return np.array(row)
-        pass
 
     @when(AST.MatrixFunctions)
     def visit(self, node):

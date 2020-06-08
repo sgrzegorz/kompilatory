@@ -87,8 +87,6 @@ class Return(Node):
 class Print(Node):
     def __init__(self, multiple_expression):
         self.multiple_expression = multiple_expression
-    # def append(self, print_expression):
-    #     self.print_expressions.append(print_expression)
 
 
 class AssignOperators(Node):
@@ -108,6 +106,9 @@ class AssignRef(Node):
     def __init__(self, ref, expression):
         self.ref = ref
         self.expression = expression
+
+    def __str__(self):
+        return "ref: {} {}".format(self.ref, self.expression)
 
 
 class Ref(Node):

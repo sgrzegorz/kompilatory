@@ -82,6 +82,7 @@ class TreePrinter:
             print("|  ", end='')
         print('=')
         self.ref.printTree(indent + 1)
+        self.expression.printTree(indent + 1)
 
     @addToClass(AST.Ref)
     def printTree(self, indent=0):
@@ -174,7 +175,6 @@ class TreePrinter:
         print("TRANSPOSE")
         self.variable.printTree(indent + 1)
 
-
     @addToClass(AST.Expression)
     def printTree(self, indent=0):
         for i in range(indent):
@@ -214,7 +214,6 @@ class TreePrinter:
         for i in range(indent):
             print("|  ", end='')
         print(self.value)
-
 
     # def printTree(self, indent=0):
     #     for i in range(indent):

@@ -86,7 +86,7 @@ def p_for(p):
 
 
 def p_range1(p):
-    """RANGE : EXPRESSION ':' EXPRESSION"""  # modified
+    """RANGE : EXPRESSION ':' EXPRESSION"""
     p[0] = Range(p[1], p[3])
     p[0].line = scanner.lexer.lineno
 
@@ -133,7 +133,7 @@ def p_expression_assignment1(p):
     """assign : ID ADDASSIGN EXPRESSION
               | ID MINASSIGN EXPRESSION
               | ID MULASSIGN EXPRESSION
-              | ID DIVASSIGN EXPRESSION """
+              | ID DIVASSIGN EXPRESSION"""
     id = Id(p[1])
     id.line = scanner.lexer.lineno
     p[0] = AssignOperators(p[2], id, p[3])
@@ -141,13 +141,16 @@ def p_expression_assignment1(p):
 
 
 def p_expression_assignment_ref(p):
-    """assign : ID '[' EXPRESSION  ',' EXPRESSION ']' ASSIGN EXPRESSION"""
+    """assign : REF ASSIGN EXPRESSION"""
+    p[0] = AssignRef(p[1], p[3])
+    p[0].line = scanner.lexer.lineno
 
+
+def p_expression_ref(p):
+    """REF : ID '[' EXPRESSION  ',' EXPRESSION ']'"""
     id = Id(p[1])
     id.line = scanner.lexer.lineno
-    ref = Ref(id, p[3], p[5])
-    ref.line = scanner.lexer.lineno
-    p[0] = AssignRef(ref, p[8])
+    p[0] = Ref(id, p[3], p[5])
     p[0].line = scanner.lexer.lineno
 
 
@@ -197,6 +200,7 @@ def p_transpose(p):
 def p_expression_1(p):
     """EXPRESSION : MATRIX
                 | MATRIX_FUNCTIONS
+                | REF
                 | NUMBER"""
     p[0] = p[1]
 
