@@ -153,8 +153,6 @@ class Interpreter(object):
         expression = node.expression.accept(self)
         matrix = self.memory_stack.get(node.ref.id.name)
 
-        # TODO: zrobić jakiegoś while'a, żeby wyłuskać takie id, co zależą od innych (i trzymać w value Symbol z tablicy) - WSZĘDZIE!!!!!!
-
         if matrix is not None:
             try:
                 matrix[ind1 - 1, ind2 - 1] = expression  # -1 because array indexation from 1 to N

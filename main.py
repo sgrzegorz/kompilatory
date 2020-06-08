@@ -5,13 +5,12 @@ import scanner
 from TypeChecker import TypeChecker
 from Interpreter import Interpreter
 
-
 if __name__ == '__main__':
     # control_transfer
     # init
     # opers
     filename = sys.argv[1] if len(sys.argv) > 1 else "init.m"
-    filename ="data/"+filename
+    filename = "data/" + filename
     try:
         file = open(filename)
     except IOError:
@@ -26,8 +25,9 @@ if __name__ == '__main__':
         ast.printTree()
         print('start TypeChecker')
         typeChecker = TypeChecker()
-        typeChecker.visit(ast)   # or alternatively ast.accept(typeChecker)
-        if typeChecker.error: sys.exit(1) # if there was an error in TypeChecker there is no sense in using Interpreter
+        typeChecker.visit(ast)  # or alternatively ast.accept(typeChecker)
+        if typeChecker.error:
+            sys.exit(1)  # if there was an error in TypeChecker there is no point in using Interpreter
         print('start Interpreter')
         ast.accept(Interpreter())
         # in future

@@ -94,7 +94,7 @@ class TypeChecker(NodeVisitor):
         elif start_type != 'int' or end_type != 'int':
             self.handle_error('Line {}: Range of unsupported types: {} and {}'.format(node.line, start_type, end_type))
             return 'unknown'
-        return 'int'  # TODO: think it over
+        return 'int'
 
     def visit_While(self, node):
         if (verbose): self.printFunctionName()
@@ -148,16 +148,18 @@ class TypeChecker(NodeVisitor):
                 if len(matrix.mfe.expressions) == 1:  # zeros(2) <=> zeros(2,2)
                     dim1 = matrix_func_dims[0]
                     dim2 = dim1
-                if len(matrix.mfe.expressions) == 2:  # zeros(3,1), zeros(2,2) #TODO czy wiecej nie wejdzie
+                elif len(matrix.mfe.expressions) == 2:  # zeros(3,1), zeros(2,2)
                     dim1 = matrix_func_dims[0]
                     dim2 = matrix_func_dims[1]
             elif isinstance(matrix, AST.Expression):  # it's a matrix expression
-                dim1, dim2 = self.checkIfMatrixFunction(matrix.left)
+                dim1, dim2 = self.get_matrix_dims_depending_on_instance(matrix.left)
             elif isinstance(matrix, AST.Rows):  # it's a Rows object
                 dim1, dim2 = self.get_matrix_dimensions(matrix)
             elif isinstance(matrix, AST.Id):
-                dim1, dim2 = self.getMatrixDimensionsForID(matrix)
+                dim1, dim2 = self.get_matrix_dimensions_for_id(matrix)
 
+            # if right expr is an instance of Id, then we put its name to the symbol_table. Otherwise, we put there its
+            # value
             symbol = MatrixSymbol(name=node.id.name, type=right_type, val=node.expression, dim1=dim1, dim2=dim2)
         else:
             symbol = Symbol(name=node.id.name, type=right_type, val=node.expression)
@@ -182,25 +184,12 @@ class TypeChecker(NodeVisitor):
             return 'unknown'
 
         if left_type == 'matrix' and right_type == 'matrix':
-            if isinstance(node.expression, AST.Id):
-                right_matrix = self.symbol_table.get(node.expression.name)
-                right_dim1 = right_matrix.dim1
-                right_dim2 = right_matrix.dim2
-            elif isinstance(node.expression, AST.Rows):
-                right_matrix = node.expression
-                right_dim1, right_dim2 = self.get_matrix_dimensions(right_matrix)
-            # elif isinstance(node.expression,
-            #                 AST.MatrixFunctions):  # TODO: add base class to Matrix (Rows) and MatrixFunctions or sth like this
-            #     self.handle_error('Line {}: We reject expressions of form a += ones(2) '.format(node.line))
-            #     return 'unknown'
-            else:  # TODO: fixme - test6 should not throw above error
-                print('it should be impossible')
-                return 'unknown'  # it should be impossible
+            right_dim1, right_dim2 = self.get_matrix_dims_depending_on_instance(node.expression)
 
             if node.oper == '*=':
                 if left.dim2 != right_dim1:
                     self.handle_error(
-                        'Line {}: Matrices dimensions do not match on matrix multiplication'.format(node.line))
+                        'Line {}: Matrices dimensions do not match in matrix multiplication'.format(node.line))
                     return 'unknown'
                 return return_type
 
@@ -208,11 +197,6 @@ class TypeChecker(NodeVisitor):
                 self.handle_error('Line {}: Matrices dimensions do not match'.format(node.line))
                 return 'unknown'
         return return_type
-
-    def get_matrix_dimensions(self, matrix):
-        # it must be matrix of correct dimensions - otherwise
-        # node.expression wouldn't have returned that matrix type is 'matrix'
-        return len(matrix.rows), len(matrix.rows[0].numbers)
 
     def visit_AssignRef(self, node):  # x[1,2] = 6
         if (verbose): self.printFunctionName()
@@ -243,11 +227,11 @@ class TypeChecker(NodeVisitor):
             return 'unknown'
 
         if left_type == 'matrix' and right_type == 'matrix':
-            left_dim1, left_dim2 = self.checkIfMatrixFunction(node.left)
-            right_dim1, right_dim2 = self.checkIfMatrixFunction(node.right)
+            left_dim1, left_dim2 = self.get_matrix_dims_depending_on_instance(node.left)
+            right_dim1, right_dim2 = self.get_matrix_dims_depending_on_instance(node.right)
 
             if node.oper == '*':
-                if left_dim2 == right_dim1:
+                if left_dim2 == right_dim1:  # TODO: is it actually the role of the typechecker??????
                     return 'matrix'
                 else:
                     self.handle_error('Line {}: Unsupported operation "{}" between matrices of different dimensions: '
@@ -278,7 +262,7 @@ class TypeChecker(NodeVisitor):
         dim_type = self.visit(node.mfe)
 
         # print 1, [2,4,3], 5
-        if dim_type == 'unknown':
+        if dim_type != 'mfe':
             self.handle_error(self.get_error_message_for_matrix_fun(node))
             return 'unknown'
         return 'matrix'
@@ -289,7 +273,7 @@ class TypeChecker(NodeVisitor):
         if len(node.expressions) == 1:
             dim_type = self.visit(node.expressions[0])
             if dim_type != 'int':
-                return 'unknown'  # TODO
+                return 'unknown'
             return 'mfe'
         elif len(node.expressions) == 2:
             dim_type1 = self.visit(node.expressions[0])
@@ -334,19 +318,16 @@ class TypeChecker(NodeVisitor):
     def visit_Rows(self, node):
         if (verbose): self.printFunctionName()
         # [ 1, 2.3;
-        #  4, 5]
-        # matrixOfTypes = [['int','float'], ['int', 'int']]
+        #  4.66666, 5];
 
-        matrixOfTypes = []
+        matrix_of_types = []
         for row in node.rows:
             row_types = self.visit(row)
             if row_types == 'unknown':
                 return 'unknown'
-            matrixOfTypes.append(row_types)
+            matrix_of_types.append(row_types)
 
-        # TODO: insert into symbol_table
-
-        if not len(set([len(l) for l in matrixOfTypes])) == 1:
+        if not len(set([len(l) for l in matrix_of_types])) == 1:
             self.handle_error('Line {}: Matrix initialization with vectors of different sizes'.format(node.line))
             return 'unknown'
         return 'matrix'
@@ -410,15 +391,37 @@ class TypeChecker(NodeVisitor):
         error_msg += ')'
         return error_msg
 
-    def checkInstance(self, node, index):
+    def get_matrix_dims_depending_on_instance(self, node):
+        k = node
+        while isinstance(k, AST.Expression):
+            k = k.left
+        node = k
+        if isinstance(node, AST.MatrixFunctions):
+            if len(node.mfe.expressions) == 1:
+                dim = self.get_mfe_dim_at_index(node, 0)
+                return dim, dim
+            if len(node.mfe.expressions) == 2:
+                left_dims = self.get_mfe_dim_at_index(node, 0), self.get_mfe_dim_at_index(node, 1)
+                return left_dims
+        if isinstance(node, AST.Rows):
+            return self.get_matrix_dimensions(node)
+        if isinstance(node, AST.Id):
+            return self.get_matrix_dimensions_for_id(node)
+
+    def get_mfe_dim_at_index(self, node, index):
         expr = node.mfe.expressions
         if isinstance(expr[index], AST.Id):
-            value = self.getMatrixDimensionsForID(expr[index])
+            value = self.get_matrix_dimensions_for_id(expr[index])
             return value
         if isinstance(expr[index], AST.Constant):
             return expr[index].value
 
-    def getMatrixDimensionsForID(self, node):
+    def get_matrix_dimensions(self, matrix):
+        # it must be matrix of correct dimensions - otherwise
+        # node.expression wouldn't have returned that matrix type is 'matrix'
+        return len(matrix.rows), len(matrix.rows[0].numbers)
+
+    def get_matrix_dimensions_for_id(self, node):
         symbol = self.symbol_table.get(node.name)
         if isinstance(symbol.dim1, Symbol):
             symbol.dim1 = self.symbol_table.get(symbol.dim1.name)
@@ -426,20 +429,3 @@ class TypeChecker(NodeVisitor):
             symbol.dim2 = self.symbol_table.get(symbol.dim2.name)
 
         return symbol.dim1, symbol.dim2
-
-    def checkIfMatrixFunction(self, node):
-        k = node
-        while isinstance(k, AST.Expression):
-            k = k.left
-        node = k
-        if isinstance(node, AST.MatrixFunctions):
-            if len(node.mfe.expressions) == 1:
-                dim = self.checkInstance(node, 0)
-                return dim, dim
-            if len(node.mfe.expressions) == 2:
-                left_dims = self.checkInstance(node, 0), self.checkInstance(node, 1)
-                return left_dims
-        if isinstance(node, AST.Rows):
-            return self.get_matrix_dimensions(node)
-        if isinstance(node, AST.Id):
-            return self.getMatrixDimensionsForID(node)

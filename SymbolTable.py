@@ -29,8 +29,6 @@ class SymbolTable(object):
         self.name = name
         self.scope = 0
         self.nesting = 0
-        # {'x' : VariableSymbol('x','int'}
-        # {Node19bfdifa1 : MatrixSymbol('y','matrix', dimensions=10) #matrix 10x10 TODO: save the whole matrix, not just dimensions
         self.symbols = {}
 
     def put(self, name, symbol):  # put variable symbol or fundef under <name> entry
