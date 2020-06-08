@@ -120,8 +120,8 @@ class Interpreter(object):
     @when(AST.Print)
     def visit(self, node):
         print_expressions = node.multiple_expression.accept(self)
-        for expression in print_expressions:  # FIXME: test5.m!!!
-            print(expression, end=" ")
+        for expression in print_expressions:
+            print(expression, end="")
         print()
 
     @when(AST.AssignOperators)  # x += , -=, *=, /=
@@ -149,7 +149,7 @@ class Interpreter(object):
 
     @when(AST.AssignRef)
     def visit(self, node):
-        (ind1, ind2) = node.ref.accept(self)
+        ind1, ind2 = node.ref.accept(self)
         expression = node.expression.accept(self)
         matrix = self.memory_stack.get(node.ref.id.name)
 
@@ -180,7 +180,12 @@ class Interpreter(object):
     def visit(self, node):
         t = []
         for expr in node.expressions:
-            t.append(expr.accept(self))
+            append_val = expr.accept(self)
+            if isinstance(expr, AST.Ref):
+                a = self.memory_stack.get(expr.id.name)
+                ind1, ind2 = append_val
+                append_val = a[ind1 - 1, ind2 - 1]
+            t.append(append_val)
         return t
 
     @when(AST.BooleanExpression)

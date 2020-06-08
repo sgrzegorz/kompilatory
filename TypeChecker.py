@@ -153,14 +153,15 @@ class TypeChecker(NodeVisitor):
                     dim2 = matrix_func_dims[1]
             elif isinstance(matrix, AST.Expression):  # it's a matrix expression
                 dim1, dim2 = self.checkIfMatrixFunction(matrix.left)
-            else:  # it's a Rows object
-                dim1, dim2 = self.get_matrix_dimensions(matrix)  # FIXME: changing_refs_test!!!!!!!!! nested Ids problem!!!
-            symbol = VariableSymbol(name=node.id.name, type=right_type, dim1=dim1, dim2=dim2)  # TODO: check
+            elif isinstance(matrix, AST.Rows):  # it's a Rows object
+                dim1, dim2 = self.get_matrix_dimensions(matrix)
+            elif isinstance(matrix, AST.Id):
+                dim1, dim2 = self.getMatrixDimensionsForID(matrix)
+
+            symbol = MatrixSymbol(name=node.id.name, type=right_type, val=node.expression, dim1=dim1, dim2=dim2)
         else:
-            val = None
-            if isinstance(node.expression, AST.Constant):
-                val = node.expression.value
-            symbol = Symbol(name=node.id.name, type=right_type, val=val)
+            symbol = Symbol(name=node.id.name, type=right_type, val=node.expression)
+
         self.symbol_table.put(node.id.name, symbol)
         return right_type
 
@@ -242,7 +243,6 @@ class TypeChecker(NodeVisitor):
             return 'unknown'
 
         if left_type == 'matrix' and right_type == 'matrix':
-
             left_dim1, left_dim2 = self.checkIfMatrixFunction(node.left)
             right_dim1, right_dim2 = self.checkIfMatrixFunction(node.right)
 
@@ -413,7 +413,6 @@ class TypeChecker(NodeVisitor):
     def checkInstance(self, node, index):
         expr = node.mfe.expressions
         if isinstance(expr[index], AST.Id):
-            # self.symbol_table.get(expr[index].name)
             value = self.getMatrixDimensionsForID(expr[index])
             return value
         if isinstance(expr[index], AST.Constant):
@@ -426,7 +425,7 @@ class TypeChecker(NodeVisitor):
         if isinstance(symbol.dim2, Symbol):
             symbol.dim2 = self.symbol_table.get(symbol.dim2.name)
 
-        return (symbol.dim1, symbol.dim2)
+        return symbol.dim1, symbol.dim2
 
     def checkIfMatrixFunction(self, node):
         k = node

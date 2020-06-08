@@ -5,20 +5,21 @@ class Symbol:
         self.val = val
 
 
-class VariableSymbol(Symbol):
-    def __init__(self, name=None, type=None, dim1=None, dim2=None):
-        super().__init__(name, type)
+class MatrixSymbol(Symbol):
+    def __init__(self, name=None, type=None, val=None, dim1=None, dim2=None):
+        super().__init__(name, type, val)
         self.dim1 = dim1
         self.dim2 = dim2
 
-    def __str__(self):
-        return "<{class_name}(name='{name}', type='{type}')>".format(
-            class_name=self.__class__.__name__,
-            name=self.name,
-            type=self.type,
-            dim1=self.dim1,
-            dim2=self.dim2
-        )
+
+def __str__(self):
+    return "<{class_name}(name='{name}', type='{type}')>".format(
+        class_name=self.__class__.__name__,
+        name=self.name,
+        type=self.type,
+        dim1=self.dim1,
+        dim2=self.dim2
+    )
 
 
 class SymbolTable(object):

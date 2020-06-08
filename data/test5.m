@@ -5,7 +5,7 @@
   #  2;
   #  3];
 
-b = [1,2,3];
+#b = [1,2,3];
 a = [1;2;3];
 
 #print "B before: ", b;
@@ -14,10 +14,10 @@ a = [1;2;3];
 
 #b[1, w] = 5;
 
-
+#################
 a[2, 1] = 5;
-print "A after: ", a[1,1]; # FIXME: interpreter should evaluate a[3,1], not print (3,1)
-
+print "A after: ", a[2,1];
+#################
 
 #print a;
 #b *=c;
