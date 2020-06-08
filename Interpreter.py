@@ -251,4 +251,3 @@ class Interpreter(object):
     @when(AST.Id)
     def visit(self, node):
         return self.memory_stack.get(node.name)
-        pass

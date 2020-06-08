@@ -154,7 +154,7 @@ class TypeChecker(NodeVisitor):
             elif isinstance(matrix, AST.Expression):  # it's a matrix expression
                 dim1, dim2 = self.checkIfMatrixFunction(matrix.left)
             else:  # it's a Rows object
-                dim1, dim2 = self.get_matrix_dimensions(matrix)
+                dim1, dim2 = self.get_matrix_dimensions(matrix)  # FIXME: changing_refs_test!!!!!!!!! nested Ids problem!!!
             symbol = VariableSymbol(name=node.id.name, type=right_type, dim1=dim1, dim2=dim2)  # TODO: check
         else:
             val = None
