@@ -158,6 +158,7 @@ class Interpreter(object):
                 matrix[ind1 - 1, ind2 - 1] = expression  # -1 because array indexation from 1 to N
             except IndexError:  # TODO: print error differently ????
                 print('Line {}: Matrix index is out of bounds: [{},{}].'.format(node.line, ind1 - 1, ind2 - 1))
+                # TODO: typechecker or interpreter...?
                 exit(-1)
 
     @when(AST.Ref)
