@@ -198,8 +198,7 @@ def p_transpose(p):
 
 
 def p_expression_1(p):
-    """EXPRESSION : BOOLEAN_EXPRESSION
-                  | MATRIX
+    """EXPRESSION : MATRIX
                   | MATRIX_FUNCTIONS
                   | REF
                   | NUMBER"""
@@ -269,7 +268,7 @@ def p_boolean_in_parentheses(p):
 
 def p_multiple_expression(p):
     """MULTIPLE_EXPR : MULTIPLE_EXPR ',' EXPRESSION
-                  | EXPRESSION"""
+                     | EXPRESSION"""
     if len(p) == 4:
         p[0] = p[1]
         p[0].append(p[3])
@@ -280,7 +279,7 @@ def p_multiple_expression(p):
 
 def p_expression_matrix_functions_expression(p):
     """MATRIX_FUNCTIONS_EXPRESSION : MATRIX_FUNCTIONS_EXPRESSION ',' EXPRESSION
-                            | EXPRESSION"""
+                                   | EXPRESSION"""
     if len(p) == 4:
         p[0] = p[1]
         p[0].append(p[3])
