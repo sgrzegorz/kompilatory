@@ -40,7 +40,7 @@ class SymbolTable(object):
     def getParentScope(self):
         return self.parent
 
-    def pushScope(self):
+    def pushScope(self, name):
         self.scope += 1
 
     def popScope(self):

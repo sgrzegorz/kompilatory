@@ -7,12 +7,10 @@ print a;
 
 b = zeros(2,1);
 c = 99 ;
-if(a == b){
+if(a == b) {
     print c;
 }
 
 
-
-for i =1:10{
-
-}
+for i =1:10
+print i;

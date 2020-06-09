@@ -1,7 +1,7 @@
 a = [1;2;3];
-e = 3;
-print a[1,e];
+e = 2;
+print a[e,1];
 
 
-#a *= [e, e, 5];
-#print a;
+a *= [e, e, 5];
+print a;
