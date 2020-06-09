@@ -71,11 +71,12 @@ class Interpreter:
 
     @when(AST.While)
     def visit(self, node):
-        self.memory_stack.push(Memory("While"))  ## lekkie uproszczenie powinno być wewnątrz while
+
 
         while node.booleanInParentheses.accept(self):
-
             try:
+                self.memory_stack.push(Memory("While"))
+
                 node.instruction.accept(self)
             except ReturnValueException:
                 return
@@ -83,8 +84,8 @@ class Interpreter:
                 continue
             except BreakException:
                 break
-
-        self.memory_stack.pop()
+            finally:
+                self.memory_stack.pop()
 
     @when(AST.Break)
     def visit(self, node):
