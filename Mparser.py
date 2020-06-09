@@ -198,10 +198,11 @@ def p_transpose(p):
 
 
 def p_expression_1(p):
-    """EXPRESSION : MATRIX
-                | MATRIX_FUNCTIONS
-                | REF
-                | NUMBER"""
+    """EXPRESSION : BOOLEAN_EXPRESSION
+                  | MATRIX
+                  | MATRIX_FUNCTIONS
+                  | REF
+                  | NUMBER"""
     p[0] = p[1]
 
 

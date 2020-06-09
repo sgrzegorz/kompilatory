@@ -76,7 +76,6 @@ class Interpreter:
         while node.booleanInParentheses.accept(self):
             try:
                 self.memory_stack.push(Memory("While"))
-
                 node.instruction.accept(self)
             except ReturnValueException:
                 return

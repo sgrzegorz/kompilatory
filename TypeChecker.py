@@ -231,7 +231,7 @@ class TypeChecker(NodeVisitor):
             right_dim1, right_dim2 = self.get_matrix_dims_depending_on_instance(node.right)
 
             if node.oper == '*':
-                if left_dim2 == right_dim1:  # TODO: is it actually the role of the typechecker??????
+                if left_dim2 == right_dim1:
                     return 'matrix'
                 else:
                     self.handle_error('Line {}: Unsupported operation "{}" between matrices of different dimensions: '

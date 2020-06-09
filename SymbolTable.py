@@ -23,7 +23,6 @@ def __str__(self):
 
 
 class SymbolTable(object):
-
     def __init__(self, parent, name):  # parent scope and symbol table name
         self.parent = parent
         self.name = name
@@ -38,17 +37,11 @@ class SymbolTable(object):
     def get(self, name):  # get variable symbol or fundef from <name> entry
         return self.symbols[name]
 
-    #
-
     def getParentScope(self):
         return self.parent
 
-    #
-
-    def pushScope(self, name):
+    def pushScope(self):
         self.scope += 1
-
-    #
 
     def popScope(self):
         self.scope -= 1
@@ -58,4 +51,3 @@ class SymbolTable(object):
 
     def popNesting(self):
         self.nesting -= 1
-    #

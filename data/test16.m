@@ -3,5 +3,5 @@ e = 3;
 print a[1,e];
 
 
-a *= [e, e, 5];
-print a;
+#a *= [e, e, 5];
+#print a;
