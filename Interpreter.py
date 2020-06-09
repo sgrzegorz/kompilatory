@@ -53,7 +53,7 @@ class Interpreter:
                 node.instruction.accept(self)
 
                 self.memory_stack.set(node.id.name, self.memory_stack.get(node.id.name) + 1)  # i+=1
-            except ReturnValueException:  # TODO return check
+            except ReturnValueException:
                 return
             except ContinueException:
                 self.memory_stack.set(node.id.name, self.memory_stack.get(node.id.name) + 1)  # i+=1
@@ -77,7 +77,7 @@ class Interpreter:
 
             try:
                 node.instruction.accept(self)
-            except ReturnValueException:  # TODO return check
+            except ReturnValueException:
                 return
             except ContinueException:
                 continue
@@ -154,7 +154,7 @@ class Interpreter:
         right = node.right.accept(self)
         if node.oper == '*' and isinstance(left, np.ndarray) and isinstance(right, np.ndarray):
             return np.matmul(left, right)
-        return self.operators[node.oper](left, right)  # TODO matrix multiplication bedzie inaczej
+        return self.operators[node.oper](left, right)
 
     @when(AST.MultipleExpression)
     def visit(self, node):
