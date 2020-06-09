@@ -164,7 +164,12 @@ class Interpreter:
             if isinstance(expr, AST.Ref):
                 a = self.memory_stack.get(expr.id.name)
                 ind1, ind2 = append_val
-                append_val = a[ind1 - 1, ind2 - 1]
+                try:
+                    append_val = a[ind1 - 1, ind2 - 1]
+                except IndexError:
+                    print('Line {}: Matrix index is out of bounds: [{},{}].'.format(node.line, ind1, ind2))
+                    sys.exit(1)
+
             t.append(append_val)
         return t
 
