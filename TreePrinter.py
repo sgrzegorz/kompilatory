@@ -173,7 +173,7 @@ class TreePrinter:
         for i in range(indent):
             print("|  ", end='')
         print("TRANSPOSE")
-        self.variable.printTree(indent + 1)
+        self.expression.printTree(indent + 1)
 
     @addToClass(AST.Expression)
     def printTree(self, indent=0):
